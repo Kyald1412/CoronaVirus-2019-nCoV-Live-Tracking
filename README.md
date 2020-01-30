@@ -40,8 +40,6 @@ In this project I'm using MVVM and Repository Pattern.
 - Clone this project using git clone [url]
 - build the project by using ./gradlew clean :app:assembleDebug
 
-_Make sure to make some changes with signingConfig in signing.gradle_
-
 ## Data Source
 - The Center for Systems Science and Engineering (CSSE) at JHU
 - https://infographics.channelnewsasia.com/
