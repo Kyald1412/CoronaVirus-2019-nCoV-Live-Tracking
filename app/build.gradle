@@ -9,8 +9,8 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 
-apply from: 'variants.gradle'
 apply from: 'dependencies.gradle'
+apply from: 'variants.gradle'
 
 def preDexEnabled = "true" == System.getProperty("pre-dex", "true")
 
