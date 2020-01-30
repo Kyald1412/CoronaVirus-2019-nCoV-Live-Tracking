@@ -19,7 +19,6 @@ In this project I'm using MVVM and Repository Pattern.
 ##  How to use it?
 - Clone this project using git clone [url]
 - build the project by using ./gradlew clean :app:assembleDebug
-- You can run the Unit test by using ./gradlew clean test
 
 _Make sure to make some changes with signingConfig in signing.gradle_
 
