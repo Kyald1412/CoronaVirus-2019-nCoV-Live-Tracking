@@ -17,6 +17,13 @@ CoronaVirus(2019-nCoV) outbreak Live Map tracker
 ##  Introduction
 With latest CoronaVirus(2019-nCoV) outbreak, this app helps you to monitor current situation of the outbreak.
 
+## TO-DO list
+- Push Notification
+- Automatically fetch data every xx hours
+- Add more data sources
+- News Feed
+- Etc.
+
 ##  Tech Spesification
 - AndroidX
 - Kotlin
