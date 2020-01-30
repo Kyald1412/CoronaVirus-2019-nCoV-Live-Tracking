@@ -1,4 +1,4 @@
-# CoronaVirus-2019-nCoV-Live-Tracking-App
+# CoronaVirus (2019-nCoV) Live Map Tracking Android App
 
 CoronaVirus(2019-nCoV) outbreak Live Map tracker 
 
@@ -10,6 +10,9 @@ CoronaVirus(2019-nCoV) outbreak Live Map tracker
 
 <!-- Setup URLs -->
 [playstore-url]: https://play.google.com/store/apps/details?id=co.kyald.coronavirustracking&hl=en
+
+<img src="https://raw.githubusercontent.com/Kyald1412/CoronaVirus-2019-nCoV-Live-Tracking/master/screenshots/Screenshot_1580321103.png" width="200"> <img src="https://raw.githubusercontent.com/Kyald1412/CoronaVirus-2019-nCoV-Live-Tracking/master/screenshots/Screenshot_1580321121.png" width="200">
+
 
 ##  Introduction
 With latest CoronaVirus(2019-nCoV) outbreak, this app helps you to monitor current situation of the outbreak.
