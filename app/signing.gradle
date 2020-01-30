@@ -1,0 +1,18 @@
+apply plugin: 'com.android.application'
+
+android {
+  signingConfigs {
+    release {
+      storeFile file("keystore/corona.jks")
+      storePassword 'corona'
+      keyAlias = 'corona'
+      keyPassword 'corona'
+    }
+    debug {
+      storeFile file("keystore/corona.jks")
+      storePassword 'corona'
+      keyPassword 'corona'
+      keyAlias = 'corona'
+    }
+  }
+}

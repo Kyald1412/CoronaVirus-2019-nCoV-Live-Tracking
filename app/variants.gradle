@@ -1,0 +1,31 @@
+apply plugin: 'com.android.application'
+apply from: 'signing.gradle'
+
+android {
+  buildTypes {
+    release {
+      resValue "string", "app_name", "@string/app_name_prod"
+
+      debuggable false
+      zipAlignEnabled true
+      minifyEnabled true
+      shrinkResources true
+
+      proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-common.txt',  'proguard-rules.pro', 'proguard-specific.txt'
+
+      buildConfigField "java.util.Date", "BUILD_TIME", "new java.util.Date(" + System.currentTimeMillis() + "L)"
+      signingConfig signingConfigs.release
+    }
+    debug {
+      debuggable true
+      minifyEnabled true
+      zipAlignEnabled true
+
+      resValue "string", "app_name", "@string/app_name_staging"
+
+      buildConfigField "java.util.Date", "BUILD_TIME", "new java.util.Date(" + System.currentTimeMillis() + "L)"
+      signingConfig signingConfigs.debug
+
+    }
+  }
+}

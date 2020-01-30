@@ -1,0 +1,74 @@
+// Top-level build file where you can add configuration options common to all sub-projects/modules.
+
+buildscript {
+    ext.kotlin_version = '1.3.61'
+
+    repositories {
+        google()
+        jcenter()
+        mavenCentral()
+
+    }
+    dependencies {
+//        classpath 'com.google.gms:google-services:4.3.3'
+        classpath 'com.android.tools.build:gradle:3.5.3'
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+        classpath 'com.neenbedankt.gradle.plugins:android-apt:1.8'
+
+        // NOTE: Do not place your application dependencies here; they belong
+        // in the individual module build.gradle files
+    }
+}
+
+
+
+ext {
+    minSdk = 19
+    targetSdk = 29
+    compileSdk = 29
+
+    ktxVersion = "1.1.0"
+    lifecycleVersion = '2.2.0-rc01'
+    coroutinesVersion = '1.3.0-RC'
+    retrofitVersion = '2.6.1'
+    okHttpVersion = '3.10.0'
+    daggerVersion = '2.22.1'
+    rxVersion = '2.2.11'
+    rxAndroidVersion = '2.1.1'
+    kotlinVersion = '1.3.50'
+    gsonVersion = '2.8.6'
+    facebookVersion = '5.1.1'
+    lottieVersion = '3.0.7'
+    butterKnifeVersion = '10.1.0'
+    timberVersion = '4.7.1'
+//    androidXVersion = '1.0.0'
+    androidXAppCompatVersion = '1.1.0'
+    androidXConstraintVersion = '2.0.0-beta4'
+    androidXTestVersion = '1.1.0'
+//    androidXAnnotations = '1.0.1'
+    androidXLegacySupport = '1.0.0'
+//    androidXNavigation = '2.1.0'
+    materialVersion = '1.2.0-alpha03'
+    espressoVersion = '3.2.0'
+    junitVersion = '4.12'
+    mockitoVersion = '3.2.4'
+    mockitioInlineVersion = '3.1.0'
+    archLifecycleVersion = '2.1.0'
+    archVersion = '1.1.1'
+
+    idleResourceVersion = '3.2.0'
+}
+
+
+allprojects {
+    repositories {
+        google()
+        jcenter()
+        mavenCentral()
+        maven { url "https://jitpack.io" }
+    }
+}
+
+task clean(type: Delete) {
+    delete rootProject.buildDir
+}

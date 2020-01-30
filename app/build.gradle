@@ -1,0 +1,80 @@
+// Manifest version information!
+def versionMajor = 1
+def versionMinor = 0
+def versionPatch = 0
+def versionBuild = 0
+
+apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
+
+apply from: 'variants.gradle'
+apply from: 'dependencies.gradle'
+
+def preDexEnabled = "true" == System.getProperty("pre-dex", "true")
+
+android {
+    compileSdkVersion compileSdk
+    defaultConfig {
+        applicationId "co.kyald.coronavirustracking"
+
+        minSdkVersion minSdk
+        targetSdkVersion targetSdk
+
+        versionCode versionMajor * 10000 + versionMinor * 1000 + versionPatch * 100 + versionBuild
+        versionName "${versionMajor}.${versionMinor}.${versionPatch}"
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+        vectorDrawables.useSupportLibrary = true
+
+    }
+
+    packagingOptions {
+        exclude 'META-INF/LICENSE.txt'
+        exclude 'META-INF/NOTICE.txt'
+        exclude 'LICENSE.txt'
+    }
+
+    bundle {
+        language {
+            // Specifies that the app bundle should not support
+            // configuration APKs for language resources. These
+            // resources are instead packaged with each base and
+            // dynamic feature APK.
+            enableSplit = false
+        }
+    }
+
+    dexOptions {
+        preDexLibraries = preDexEnabled
+    }
+
+    androidExtensions {
+        experimental = true
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+
+    dataBinding {
+        enabled = true
+    }
+
+    lintOptions {
+        lintConfig file('../analysis/lint/lint.xml')
+        htmlOutput file("$project.buildDir/reports/lint/lint-reports.html")
+        xmlOutput file("$project.buildDir/reports/lint/lint-reports.xml")
+        abortOnError false
+    }
+
+}
+
+// Required for annotation processing plugins like Dagger
+kapt {
+    generateStubs = true
+}

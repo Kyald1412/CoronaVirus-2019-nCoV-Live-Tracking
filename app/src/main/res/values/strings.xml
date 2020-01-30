@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name_prod">Corona Virus Tracking</string>
+    <string name="app_name_staging">Corona Virus Tracking - Staging</string>
+    <string name="access_token">pk.eyJ1Ijoia3lhbGQiLCJhIjoiY2s1eGp3ZWU0MjZxNzNlbjEwN2cxaWNqOSJ9.KZU64yYen57Yv-4LxdXSrg</string>
+    <string name="hide_data">Hide Data</string>
+    <string name="show_data">Show Data</string>
+    <string name="ganti_bahasa">Change language</string>
+    <string name="corona_virus_definition">What is CoronaVirus(2019-nCoV)</string>
+    <string name="prevent">Preventing</string>
+    <string name="about">About</string>
+    <string name="case_data">Case: </string>
+    <string name="death_data">\nDeath: </string>
+    <string name="coronavirus_definition">https://en.wikipedia.org/wiki/Coronavirus</string>
+    <string name="coronavirus_prevention">https://www.voanews.com/science-health/coronavirus-outbreak/health-coronavirus-prevention-tips</string>
+    <string name="coronavirusapplogo">coronaVirusAppLogo</string>
+    <string name="corona_live_tracking">CoronaVirus(2019-nCoV) Live Tracking</string>
+</resources>

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name_prod">Corona Virus Tracking</string>
+    <string name="app_name_staging">Corona Virus Tracking - Staging</string>
+    <string name="access_token">pk.eyJ1Ijoia3lhbGQiLCJhIjoiY2s1eGp3ZWU0MjZxNzNlbjEwN2cxaWNqOSJ9.KZU64yYen57Yv-4LxdXSrg</string>
+    <string name="hide_data">Sembunyikan Data</string>
+    <string name="show_data">Tampilkan Data</string>
+    <string name="ganti_bahasa">Ganti Bahasa</string>
+    <string name="corona_virus_definition">Apa itu CoronaVirus(2019-nCoV)</string>
+    <string name="prevent">Pencegahan</string>
+    <string name="about">Tentang</string>
+    <string name="case_data">Kasus: </string>
+    <string name="death_data">\nKematian: </string>
+    <string name="coronavirus_definition">https://hellosehat.com/kesehatan/penyakit/coronavirus-adalah/</string>
+    <string name="coronavirus_prevention">https://hellosehat.com/kesehatan/penyakit/coronavirus-adalah/#h-pencegahan</string>
+    <string name="coronavirusapplogo">coronaVirusAppLogo</string>
+    <string name="corona_live_tracking">CoronaVirus(2019-nCoV) Live Tracking</string>
+</resources>
