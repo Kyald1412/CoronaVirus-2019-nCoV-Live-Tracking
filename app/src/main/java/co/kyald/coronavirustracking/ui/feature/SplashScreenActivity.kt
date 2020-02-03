@@ -1,13 +1,14 @@
 package co.kyald.coronavirustracking.ui.feature
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
+import androidx.appcompat.app.AppCompatActivity
 import co.kyald.coronavirustracking.R
-import co.kyald.coronavirustracking.ui.feature.launchscreen.MainActivity
+import co.kyald.coronavirustracking.ui.feature.mainscreen.MainActivity
 import org.jetbrains.anko.startActivity
 
 class SplashScreenActivity : AppCompatActivity() {
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -17,5 +18,8 @@ class SplashScreenActivity : AppCompatActivity() {
             startActivity<MainActivity>()
             finish()
         }, 1500)
+
     }
+
+
 }

@@ -38,9 +38,14 @@ dependencies {
 
 
     // Android Testing Support Library's runner and rules
-    androidTestImplementation "androidx.test.ext:junit:$androidXTestVersion"
-    androidTestImplementation "androidx.test:core:$androidXTestVersion"
-    androidTestImplementation "androidx.test:rules:$androidXTestVersion"
+    androidTestImplementation "androidx.test.ext:junit:1.1.1"
+    testImplementation "androidx.test.ext:junit:1.1.1"
+    androidTestImplementation "androidx.test:core:1.2.0"
+    testImplementation "androidx.test:core:1.2.0"
+    implementation "androidx.test:core:1.2.0"
+    implementation "androidx.test.ext:junit:1.1.1"
+    implementation "androidx.test:rules:1.2.0"
+    implementation "androidx.test:runner:1.2.0"
     androidTestImplementation "androidx.test.espresso:espresso-core:$espressoVersion"
     androidTestImplementation "androidx.test.espresso:espresso-contrib:$espressoVersion"
     androidTestImplementation "androidx.test.espresso:espresso-intents:$espressoVersion"
@@ -56,6 +61,8 @@ dependencies {
     testImplementation "org.mockito:mockito-android:$mockitoVersion"
     testImplementation "org.mockito:mockito-inline:$mockitioInlineVersion"
 
+    testImplementation "org.robolectric:robolectric:4.3.1"
+
     // Dependencies for Idle Resource
     implementation "androidx.test.espresso:espresso-idling-resource:$idleResourceVersion"
 
@@ -70,8 +77,11 @@ dependencies {
     implementation "androidx.room:room-ktx:2.2.3"
 
     //Koin
-    implementation "org.koin:koin-android-viewmodel:1.0.2"
-    implementation "org.koin:koin-android:1.0.2"
+    implementation "org.koin:koin-androidx-viewmodel:2.0.1"
+    implementation "org.koin:koin-android:2.0.1"
+//    implementation "org.koin:koin-android-architecture:0.9.3"
+//    testImplementation "org.koin:koin-test:2.0.1"
+//    implementation "org.koin:koin-core-ext:1.0.2"
 
     //Mapbox
     implementation 'com.mapbox.mapboxsdk:mapbox-android-sdk:8.6.2'
@@ -80,6 +90,15 @@ dependencies {
 
     //Fab
     implementation 'com.github.kobakei:MaterialFabSpeedDial:2.0.0'
+
+    //Push notification
+    implementation 'com.google.firebase:firebase-messaging:20.1.0'
+
+    implementation "android.arch.work:work-runtime-ktx:1.0.1"
+
+    implementation 'androidx.preference:preference:1.1.0'
+    implementation 'com.takisoft.preferencex:preferencex:1.1.0'
+
 
     //ANKO
     implementation "org.jetbrains.anko:anko-commons:0.10.8"

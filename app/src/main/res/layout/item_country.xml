@@ -5,34 +5,68 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-    <TextView
-        android:id="@+id/tvTitle"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginEnd="20dp"
-        android:ellipsize="end"
-        android:maxLines="2"
-        android:textAlignment="textStart"
-        android:textSize="16sp"
-        app:layout_constraintEnd_toStartOf="@+id/tvDescription"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/tvDescription"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginEnd="10dp"
-        android:ellipsize="end"
-        android:maxLines="4"
-        android:textAlignment="textEnd"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/tvTitle"
-        app:layout_constraintTop_toTopOf="parent" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:weightSum="3">
+
+            <TextView
+                android:id="@+id/tvTitle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="20dp"
+                android:layout_weight="1.6"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:minLines="1"
+                android:text="asdsadsa"
+                android:textAlignment="textStart"
+                android:textSize="16sp"
+                app:autoSizeMaxTextSize="20sp"
+                app:autoSizeMinTextSize="10sp" />
+
+            <TextView
+                android:id="@+id/tvCases"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="10dp"
+                android:layout_weight="0.7"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:minLines="1"
+                android:text="10"
+                android:textAlignment="textEnd"
+                android:textSize="16sp"
+                app:autoSizeMaxTextSize="20sp"
+                app:autoSizeMinTextSize="10sp" />
+
+            <TextView
+                android:id="@+id/tvDeathCase"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_weight="0.7"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:minLines="1"
+                android:text="10"
+                android:textAlignment="textEnd"
+                android:textSize="16sp"
+                app:autoSizeMaxTextSize="20sp"
+                app:autoSizeMinTextSize="10sp" />
+        </LinearLayout>
+    </LinearLayout>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

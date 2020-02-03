@@ -7,18 +7,23 @@
         android:icon="@drawable/lang"
         android:orderInCategory="1"/>
     <item
-        android:id="@+id/one"
+        android:id="@+id/whatis"
         android:title="@string/corona_virus_definition"
         android:icon="@drawable/corona_white"
         android:orderInCategory="2"/>
     <item
-        android:id="@+id/two"
+        android:id="@+id/prevent"
         android:title="@string/prevent"
         android:icon="@drawable/prevent"
         android:orderInCategory="3"/>
     <item
-        android:id="@+id/three"
+        android:id="@+id/pref"
+        android:title="@string/preferences"
+        android:icon="@drawable/pref"
+        android:orderInCategory="4"/>
+    <item
+        android:id="@+id/about"
         android:title="@string/about"
         android:icon="@drawable/about"
-        android:orderInCategory="4"/>
+        android:orderInCategory="5"/>
 </menu>

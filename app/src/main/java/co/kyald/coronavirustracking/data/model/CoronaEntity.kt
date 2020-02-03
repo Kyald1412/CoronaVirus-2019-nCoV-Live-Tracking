@@ -7,10 +7,10 @@ import com.google.gson.annotations.SerializedName
 import kotlinx.android.parcel.Parcelize
 
 
-@Entity
+@Entity(tableName = "coronaentity")
 @Parcelize
 data class CoronaEntity(
-    @PrimaryKey
+    @PrimaryKey(autoGenerate = true)
     val id: Int,
     @SerializedName("feed")
     @Embedded
@@ -20,6 +20,7 @@ data class CoronaEntity(
     @Parcelize
     data class Feed(
         @SerializedName("entry")
+        @ColumnInfo(name = "entry")
         @TypeConverters(EntryConverter::class)
         val entry: List<Entry>,
         @SerializedName("title")
@@ -57,6 +58,7 @@ data class CoronaEntity(
         @ColumnInfo(name = "ContentT")
         @SerializedName("\$t")
         val t: String,
+        @ColumnInfo(name = "ContentType")
         @SerializedName("type")
         val type: String
     ) : Parcelable
@@ -87,6 +89,7 @@ data class CoronaEntity(
         @ColumnInfo(name = "TitleT")
         @SerializedName("\$t")
         val t: String,
+        @ColumnInfo(name = "TitleType")
         @SerializedName("type")
         val type: String
     ) : Parcelable
@@ -103,6 +106,7 @@ data class CoronaEntity(
         @ColumnInfo(name = "TitleXT")
         @SerializedName("\$t")
         val t: String,
+        @ColumnInfo(name = "TitleXType")
         @SerializedName("type")
         val type: String
     ) : Parcelable

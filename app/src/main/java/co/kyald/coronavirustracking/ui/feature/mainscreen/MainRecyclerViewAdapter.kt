@@ -1,4 +1,4 @@
-package co.kyald.coronavirustracking.ui.feature.launchscreen
+package co.kyald.coronavirustracking.ui.feature.mainscreen
 
 import android.content.Context
 import android.view.LayoutInflater
@@ -36,13 +36,14 @@ class MainRecyclerViewAdapter(
     inner class CardViewViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         fun bind(entry: CoronaEntity.Entry, clickListener: (CoronaEntity.Entry) -> Unit) {
 
-            var caseDeath = context.getString(R.string.case_data) + entry.gsxconfirmedcases.t
-
-            if(entry.gsxreporteddeaths.t.isNotEmpty())
-            caseDeath += context.getString(R.string.death_data)  + entry.gsxreporteddeaths.t
+//            var caseDeath = context.getString(R.string.case_data) + " " + entry.gsxconfirmedcases.t
+//
+//            if(entry.gsxreporteddeaths.t.isNotEmpty())
+//            caseDeath += context.getString(R.string.death_data) + " " + entry.gsxreporteddeaths.t
 
             itemView.tvTitle.text = entry.gsxcountry.t
-            itemView.tvDescription.text = caseDeath
+            itemView.tvCases.text = entry.gsxconfirmedcases.t
+            itemView.tvDeathCase.text = if(entry.gsxreporteddeaths.t == "") "-" else entry.gsxreporteddeaths.t
             itemView.setOnClickListener { clickListener(entry) }
         }
     }

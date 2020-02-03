@@ -10,7 +10,7 @@ android {
       minifyEnabled true
       shrinkResources true
 
-      proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-common.txt',  'proguard-rules.pro', 'proguard-specific.txt'
+      proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
 
       buildConfigField "java.util.Date", "BUILD_TIME", "new java.util.Date(" + System.currentTimeMillis() + "L)"
     }
@@ -20,6 +20,8 @@ android {
       zipAlignEnabled true
 
       resValue "string", "app_name", "@string/app_name_staging"
+
+      proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
 
       buildConfigField "java.util.Date", "BUILD_TIME", "new java.util.Date(" + System.currentTimeMillis() + "L)"
 

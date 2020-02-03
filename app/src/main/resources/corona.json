@@ -1,0 +1,939 @@
+{
+  "version": "1.0",
+  "encoding": "UTF-8",
+  "feed": {
+    "xmlns": "http://www.w3.org/2005/Atom",
+    "xmlns$openSearch": "http://a9.com/-/spec/opensearchrss/1.0/",
+    "xmlns$gsx": "http://schemas.google.com/spreadsheets/2006/extended",
+    "id": {
+      "$t": "https://spreadsheets.google.com/feeds/list/1lwnfa-GlNRykWBL5y7tWpLxDoCfs8BvzWxFjeOZ1YJk/1/public/values"
+    },
+    "updated": {
+      "$t": "2020-01-31T03:46:17.872Z"
+    },
+    "category": [
+      {
+        "scheme": "http://schemas.google.com/spreadsheets/2006",
+        "term": "http://schemas.google.com/spreadsheets/2006#list"
+      }
+    ],
+    "title": {
+      "type": "text",
+      "$t": "Sheet1"
+    },
+    "link": [
+      {
+        "rel": "alternate",
+        "type": "application/atom+xml",
+        "href": "https://docs.google.com/spreadsheets/u/0/d/1lwnfa-GlNRykWBL5y7tWpLxDoCfs8BvzWxFjeOZ1YJk/pubhtml"
+      },
+      {
+        "rel": "http://schemas.google.com/g/2005#feed",
+        "type": "application/atom+xml",
+        "href": "https://spreadsheets.google.com/feeds/list/1lwnfa-GlNRykWBL5y7tWpLxDoCfs8BvzWxFjeOZ1YJk/1/public/values"
+      },
+      {
+        "rel": "http://schemas.google.com/g/2005#post",
+        "type": "application/atom+xml",
+        "href": "https://spreadsheets.google.com/feeds/list/1lwnfa-GlNRykWBL5y7tWpLxDoCfs8BvzWxFjeOZ1YJk/1/public/values"
+      },
+      {
+        "rel": "self",
+        "type": "application/atom+xml",
+        "href": "https://spreadsheets.google.com/feeds/list/1lwnfa-GlNRykWBL5y7tWpLxDoCfs8BvzWxFjeOZ1YJk/1/public/values?alt=json"
+      }
+    ],
+    "author": [
+      {
+        "name": {
+          "$t": "cnadigitaldesk"
+        },
+        "email": {
+          "$t": "cnadigitaldesk@gmail.com"
+        }
+      }
+    ],
+    "openSearch$totalResults": {
+      "$t": "23"
+    },
+    "openSearch$startIndex": {
+      "$t": "1"
+    },
+    "entry": [
+      {
+        "id": {
+          "$t": "https://spreadsheets.google.com/feeds/list/1lwnfa-GlNRykWBL5y7tWpLxDoCfs8BvzWxFjeOZ1YJk/1/public/values/cokwr"
+        },
+        "updated": {
+          "$t": "2020-01-31T03:46:17.872Z"
+        },
+        "category": [
+          {
+            "scheme": "http://schemas.google.com/spreadsheets/2006",
+            "term": "http://schemas.google.com/spreadsheets/2006#list"
+          }
+        ],
+        "title": {
+          "type": "text",
+          "$t": "China"
+        },
+        "content": {
+          "type": "text",
+          "$t": "confirmedcases: 9689, reporteddeaths: 213"
+        },
+        "link": [
+          {
+            "rel": "self",
+            "type": "application/atom+xml",
+            "href": "https://spreadsheets.google.com/feeds/list/1lwnfa-GlNRykWBL5y7tWpLxDoCfs8BvzWxFjeOZ1YJk/1/public/values/cokwr"
+          }
+        ],
+        "gsx$country": {
+          "$t": "China"
+        },
+        "gsx$confirmedcases": {
+          "$t": "9689"
+        },
+        "gsx$reporteddeaths": {
+          "$t": "213"
+        }
+      },
+      {
+        "id": {
+          "$t": "https://spreadsheets.google.com/feeds/list/1lwnfa-GlNRykWBL5y7tWpLxDoCfs8BvzWxFjeOZ1YJk/1/public/values/cpzh4"
+        },
+        "updated": {
+          "$t": "2020-01-31T03:46:17.872Z"
+        },
+        "category": [
+          {
+            "scheme": "http://schemas.google.com/spreadsheets/2006",
+            "term": "http://schemas.google.com/spreadsheets/2006#list"
+          }
+        ],
+        "title": {
+          "type": "text",
+          "$t": "Hong Kong "
+        },
+        "content": {
+          "type": "text",
+          "$t": "confirmedcases: 15"
+        },
+        "link": [
+          {
+            "rel": "self",
+            "type": "application/atom+xml",
+            "href": "https://spreadsheets.google.com/feeds/list/1lwnfa-GlNRykWBL5y7tWpLxDoCfs8BvzWxFjeOZ1YJk/1/public/values/cpzh4"
+          }
+        ],
+        "gsx$country": {
+          "$t": "Hong Kong "
+        },
+        "gsx$confirmedcases": {
+          "$t": "15"
+        },
+        "gsx$reporteddeaths": {
+          "$t": ""
+        }
+      },
+      {
+        "id": {
+          "$t": "https://spreadsheets.google.com/feeds/list/1lwnfa-GlNRykWBL5y7tWpLxDoCfs8BvzWxFjeOZ1YJk/1/public/values/cre1l"
+        },
+        "updated": {
+          "$t": "2020-01-31T03:46:17.872Z"
+        },
+        "category": [
+          {
+            "scheme": "http://schemas.google.com/spreadsheets/2006",
+            "term": "http://schemas.google.com/spreadsheets/2006#list"
+          }
+        ],
+        "title": {
+          "type": "text",
+          "$t": "Thailand"
+        },
+        "content": {
+          "type": "text",
+          "$t": "confirmedcases: 14"
+        },
+        "link": [
+          {
+            "rel": "self",
+            "type": "application/atom+xml",
+            "href": "https://spreadsheets.google.com/feeds/list/1lwnfa-GlNRykWBL5y7tWpLxDoCfs8BvzWxFjeOZ1YJk/1/public/values/cre1l"
+          }
+        ],
+        "gsx$country": {
+          "$t": "Thailand"
+        },
+        "gsx$confirmedcases": {
+          "$t": "14"
+        },
+        "gsx$reporteddeaths": {
+          "$t": ""
+        }
+      },
+      {
+        "id": {
+          "$t": "https://spreadsheets.google.com/feeds/list/1lwnfa-GlNRykWBL5y7tWpLxDoCfs8BvzWxFjeOZ1YJk/1/public/values/chk2m"
+        },
+        "updated": {
+          "$t": "2020-01-31T03:46:17.872Z"
+        },
+        "category": [
+          {
+            "scheme": "http://schemas.google.com/spreadsheets/2006",
+            "term": "http://schemas.google.com/spreadsheets/2006#list"
+          }
+        ],
+        "title": {
+          "type": "text",
+          "$t": "Japan"
+        },
+        "content": {
+          "type": "text",
+          "$t": "confirmedcases: 14"
+        },
+        "link": [
+          {
+            "rel": "self",
+            "type": "application/atom+xml",
+            "href": "https://spreadsheets.google.com/feeds/list/1lwnfa-GlNRykWBL5y7tWpLxDoCfs8BvzWxFjeOZ1YJk/1/public/values/chk2m"
+          }
+        ],
+        "gsx$country": {
+          "$t": "Japan"
+        },
+        "gsx$confirmedcases": {
+          "$t": "14"
+        },
+        "gsx$reporteddeaths": {
+          "$t": ""
+        }
+      },
+      {
+        "id": {
+          "$t": "https://spreadsheets.google.com/feeds/list/1lwnfa-GlNRykWBL5y7tWpLxDoCfs8BvzWxFjeOZ1YJk/1/public/values/ciyn3"
+        },
+        "updated": {
+          "$t": "2020-01-31T03:46:17.872Z"
+        },
+        "category": [
+          {
+            "scheme": "http://schemas.google.com/spreadsheets/2006",
+            "term": "http://schemas.google.com/spreadsheets/2006#list"
+          }
+        ],
+        "title": {
+          "type": "text",
+          "$t": "Singapore"
+        },
+        "content": {
+          "type": "text",
+          "$t": "confirmedcases: 13"
+        },
+        "link": [
+          {
+            "rel": "self",
+            "type": "application/atom+xml",
+            "href": "https://spreadsheets.google.com/feeds/list/1lwnfa-GlNRykWBL5y7tWpLxDoCfs8BvzWxFjeOZ1YJk/1/public/values/ciyn3"
+          }
+        ],
+        "gsx$country": {
+          "$t": "Singapore"
+        },
+        "gsx$confirmedcases": {
+          "$t": "13"
+        },
+        "gsx$reporteddeaths": {
+          "$t": ""
+        }
+      },
+      {
+        "id": {
+          "$t": "https://spreadsheets.google.com/feeds/list/1lwnfa-GlNRykWBL5y7tWpLxDoCfs8BvzWxFjeOZ1YJk/1/public/values/ckd7g"
+        },
+        "updated": {
+          "$t": "2020-01-31T03:46:17.872Z"
+        },
+        "category": [
+          {
+            "scheme": "http://schemas.google.com/spreadsheets/2006",
+            "term": "http://schemas.google.com/spreadsheets/2006#list"
+          }
+        ],
+        "title": {
+          "type": "text",
+          "$t": "Taiwan"
+        },
+        "content": {
+          "type": "text",
+          "$t": "confirmedcases: 9"
+        },
+        "link": [
+          {
+            "rel": "self",
+            "type": "application/atom+xml",
+            "href": "https://spreadsheets.google.com/feeds/list/1lwnfa-GlNRykWBL5y7tWpLxDoCfs8BvzWxFjeOZ1YJk/1/public/values/ckd7g"
+          }
+        ],
+        "gsx$country": {
+          "$t": "Taiwan"
+        },
+        "gsx$confirmedcases": {
+          "$t": "9"
+        },
+        "gsx$reporteddeaths": {
+          "$t": ""
+        }
+      },
+      {
+        "id": {
+          "$t": "https://spreadsheets.google.com/feeds/list/1lwnfa-GlNRykWBL5y7tWpLxDoCfs8BvzWxFjeOZ1YJk/1/public/values/clrrx"
+        },
+        "updated": {
+          "$t": "2020-01-31T03:46:17.872Z"
+        },
+        "category": [
+          {
+            "scheme": "http://schemas.google.com/spreadsheets/2006",
+            "term": "http://schemas.google.com/spreadsheets/2006#list"
+          }
+        ],
+        "title": {
+          "type": "text",
+          "$t": "Australia"
+        },
+        "content": {
+          "type": "text",
+          "$t": "confirmedcases: 9"
+        },
+        "link": [
+          {
+            "rel": "self",
+            "type": "application/atom+xml",
+            "href": "https://spreadsheets.google.com/feeds/list/1lwnfa-GlNRykWBL5y7tWpLxDoCfs8BvzWxFjeOZ1YJk/1/public/values/clrrx"
+          }
+        ],
+        "gsx$country": {
+          "$t": "Australia"
+        },
+        "gsx$confirmedcases": {
+          "$t": "9"
+        },
+        "gsx$reporteddeaths": {
+          "$t": ""
+        }
+      },
+      {
+        "id": {
+          "$t": "https://spreadsheets.google.com/feeds/list/1lwnfa-GlNRykWBL5y7tWpLxDoCfs8BvzWxFjeOZ1YJk/1/public/values/cyevm"
+        },
+        "updated": {
+          "$t": "2020-01-31T03:46:17.872Z"
+        },
+        "category": [
+          {
+            "scheme": "http://schemas.google.com/spreadsheets/2006",
+            "term": "http://schemas.google.com/spreadsheets/2006#list"
+          }
+        ],
+        "title": {
+          "type": "text",
+          "$t": "Malaysia"
+        },
+        "content": {
+          "type": "text",
+          "$t": "confirmedcases: 8"
+        },
+        "link": [
+          {
+            "rel": "self",
+            "type": "application/atom+xml",
+            "href": "https://spreadsheets.google.com/feeds/list/1lwnfa-GlNRykWBL5y7tWpLxDoCfs8BvzWxFjeOZ1YJk/1/public/values/cyevm"
+          }
+        ],
+        "gsx$country": {
+          "$t": "Malaysia"
+        },
+        "gsx$confirmedcases": {
+          "$t": "8"
+        },
+        "gsx$reporteddeaths": {
+          "$t": ""
+        }
+      },
+      {
+        "id": {
+          "$t": "https://spreadsheets.google.com/feeds/list/1lwnfa-GlNRykWBL5y7tWpLxDoCfs8BvzWxFjeOZ1YJk/1/public/values/cztg3"
+        },
+        "updated": {
+          "$t": "2020-01-31T03:46:17.872Z"
+        },
+        "category": [
+          {
+            "scheme": "http://schemas.google.com/spreadsheets/2006",
+            "term": "http://schemas.google.com/spreadsheets/2006#list"
+          }
+        ],
+        "title": {
+          "type": "text",
+          "$t": "Macau "
+        },
+        "content": {
+          "type": "text",
+          "$t": "confirmedcases: 7"
+        },
+        "link": [
+          {
+            "rel": "self",
+            "type": "application/atom+xml",
+            "href": "https://spreadsheets.google.com/feeds/list/1lwnfa-GlNRykWBL5y7tWpLxDoCfs8BvzWxFjeOZ1YJk/1/public/values/cztg3"
+          }
+        ],
+        "gsx$country": {
+          "$t": "Macau "
+        },
+        "gsx$confirmedcases": {
+          "$t": "7"
+        },
+        "gsx$reporteddeaths": {
+          "$t": ""
+        }
+      },
+      {
+        "id": {
+          "$t": "https://spreadsheets.google.com/feeds/list/1lwnfa-GlNRykWBL5y7tWpLxDoCfs8BvzWxFjeOZ1YJk/1/public/values/d180g"
+        },
+        "updated": {
+          "$t": "2020-01-31T03:46:17.872Z"
+        },
+        "category": [
+          {
+            "scheme": "http://schemas.google.com/spreadsheets/2006",
+            "term": "http://schemas.google.com/spreadsheets/2006#list"
+          }
+        ],
+        "title": {
+          "type": "text",
+          "$t": "United States"
+        },
+        "content": {
+          "type": "text",
+          "$t": "confirmedcases: 6"
+        },
+        "link": [
+          {
+            "rel": "self",
+            "type": "application/atom+xml",
+            "href": "https://spreadsheets.google.com/feeds/list/1lwnfa-GlNRykWBL5y7tWpLxDoCfs8BvzWxFjeOZ1YJk/1/public/values/d180g"
+          }
+        ],
+        "gsx$country": {
+          "$t": "United States"
+        },
+        "gsx$confirmedcases": {
+          "$t": "6"
+        },
+        "gsx$reporteddeaths": {
+          "$t": ""
+        }
+      },
+      {
+        "id": {
+          "$t": "https://spreadsheets.google.com/feeds/list/1lwnfa-GlNRykWBL5y7tWpLxDoCfs8BvzWxFjeOZ1YJk/1/public/values/d2mkx"
+        },
+        "updated": {
+          "$t": "2020-01-31T03:46:17.872Z"
+        },
+        "category": [
+          {
+            "scheme": "http://schemas.google.com/spreadsheets/2006",
+            "term": "http://schemas.google.com/spreadsheets/2006#list"
+          }
+        ],
+        "title": {
+          "type": "text",
+          "$t": "South Korea"
+        },
+        "content": {
+          "type": "text",
+          "$t": "confirmedcases: 6"
+        },
+        "link": [
+          {
+            "rel": "self",
+            "type": "application/atom+xml",
+            "href": "https://spreadsheets.google.com/feeds/list/1lwnfa-GlNRykWBL5y7tWpLxDoCfs8BvzWxFjeOZ1YJk/1/public/values/d2mkx"
+          }
+        ],
+        "gsx$country": {
+          "$t": "South Korea"
+        },
+        "gsx$confirmedcases": {
+          "$t": "6"
+        },
+        "gsx$reporteddeaths": {
+          "$t": ""
+        }
+      },
+      {
+        "id": {
+          "$t": "https://spreadsheets.google.com/feeds/list/1lwnfa-GlNRykWBL5y7tWpLxDoCfs8BvzWxFjeOZ1YJk/1/public/values/cssly"
+        },
+        "updated": {
+          "$t": "2020-01-31T03:46:17.872Z"
+        },
+        "category": [
+          {
+            "scheme": "http://schemas.google.com/spreadsheets/2006",
+            "term": "http://schemas.google.com/spreadsheets/2006#list"
+          }
+        ],
+        "title": {
+          "type": "text",
+          "$t": "France "
+        },
+        "content": {
+          "type": "text",
+          "$t": "confirmedcases: 6"
+        },
+        "link": [
+          {
+            "rel": "self",
+            "type": "application/atom+xml",
+            "href": "https://spreadsheets.google.com/feeds/list/1lwnfa-GlNRykWBL5y7tWpLxDoCfs8BvzWxFjeOZ1YJk/1/public/values/cssly"
+          }
+        ],
+        "gsx$country": {
+          "$t": "France "
+        },
+        "gsx$confirmedcases": {
+          "$t": "6"
+        },
+        "gsx$reporteddeaths": {
+          "$t": ""
+        }
+      },
+      {
+        "id": {
+          "$t": "https://spreadsheets.google.com/feeds/list/1lwnfa-GlNRykWBL5y7tWpLxDoCfs8BvzWxFjeOZ1YJk/1/public/values/cu76f"
+        },
+        "updated": {
+          "$t": "2020-01-31T03:46:17.872Z"
+        },
+        "category": [
+          {
+            "scheme": "http://schemas.google.com/spreadsheets/2006",
+            "term": "http://schemas.google.com/spreadsheets/2006#list"
+          }
+        ],
+        "title": {
+          "type": "text",
+          "$t": "Vietnam"
+        },
+        "content": {
+          "type": "text",
+          "$t": "confirmedcases: 5"
+        },
+        "link": [
+          {
+            "rel": "self",
+            "type": "application/atom+xml",
+            "href": "https://spreadsheets.google.com/feeds/list/1lwnfa-GlNRykWBL5y7tWpLxDoCfs8BvzWxFjeOZ1YJk/1/public/values/cu76f"
+          }
+        ],
+        "gsx$country": {
+          "$t": "Vietnam"
+        },
+        "gsx$confirmedcases": {
+          "$t": "5"
+        },
+        "gsx$reporteddeaths": {
+          "$t": ""
+        }
+      },
+      {
+        "id": {
+          "$t": "https://spreadsheets.google.com/feeds/list/1lwnfa-GlNRykWBL5y7tWpLxDoCfs8BvzWxFjeOZ1YJk/1/public/values/cvlqs"
+        },
+        "updated": {
+          "$t": "2020-01-31T03:46:17.872Z"
+        },
+        "category": [
+          {
+            "scheme": "http://schemas.google.com/spreadsheets/2006",
+            "term": "http://schemas.google.com/spreadsheets/2006#list"
+          }
+        ],
+        "title": {
+          "type": "text",
+          "$t": "Germany "
+        },
+        "content": {
+          "type": "text",
+          "$t": "confirmedcases: 5"
+        },
+        "link": [
+          {
+            "rel": "self",
+            "type": "application/atom+xml",
+            "href": "https://spreadsheets.google.com/feeds/list/1lwnfa-GlNRykWBL5y7tWpLxDoCfs8BvzWxFjeOZ1YJk/1/public/values/cvlqs"
+          }
+        ],
+        "gsx$country": {
+          "$t": "Germany "
+        },
+        "gsx$confirmedcases": {
+          "$t": "5"
+        },
+        "gsx$reporteddeaths": {
+          "$t": ""
+        }
+      },
+      {
+        "id": {
+          "$t": "https://spreadsheets.google.com/feeds/list/1lwnfa-GlNRykWBL5y7tWpLxDoCfs8BvzWxFjeOZ1YJk/1/public/values/cx0b9"
+        },
+        "updated": {
+          "$t": "2020-01-31T03:46:17.872Z"
+        },
+        "category": [
+          {
+            "scheme": "http://schemas.google.com/spreadsheets/2006",
+            "term": "http://schemas.google.com/spreadsheets/2006#list"
+          }
+        ],
+        "title": {
+          "type": "text",
+          "$t": "United Arab Emirates "
+        },
+        "content": {
+          "type": "text",
+          "$t": "confirmedcases: 4"
+        },
+        "link": [
+          {
+            "rel": "self",
+            "type": "application/atom+xml",
+            "href": "https://spreadsheets.google.com/feeds/list/1lwnfa-GlNRykWBL5y7tWpLxDoCfs8BvzWxFjeOZ1YJk/1/public/values/cx0b9"
+          }
+        ],
+        "gsx$country": {
+          "$t": "United Arab Emirates "
+        },
+        "gsx$confirmedcases": {
+          "$t": "4"
+        },
+        "gsx$reporteddeaths": {
+          "$t": ""
+        }
+      },
+      {
+        "id": {
+          "$t": "https://spreadsheets.google.com/feeds/list/1lwnfa-GlNRykWBL5y7tWpLxDoCfs8BvzWxFjeOZ1YJk/1/public/values/d9ney"
+        },
+        "updated": {
+          "$t": "2020-01-31T03:46:17.872Z"
+        },
+        "category": [
+          {
+            "scheme": "http://schemas.google.com/spreadsheets/2006",
+            "term": "http://schemas.google.com/spreadsheets/2006#list"
+          }
+        ],
+        "title": {
+          "type": "text",
+          "$t": "Canada"
+        },
+        "content": {
+          "type": "text",
+          "$t": "confirmedcases: 3"
+        },
+        "link": [
+          {
+            "rel": "self",
+            "type": "application/atom+xml",
+            "href": "https://spreadsheets.google.com/feeds/list/1lwnfa-GlNRykWBL5y7tWpLxDoCfs8BvzWxFjeOZ1YJk/1/public/values/d9ney"
+          }
+        ],
+        "gsx$country": {
+          "$t": "Canada"
+        },
+        "gsx$confirmedcases": {
+          "$t": "3"
+        },
+        "gsx$reporteddeaths": {
+          "$t": ""
+        }
+      },
+      {
+        "id": {
+          "$t": "https://spreadsheets.google.com/feeds/list/1lwnfa-GlNRykWBL5y7tWpLxDoCfs8BvzWxFjeOZ1YJk/1/public/values/db1zf"
+        },
+        "updated": {
+          "$t": "2020-01-31T03:46:17.872Z"
+        },
+        "category": [
+          {
+            "scheme": "http://schemas.google.com/spreadsheets/2006",
+            "term": "http://schemas.google.com/spreadsheets/2006#list"
+          }
+        ],
+        "title": {
+          "type": "text",
+          "$t": "Italy"
+        },
+        "content": {
+          "type": "text",
+          "$t": "confirmedcases: 2"
+        },
+        "link": [
+          {
+            "rel": "self",
+            "type": "application/atom+xml",
+            "href": "https://spreadsheets.google.com/feeds/list/1lwnfa-GlNRykWBL5y7tWpLxDoCfs8BvzWxFjeOZ1YJk/1/public/values/db1zf"
+          }
+        ],
+        "gsx$country": {
+          "$t": "Italy"
+        },
+        "gsx$confirmedcases": {
+          "$t": "2"
+        },
+        "gsx$reporteddeaths": {
+          "$t": ""
+        }
+      },
+      {
+        "id": {
+          "$t": "https://spreadsheets.google.com/feeds/list/1lwnfa-GlNRykWBL5y7tWpLxDoCfs8BvzWxFjeOZ1YJk/1/public/values/dcgjs"
+        },
+        "updated": {
+          "$t": "2020-01-31T03:46:17.872Z"
+        },
+        "category": [
+          {
+            "scheme": "http://schemas.google.com/spreadsheets/2006",
+            "term": "http://schemas.google.com/spreadsheets/2006#list"
+          }
+        ],
+        "title": {
+          "type": "text",
+          "$t": "Nepal"
+        },
+        "content": {
+          "type": "text",
+          "$t": "confirmedcases: 1"
+        },
+        "link": [
+          {
+            "rel": "self",
+            "type": "application/atom+xml",
+            "href": "https://spreadsheets.google.com/feeds/list/1lwnfa-GlNRykWBL5y7tWpLxDoCfs8BvzWxFjeOZ1YJk/1/public/values/dcgjs"
+          }
+        ],
+        "gsx$country": {
+          "$t": "Nepal"
+        },
+        "gsx$confirmedcases": {
+          "$t": "1"
+        },
+        "gsx$reporteddeaths": {
+          "$t": ""
+        }
+      },
+      {
+        "id": {
+          "$t": "https://spreadsheets.google.com/feeds/list/1lwnfa-GlNRykWBL5y7tWpLxDoCfs8BvzWxFjeOZ1YJk/1/public/values/ddv49"
+        },
+        "updated": {
+          "$t": "2020-01-31T03:46:17.872Z"
+        },
+        "category": [
+          {
+            "scheme": "http://schemas.google.com/spreadsheets/2006",
+            "term": "http://schemas.google.com/spreadsheets/2006#list"
+          }
+        ],
+        "title": {
+          "type": "text",
+          "$t": "Cambodia "
+        },
+        "content": {
+          "type": "text",
+          "$t": "confirmedcases: 1"
+        },
+        "link": [
+          {
+            "rel": "self",
+            "type": "application/atom+xml",
+            "href": "https://spreadsheets.google.com/feeds/list/1lwnfa-GlNRykWBL5y7tWpLxDoCfs8BvzWxFjeOZ1YJk/1/public/values/ddv49"
+          }
+        ],
+        "gsx$country": {
+          "$t": "Cambodia "
+        },
+        "gsx$confirmedcases": {
+          "$t": "1"
+        },
+        "gsx$reporteddeaths": {
+          "$t": ""
+        }
+      },
+      {
+        "id": {
+          "$t": "https://spreadsheets.google.com/feeds/list/1lwnfa-GlNRykWBL5y7tWpLxDoCfs8BvzWxFjeOZ1YJk/1/public/values/d415a"
+        },
+        "updated": {
+          "$t": "2020-01-31T03:46:17.872Z"
+        },
+        "category": [
+          {
+            "scheme": "http://schemas.google.com/spreadsheets/2006",
+            "term": "http://schemas.google.com/spreadsheets/2006#list"
+          }
+        ],
+        "title": {
+          "type": "text",
+          "$t": "Sri Lanka"
+        },
+        "content": {
+          "type": "text",
+          "$t": "confirmedcases: 1"
+        },
+        "link": [
+          {
+            "rel": "self",
+            "type": "application/atom+xml",
+            "href": "https://spreadsheets.google.com/feeds/list/1lwnfa-GlNRykWBL5y7tWpLxDoCfs8BvzWxFjeOZ1YJk/1/public/values/d415a"
+          }
+        ],
+        "gsx$country": {
+          "$t": "Sri Lanka"
+        },
+        "gsx$confirmedcases": {
+          "$t": "1"
+        },
+        "gsx$reporteddeaths": {
+          "$t": ""
+        }
+      },
+      {
+        "id": {
+          "$t": "https://spreadsheets.google.com/feeds/list/1lwnfa-GlNRykWBL5y7tWpLxDoCfs8BvzWxFjeOZ1YJk/1/public/values/d5fpr"
+        },
+        "updated": {
+          "$t": "2020-01-31T03:46:17.872Z"
+        },
+        "category": [
+          {
+            "scheme": "http://schemas.google.com/spreadsheets/2006",
+            "term": "http://schemas.google.com/spreadsheets/2006#list"
+          }
+        ],
+        "title": {
+          "type": "text",
+          "$t": "Finland "
+        },
+        "content": {
+          "type": "text",
+          "$t": "confirmedcases: 1"
+        },
+        "link": [
+          {
+            "rel": "self",
+            "type": "application/atom+xml",
+            "href": "https://spreadsheets.google.com/feeds/list/1lwnfa-GlNRykWBL5y7tWpLxDoCfs8BvzWxFjeOZ1YJk/1/public/values/d5fpr"
+          }
+        ],
+        "gsx$country": {
+          "$t": "Finland "
+        },
+        "gsx$confirmedcases": {
+          "$t": "1"
+        },
+        "gsx$reporteddeaths": {
+          "$t": ""
+        }
+      },
+      {
+        "id": {
+          "$t": "https://spreadsheets.google.com/feeds/list/1lwnfa-GlNRykWBL5y7tWpLxDoCfs8BvzWxFjeOZ1YJk/1/public/values/d6ua4"
+        },
+        "updated": {
+          "$t": "2020-01-31T03:46:17.872Z"
+        },
+        "category": [
+          {
+            "scheme": "http://schemas.google.com/spreadsheets/2006",
+            "term": "http://schemas.google.com/spreadsheets/2006#list"
+          }
+        ],
+        "title": {
+          "type": "text",
+          "$t": "India"
+        },
+        "content": {
+          "type": "text",
+          "$t": "confirmedcases: 1"
+        },
+        "link": [
+          {
+            "rel": "self",
+            "type": "application/atom+xml",
+            "href": "https://spreadsheets.google.com/feeds/list/1lwnfa-GlNRykWBL5y7tWpLxDoCfs8BvzWxFjeOZ1YJk/1/public/values/d6ua4"
+          }
+        ],
+        "gsx$country": {
+          "$t": "India"
+        },
+        "gsx$confirmedcases": {
+          "$t": "1"
+        },
+        "gsx$reporteddeaths": {
+          "$t": ""
+        }
+      },
+      {
+        "id": {
+          "$t": "https://spreadsheets.google.com/feeds/list/1lwnfa-GlNRykWBL5y7tWpLxDoCfs8BvzWxFjeOZ1YJk/1/public/values/d88ul"
+        },
+        "updated": {
+          "$t": "2020-01-31T03:46:17.872Z"
+        },
+        "category": [
+          {
+            "scheme": "http://schemas.google.com/spreadsheets/2006",
+            "term": "http://schemas.google.com/spreadsheets/2006#list"
+          }
+        ],
+        "title": {
+          "type": "text",
+          "$t": "Philippines"
+        },
+        "content": {
+          "type": "text",
+          "$t": "confirmedcases: 1"
+        },
+        "link": [
+          {
+            "rel": "self",
+            "type": "application/atom+xml",
+            "href": "https://spreadsheets.google.com/feeds/list/1lwnfa-GlNRykWBL5y7tWpLxDoCfs8BvzWxFjeOZ1YJk/1/public/values/d88ul"
+          }
+        ],
+        "gsx$country": {
+          "$t": "Philippines"
+        },
+        "gsx$confirmedcases": {
+          "$t": "1"
+        },
+        "gsx$reporteddeaths": {
+          "$t": ""
+        }
+      }
+    ]
+  }
+}

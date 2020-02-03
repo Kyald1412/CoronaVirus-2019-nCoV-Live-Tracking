@@ -1,20 +1,32 @@
-package co.kyald.coronavirustracking.ui.feature.launchscreen
+package co.kyald.coronavirustracking.ui.feature.mainscreen
 
+import android.annotation.SuppressLint
 import android.content.DialogInterface
 import android.content.Intent
+import android.content.SharedPreferences
 import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
 import android.os.PersistableBundle
 import android.provider.Settings
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.work.ExistingPeriodicWorkPolicy
+import androidx.work.OneTimeWorkRequest
+import androidx.work.PeriodicWorkRequest
+import androidx.work.WorkManager
+import co.kyald.coronavirustracking.BuildConfig
 import co.kyald.coronavirustracking.R
 import co.kyald.coronavirustracking.data.model.CoronaEntity
+import co.kyald.coronavirustracking.ui.feature.preferencescreen.PreferenceActivity
+import co.kyald.coronavirustracking.utils.NotifyWorker
 import co.kyald.coronavirustracking.utils.extensions.gone
+import co.kyald.coronavirustracking.utils.extensions.setSafeOnClickListener
+import co.kyald.coronavirustracking.utils.extensions.toSimpleString
 import co.kyald.coronavirustracking.utils.extensions.visible
 import com.mapbox.geojson.Feature
 import com.mapbox.geojson.FeatureCollection
@@ -23,7 +35,8 @@ import com.mapbox.mapboxsdk.camera.CameraUpdateFactory
 import com.mapbox.mapboxsdk.geometry.LatLng
 import com.mapbox.mapboxsdk.maps.MapboxMap
 import com.mapbox.mapboxsdk.maps.Style
-import com.mapbox.mapboxsdk.style.expressions.Expression.*
+import com.mapbox.mapboxsdk.style.expressions.Expression.get
+import com.mapbox.mapboxsdk.style.expressions.Expression.toString
 import com.mapbox.mapboxsdk.style.layers.CircleLayer
 import com.mapbox.mapboxsdk.style.layers.PropertyFactory.*
 import com.mapbox.mapboxsdk.style.layers.SymbolLayer
@@ -32,15 +45,24 @@ import com.mapbox.mapboxsdk.style.sources.GeoJsonOptions
 import com.mapbox.mapboxsdk.style.sources.GeoJsonSource
 import com.mapbox.mapboxsdk.utils.BitmapUtils
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.coroutines.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import org.jetbrains.anko.startActivity
 import org.koin.android.ext.android.inject
+import org.koin.androidx.viewmodel.ext.android.viewModel
 import timber.log.Timber
 import java.net.URISyntaxException
+import java.util.*
+import java.util.concurrent.TimeUnit
 
 
 class MainActivity : AppCompatActivity() {
 
-    private val viewModel: MainActivityViewModel by inject()
+    private val viewModel: MainActivityViewModel by viewModel()
+
+    private val preferences: SharedPreferences by inject()
 
     private var mapboxMap: MapboxMap? = null
 
@@ -48,6 +70,7 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var adapterMain: MainRecyclerViewAdapter
 
+    @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -57,7 +80,9 @@ class MainActivity : AppCompatActivity() {
 
         viewModel.access_token = getString(R.string.access_token)
 
-        viewModel.fetchcoronaData().observe(this, Observer { data ->
+        viewModel.fetchcoronaData(Dispatchers.IO, false)
+
+        viewModel.coronaLiveData.observe(this, Observer { data ->
             if (data != null) {
 
                 loadEntry(data.feed.entry)
@@ -67,6 +92,7 @@ class MainActivity : AppCompatActivity() {
         mapView.onCreate(savedInstanceState)
         mapView.getMapAsync { map ->
             mapboxMap = map
+            map.uiSettings.isCompassEnabled = false
             map.setStyle(Style.LIGHT) { style ->
                 // Disable any type of fading transition when icons collide on the map. This enhances the visual
                 // look of the data clustering together and breaking apart.
@@ -93,13 +119,27 @@ class MainActivity : AppCompatActivity() {
 
             if (!isShown) {
                 rvCountry.visible()
+                llFields.visible()
                 txtShowhide.text = getString(R.string.hide_data)
             } else {
                 rvCountry.gone()
+                llFields.gone()
                 txtShowhide.text = getString(R.string.show_data)
             }
 
             isShown = !isShown
+        }
+
+        btnRefresh.setSafeOnClickListener {
+            if (viewModel.coronaDataIsFinished.value?.get("done") == true) {
+                viewModel.fetchcoronaData(Dispatchers.IO, true)
+            } else {
+                Toast.makeText(
+                    this,
+                    "You are refreshing too fast, please wait for a while before refreshing again",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
         }
 
         fabButton.addOnMenuItemClickListener { fab, textView, itemId ->
@@ -111,22 +151,29 @@ class MainActivity : AppCompatActivity() {
                     startActivity(mIntent)
                 }
 
-                R.id.one -> {
+                R.id.whatis -> {
                     val openURL = Intent(Intent.ACTION_VIEW)
                     openURL.data =
                         Uri.parse(getString(R.string.coronavirus_definition))
                     startActivity(openURL)
                 }
 
-                R.id.two -> {
+                R.id.prevent -> {
                     val openURL = Intent(Intent.ACTION_VIEW)
                     openURL.data =
                         Uri.parse(getString(R.string.coronavirus_prevention))
                     startActivity(openURL)
                 }
 
-                R.id.three -> {
+                R.id.pref -> {
+
+                    startActivity<PreferenceActivity>()
+                }
+
+                R.id.about -> {
                     aboutAlert()
+                    WorkManager.getInstance().cancelAllWork()
+
                 }
 
             }
@@ -184,7 +231,7 @@ class MainActivity : AppCompatActivity() {
                     if (viewModel.coronaCountryList[city] == viewModel.coronaLiveData.value?.feed?.entry!![entry].gsxcountry.t) {
 
 
-                        Timber.e(("IS EQUAL ${viewModel.coronaCountryList[city]}"))
+//                        Timber.e(("IS EQUAL ${viewModel.coronaCountryList[city]}"))
 
                         (0 until viewModel.coronaLiveData.value?.feed?.entry!![entry].gsxconfirmedcases.t.toInt()).map {
 
@@ -214,7 +261,29 @@ class MainActivity : AppCompatActivity() {
         try {
 
             viewModel.coronaDataIsFinished.observe(this, Observer { data ->
-                if (data == true) {
+                if (data["done"] == true) {
+
+                    if (data["internet"] == false) {
+                        Toast.makeText(
+                            this,
+                            "There's a problem with your network",
+                            Toast.LENGTH_SHORT
+                        ).show()
+
+                        tvLastUpdate.text =
+                            preferences.getString("last_update", "")
+
+                    } else {
+
+                        preferences.edit().putString(
+                            "last_update",
+                            getString(R.string.last_update) + Date(System.currentTimeMillis()).toSimpleString()
+                        ).apply()
+
+                        tvLastUpdate.text =
+                            preferences.getString("last_update", "")
+                    }
+
                     GlobalScope.launch {
 
                         val featuresData =
@@ -222,18 +291,30 @@ class MainActivity : AppCompatActivity() {
 
                         withContext(Dispatchers.Main) {
 
-                            loadedMapStyle.addSource(
-                                GeoJsonSource(
-                                    "coronaVirus",
-                                    FeatureCollection.fromFeatures(featuresData),
-                                    GeoJsonOptions()
-                                        .withCluster(true)
-                                        .withClusterMaxZoom(100)
-                                        .withClusterRadius(20)
+
+                            val geoJsonSource =
+                                loadedMapStyle.getSourceAs<GeoJsonSource>("coronaVirus")
+
+                            if (geoJsonSource != null) {
+
+                                geoJsonSource.setGeoJson(FeatureCollection.fromFeatures(featuresData))
+
+                            } else {
+                                loadedMapStyle.addSource(
+                                    GeoJsonSource(
+                                        "coronaVirus",
+                                        FeatureCollection.fromFeatures(featuresData),
+                                        GeoJsonOptions()
+                                            .withCluster(true)
+                                            .withClusterMaxZoom(100)
+                                            .withClusterRadius(20)
+                                    )
                                 )
-                            )
+                            }
+
                         }
                     }
+
                 }
             })
 
@@ -316,6 +397,7 @@ class MainActivity : AppCompatActivity() {
         super.onDestroy()
         mapView.onDestroy()
     }
+
 
     override fun onSaveInstanceState(
         outState: Bundle,

@@ -17,6 +17,10 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true"
         tools:ignore="GoogleAppIndexingWarning,UnusedAttribute">
+        <activity
+            android:theme="@style/Theme.AppCompat.Light"
+            android:name=".ui.feature.preferencescreen.PreferenceActivity"
+            android:label="@string/title_activity_preference" />
         <activity android:name=".ui.feature.SplashScreenActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -25,9 +29,7 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-        <activity android:name=".ui.feature.launchscreen.MainActivity">
-
-        </activity>
+        <activity android:name=".ui.feature.mainscreen.MainActivity" />
     </application>
 
 </manifest>
