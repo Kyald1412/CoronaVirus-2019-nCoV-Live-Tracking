@@ -44,3 +44,7 @@ In this project I'm using MVVM and Repository Pattern.
 ## Data Source
 - The Center for Systems Science and Engineering (CSSE) at JHU
 - https://infographics.channelnewsasia.com/
+
+## Got any interesting ideas?
+Feel free to contact me at [Email](mailto:dhikyaldwiansyah@gmail.com) or [Telegram](https://t.me/Kyald)
+
