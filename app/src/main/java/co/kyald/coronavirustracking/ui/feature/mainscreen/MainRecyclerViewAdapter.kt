@@ -10,8 +10,7 @@ import co.kyald.coronavirustracking.data.model.CoronaEntity
 import kotlinx.android.synthetic.main.item_country.view.*
 
 class MainRecyclerViewAdapter(
-    private val context: Context, private val clickListener: (CoronaEntity.Entry) -> Unit
-) :
+    private val context: Context) :
     RecyclerView.Adapter<MainRecyclerViewAdapter.CardViewViewHolder>() {
 
     private var mData: MutableList<CoronaEntity.Entry> = mutableListOf()
@@ -28,23 +27,16 @@ class MainRecyclerViewAdapter(
     }
 
     override fun onBindViewHolder(holder: CardViewViewHolder, position: Int) {
-        holder.bind(mData[position], clickListener)
+        holder.bind(mData[position])
     }
 
     override fun getItemCount(): Int = mData.size
 
     inner class CardViewViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        fun bind(entry: CoronaEntity.Entry, clickListener: (CoronaEntity.Entry) -> Unit) {
-
-//            var caseDeath = context.getString(R.string.case_data) + " " + entry.gsxconfirmedcases.t
-//
-//            if(entry.gsxreporteddeaths.t.isNotEmpty())
-//            caseDeath += context.getString(R.string.death_data) + " " + entry.gsxreporteddeaths.t
-
+        fun bind(entry: CoronaEntity.Entry) {
             itemView.tvTitle.text = entry.gsxcountry.t
             itemView.tvCases.text = entry.gsxconfirmedcases.t
             itemView.tvDeathCase.text = if(entry.gsxreporteddeaths.t == "") "-" else entry.gsxreporteddeaths.t
-            itemView.setOnClickListener { clickListener(entry) }
         }
     }
 }

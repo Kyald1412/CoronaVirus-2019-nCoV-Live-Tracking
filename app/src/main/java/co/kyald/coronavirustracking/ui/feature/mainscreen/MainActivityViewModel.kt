@@ -11,9 +11,7 @@ import com.mapbox.api.geocoding.v5.MapboxGeocoding
 import com.mapbox.api.geocoding.v5.models.GeocodingResponse
 import com.mapbox.geojson.Feature
 import com.mapbox.geojson.Point
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -26,10 +24,12 @@ class MainActivityViewModel(
 ) : ViewModel() {
 
     var access_token: String = ""
-    val coronaLiveData: MutableLiveData<CoronaEntity> = MutableLiveData()
+
     val coronaCountryList: MutableList<String> = mutableListOf()
     val coronaLngLatList: MutableList<Feature> = mutableListOf()
+
     var coronaDataIsFinished: MutableLiveData<Map<String, Boolean>> = MutableLiveData()
+    val coronaLiveData: MutableLiveData<CoronaEntity> = MutableLiveData()
 
     fun fetchcoronaData(coroutineContext: CoroutineContext, forceUpdate: Boolean) {
 
@@ -87,8 +87,6 @@ class MainActivityViewModel(
                                     "internet" to false
                                 )
                             )
-
-
                         }
                     }
                 }
@@ -117,12 +115,13 @@ class MainActivityViewModel(
                 if (response.body() != null) {
                     val results = response.body()!!.features()
                     if (results.size > 0) {
+
                         val feature = results[0]
+
                         coronaLngLatList.add(
                             Feature.fromGeometry(feature.geometry(), feature.properties())
                         )
                         coronaCountryList.add(countryName)
-//                        coronaLngLatListLiveData.postValue(coronaLngLatList)
 
                         GlobalScope.launch {
                             coronaRepository.saveCountryCoord(
@@ -133,6 +132,8 @@ class MainActivityViewModel(
                                     longitude = Point.fromJson(feature.geometry()?.toJson().toString()).longitude()
                                 )
                             )
+
+                            //Verify country list data with corona data source
                             if (coronaLngLatList.size == coronaLiveData.value?.feed?.entry?.size) {
                                 coronaDataIsFinished.postValue(
                                     mapOf(
@@ -148,4 +149,43 @@ class MainActivityViewModel(
         })
     }
 
+
+    suspend fun buildData(): MutableList<Feature> {
+        val featureList: MutableList<Feature> = mutableListOf()
+
+        // limits the scope of concurrency
+        withContext(Dispatchers.IO) {
+
+            (coronaLiveData.value?.feed?.entry!!.indices).map { entry ->
+
+                (0 until coronaCountryList.size).map { city ->
+
+                    if (coronaCountryList[city] == coronaLiveData.value?.feed?.entry!![entry].gsxcountry.t) {
+
+
+//                        Timber.e(("IS EQUAL ${viewModel.coronaCountryList[city]}"))
+
+                        (0 until coronaLiveData.value?.feed?.entry!![entry].gsxconfirmedcases.t.toInt()).map {
+
+                            withContext(Dispatchers.IO) {
+                                // async means "concurrently", context goes here
+
+                                featureList.add(
+                                    coronaLngLatList[city]
+                                )
+
+                            }
+                        }
+                    }
+
+                }
+
+            }
+
+
+        }
+
+        return featureList
+
+    }
 }

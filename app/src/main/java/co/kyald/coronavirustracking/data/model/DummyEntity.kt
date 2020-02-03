@@ -8,7 +8,6 @@ data class DummyEntity(
     @PrimaryKey
     val id: Int,
     val value: String
-//    val list: List<String>
 )
 
 

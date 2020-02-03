@@ -1,6 +1,6 @@
 // Manifest version information!
 def versionMajor = 1
-def versionMinor = 0
+def versionMinor = 1
 def versionPatch = 0
 def versionBuild = 0
 
@@ -11,7 +11,6 @@ apply plugin: 'kotlin-kapt'
 
 apply from: 'dependencies.gradle'
 apply from: 'variants.gradle'
-apply plugin: 'com.google.gms.google-services'
 
 def preDexEnabled = "true" == System.getProperty("pre-dex", "true")
 
@@ -78,8 +77,4 @@ android {
 // Required for annotation processing plugins like Dagger
 kapt {
     generateStubs = true
-}
-
-dependencies {
-    implementation 'androidx.preference:preference:1.1+'
 }

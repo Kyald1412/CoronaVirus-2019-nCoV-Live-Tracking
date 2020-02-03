@@ -34,7 +34,6 @@ fun provideRetrofit(client: OkHttpClient): Retrofit {
     return Retrofit.Builder()
         .client(client)
         .baseUrl(NetworkConstants.BASE_URL)
-//        .addConverterFactory(MoshiConverterFactory.create())
         .addConverterFactory(GsonConverterFactory.create())
         .build()
 }

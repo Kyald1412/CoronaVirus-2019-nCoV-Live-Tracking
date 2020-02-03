@@ -41,16 +41,13 @@ class NotifyWorker(
 
 
     fun fetchcoronaData(coroutineContext: CoroutineContext = Dispatchers.IO) {
-
-
+        
         CoroutineScope(coroutineContext).launch {
 
             coronaOldEntry = Gson().fromJson(
                 coronaRepository.getJsonEntry(),
                 Array<CoronaEntity.Entry>::class.java
             ).toList()
-
-//            coronaOldEntry = DataDummy.generateCoronaEntity().feed.entry
 
             coronaRepository.fetchAll()?.let {
                 coronaNewEntry = it.feed.entry

@@ -7,7 +7,6 @@ import org.koin.android.ext.koin.androidLogger
 import org.koin.core.context.startKoin
 import timber.log.Timber
 
-
 class MainApplication : Application() {
     override fun onCreate() {
         super.onCreate()
@@ -15,9 +14,7 @@ class MainApplication : Application() {
         Timber.plant(Timber.DebugTree())
 
         startKoin {
-            // Koin Android logger
             androidLogger()
-            //inject Android context
             androidContext(this@MainApplication)
             modules(listOf(
                 appModule,

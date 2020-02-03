@@ -18,39 +18,22 @@ class CoronaRepository(
     fun getJsonEntry(): String = coronaDao.getJsonEntry()
     fun getCountryCoord(): List<CountryCoordEntity> = countryCoordDao.getCountryCoord()
 
+    suspend fun saveCoronaData(entities: CoronaEntity) = coronaDao.save(entities)
+
+    suspend fun saveCountryCoord(coordJson: CountryCoordEntity) = countryCoordDao.save(coordJson)
+    suspend fun deleteCountryCoord() = countryCoordDao.deleteAllCountryCoord()
+
     suspend fun fetchAll(): CoronaEntity? {
 
         val response = coronaService.fetchAll()
 
         if (response.isSuccessful) {
             response.body()?.let {
-                Timber.e("RESPONSE $it")
                 return it
             }
         }
 
         return null
-    }
-
-    suspend fun saveCoronaData(entities: CoronaEntity) {
-
-        val addedID = coronaDao.save(entities)
-        Timber.e("Inserted ID $addedID")
-
-    }
-
-
-    suspend fun saveCountryCoord(coordJson: CountryCoordEntity) {
-
-        val addedID = countryCoordDao.save(coordJson)
-        Timber.e("Inserted ID $addedID")
-
-    }
-    suspend fun deleteCountryCoord() {
-
-        val addedID = countryCoordDao.deleteAllCountryCoord()
-        Timber.e("Inserted ID $addedID")
-
     }
 
 }

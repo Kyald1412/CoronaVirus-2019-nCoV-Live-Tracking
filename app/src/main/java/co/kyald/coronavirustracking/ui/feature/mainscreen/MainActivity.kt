@@ -1,6 +1,7 @@
 package co.kyald.coronavirustracking.ui.feature.mainscreen
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
 import android.content.SharedPreferences
@@ -23,7 +24,9 @@ import co.kyald.coronavirustracking.BuildConfig
 import co.kyald.coronavirustracking.R
 import co.kyald.coronavirustracking.data.model.CoronaEntity
 import co.kyald.coronavirustracking.ui.feature.preferencescreen.PreferenceActivity
+import co.kyald.coronavirustracking.utils.Constants
 import co.kyald.coronavirustracking.utils.NotifyWorker
+import co.kyald.coronavirustracking.utils.Utils
 import co.kyald.coronavirustracking.utils.extensions.gone
 import co.kyald.coronavirustracking.utils.extensions.setSafeOnClickListener
 import co.kyald.coronavirustracking.utils.extensions.toSimpleString
@@ -84,37 +87,17 @@ class MainActivity : AppCompatActivity() {
 
         viewModel.coronaLiveData.observe(this, Observer { data ->
             if (data != null) {
-
                 loadEntry(data.feed.entry)
             }
         })
 
-        mapView.onCreate(savedInstanceState)
-        mapView.getMapAsync { map ->
-            mapboxMap = map
-            map.uiSettings.isCompassEnabled = false
-            map.setStyle(Style.LIGHT) { style ->
-                // Disable any type of fading transition when icons collide on the map. This enhances the visual
-                // look of the data clustering together and breaking apart.
-                style.transition = TransitionOptions(0, 0, false)
-                mapboxMap?.animateCamera(
-                    CameraUpdateFactory.newLatLngZoom(
-                        LatLng(
-                            39.913818,
-                            116.363625
-                        ), 1.0
-                    )
-                )
-                addClusteredGeoJsonSource(style)
-                style.addImage(
-                    "cross-icon-id",
-                    BitmapUtils.getBitmapFromDrawable(resources.getDrawable(R.mipmap.ic_launcher))!!,
-                    true
-                )
-            }
-        }
+        initMap(savedInstanceState)
+        initListener()
+        setupAdapter()
 
+    }
 
+    private fun initListener() {
         cardCountryData.setOnClickListener {
 
             if (!isShown) {
@@ -136,7 +119,7 @@ class MainActivity : AppCompatActivity() {
             } else {
                 Toast.makeText(
                     this,
-                    "You are refreshing too fast, please wait for a while before refreshing again",
+                    getString(R.string.refresh_timeout),
                     Toast.LENGTH_SHORT
                 ).show()
             }
@@ -171,37 +154,48 @@ class MainActivity : AppCompatActivity() {
                 }
 
                 R.id.about -> {
-                    aboutAlert()
+                    Utils().aboutAlert(
+                        this, getString(R.string.about),
+                        getString(R.string.about_message)
+                    )
                     WorkManager.getInstance().cancelAllWork()
 
                 }
 
             }
         }
-
-        setupAdapter()
-
     }
 
-    private fun aboutAlert() {
-
-        val builder = AlertDialog.Builder(this)
-
-        with(builder)
-        {
-            setTitle("About")
-            setMessage("Hello, got any ideas?, don't hesitate to contact me \n\ndhikyaldwiansyah@gmail.com\n\nData scraped from:\n- infographics.channelnewsasia.com\n- JHU CSSE")
-            setPositiveButton("OK") { dialog: DialogInterface, _: Int ->
-                dialog.dismiss()
+    private fun initMap(savedInstanceState: Bundle?) {
+        mapView.onCreate(savedInstanceState)
+        mapView.getMapAsync { map ->
+            mapboxMap = map
+            map.uiSettings.isCompassEnabled = false
+            map.setStyle(Style.LIGHT) { style ->
+                // Disable any type of fading transition when icons collide on the map. This enhances the visual
+                // look of the data clustering together and breaking apart.
+                style.transition = TransitionOptions(0, 0, false)
+                mapboxMap?.animateCamera(
+                    CameraUpdateFactory.newLatLngZoom(
+                        LatLng(
+                            39.913818,
+                            116.363625
+                        ), 1.0
+                    )
+                )
+                addClusteredGeoJsonSource(style)
+                style.addImage(
+                    "cross-icon-id",
+                    BitmapUtils.getBitmapFromDrawable(resources.getDrawable(R.mipmap.ic_launcher))!!,
+                    true
+                )
             }
-            show()
         }
-
     }
 
     private fun setupAdapter() {
         adapterMain =
-            MainRecyclerViewAdapter(this) { entry: CoronaEntity.Entry -> entryItemClicked(entry) }
+            MainRecyclerViewAdapter(this)
 
         rvCountry.adapter = adapterMain
         rvCountry.layoutManager = LinearLayoutManager(this)
@@ -213,50 +207,6 @@ class MainActivity : AppCompatActivity() {
         adapterMain.setEntity(coronaEntity)
     }
 
-
-    private fun entryItemClicked(entryData: CoronaEntity.Entry) {
-    }
-
-
-    private suspend fun buildData(): MutableList<Feature> {
-        val featureList: MutableList<Feature> = mutableListOf()
-
-        // limits the scope of concurrency
-        withContext(Dispatchers.IO) {
-
-            (viewModel.coronaLiveData.value?.feed?.entry!!.indices).map { entry ->
-
-                (0 until viewModel.coronaCountryList.size).map { city ->
-
-                    if (viewModel.coronaCountryList[city] == viewModel.coronaLiveData.value?.feed?.entry!![entry].gsxcountry.t) {
-
-
-//                        Timber.e(("IS EQUAL ${viewModel.coronaCountryList[city]}"))
-
-                        (0 until viewModel.coronaLiveData.value?.feed?.entry!![entry].gsxconfirmedcases.t.toInt()).map {
-
-                            withContext(Dispatchers.IO) {
-                                // async means "concurrently", context goes here
-
-                                featureList.add(
-                                    viewModel.coronaLngLatList[city]
-                                )
-
-                            }
-                        }
-                    }
-
-                }
-
-            }
-
-
-        }
-
-        return featureList
-
-    }
-
     private fun addClusteredGeoJsonSource(loadedMapStyle: Style) { // Add a new source from the GeoJSON data and set the 'cluster' option to true.
         try {
 
@@ -266,28 +216,28 @@ class MainActivity : AppCompatActivity() {
                     if (data["internet"] == false) {
                         Toast.makeText(
                             this,
-                            "There's a problem with your network",
+                            getString(R.string.network_problem),
                             Toast.LENGTH_SHORT
                         ).show()
 
                         tvLastUpdate.text =
-                            preferences.getString("last_update", "")
+                            preferences.getString(Constants.PREF_LAST_UPDATE, "")
 
                     } else {
 
                         preferences.edit().putString(
-                            "last_update",
+                            Constants.PREF_LAST_UPDATE,
                             getString(R.string.last_update) + Date(System.currentTimeMillis()).toSimpleString()
                         ).apply()
 
                         tvLastUpdate.text =
-                            preferences.getString("last_update", "")
+                            preferences.getString(Constants.PREF_LAST_UPDATE, "")
                     }
 
                     GlobalScope.launch {
 
                         val featuresData =
-                            withContext(Dispatchers.Default) { buildData() }
+                            withContext(Dispatchers.Default) { viewModel.buildData() }
 
                         withContext(Dispatchers.Main) {
 
@@ -336,18 +286,6 @@ class MainActivity : AppCompatActivity() {
                 circleColor(layers[i][1]),
                 circleRadius(18f)
             )
-//            val pointCount: Expression = toNumber(get("point_count"))
-            // Add a filter to the cluster layer that hides the circles based on "point_count"
-//            circles.setFilter(
-//                if (i == 0) all(
-//                    has("point_count"),
-//                    gte(pointCount, literal(layers[i][0]))
-//                ) else all(
-//                    has("point_count"),
-//                    gte(pointCount, literal(layers[i][0])),
-//                    lt(pointCount, literal(layers[i - 1][0]))
-//                )
-//            )
             loadedMapStyle.addLayer(circles)
         }
 

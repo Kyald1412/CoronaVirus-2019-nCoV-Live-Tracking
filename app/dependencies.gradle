@@ -79,9 +79,6 @@ dependencies {
     //Koin
     implementation "org.koin:koin-androidx-viewmodel:2.0.1"
     implementation "org.koin:koin-android:2.0.1"
-//    implementation "org.koin:koin-android-architecture:0.9.3"
-//    testImplementation "org.koin:koin-test:2.0.1"
-//    implementation "org.koin:koin-core-ext:1.0.2"
 
     //Mapbox
     implementation 'com.mapbox.mapboxsdk:mapbox-android-sdk:8.6.2'
@@ -91,14 +88,9 @@ dependencies {
     //Fab
     implementation 'com.github.kobakei:MaterialFabSpeedDial:2.0.0'
 
-    //Push notification
-    implementation 'com.google.firebase:firebase-messaging:20.1.0'
-
     implementation "android.arch.work:work-runtime-ktx:1.0.1"
-
     implementation 'androidx.preference:preference:1.1.0'
     implementation 'com.takisoft.preferencex:preferencex:1.1.0'
-
 
     //ANKO
     implementation "org.jetbrains.anko:anko-commons:0.10.8"

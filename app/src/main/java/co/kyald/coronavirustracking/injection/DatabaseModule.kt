@@ -23,7 +23,6 @@ private fun provideAppDatabase(context: Context): AppDatabase {
     ).build()
 }
 
-
 private fun provideDummyDao(database: AppDatabase) = database.dummyDao()
 private fun provideCoronaDao(database: AppDatabase) = database.coronaDao()
 private fun provideCountryCoordDao(database: AppDatabase) = database.countryCoordDao()

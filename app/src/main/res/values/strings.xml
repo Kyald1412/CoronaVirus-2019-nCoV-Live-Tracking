@@ -23,6 +23,9 @@
     <!-- Sync Preferences -->
     <string name="sync_title">Allow push notification when there\'s new data available</string>
     <string name="check">check</string>
+    <string name="about_message">Hello, got any ideas?, don\'t hesitate to contact me \\n\\ndhikyaldwiansyah@gmail.com\\n\\nData scraped from:\\n- infographics.channelnewsasia.com\\n- JHU CSSE</string>
+    <string name="refresh_timeout">You are refreshing too fast, please wait for a while before refreshing again</string>
+    <string name="network_problem">There\'s a problem with your network</string>
 
     <!-- Preference Titles -->
 
