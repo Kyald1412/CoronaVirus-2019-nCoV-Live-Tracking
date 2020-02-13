@@ -1,6 +1,6 @@
-# CoronaVirus (2019-nCoV) Live Map Tracking Android App
+# CoronaVirus (COVID-19) Live Map Tracking Android App
 
-CoronaVirus(2019-nCoV) outbreak Live Map tracker 
+CoronaVirus(COVID-19) outbreak Live Map tracker 
 
 [![PlayStore][playstore-image]][playstore-url]
 
@@ -15,12 +15,12 @@ CoronaVirus(2019-nCoV) outbreak Live Map tracker
 
 
 ##  Introduction
-With latest CoronaVirus(2019-nCoV) outbreak, this app helps you to monitor current situation of the outbreak.
+With latest CoronaVirus(COVID-19) outbreak, this app helps you to monitor current situation of the outbreak.
 
-## TO-DO list
+## TO-DO list (Update 1.2.0)
 - [x] Push Notification
 - [x] Automatically fetch data every xx hours
-- Add more data sources
+- [x] Add more data sources
 - News Feed
 - Add chart/graph data
 - Etc.
@@ -46,5 +46,5 @@ In this project I'm using MVVM and Repository Pattern.
 - https://infographics.channelnewsasia.com/
 
 ## Got any interesting ideas?
-Feel free to contact me at [Email](mailto:dhikyaldwiansyah@gmail.com) or [Telegram](https://t.me/Kyald)
+Feel free to contact me at [Email](mailto:dhikyaldwiansyah@gmail.com) or [Telegram](https://t.me/Kyald) or [LinkedIn](https://www.linkedin.com/in/dhiky-aldwiansyah)
 
