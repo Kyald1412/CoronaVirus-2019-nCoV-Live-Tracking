@@ -13,6 +13,9 @@ android {
       proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
 
       buildConfigField "java.util.Date", "BUILD_TIME", "new java.util.Date(" + System.currentTimeMillis() + "L)"
+      buildConfigField "String", "MAPBOX_TOKEN", '"pk.eyJ1Ijoia3lhbGQiLCJhIjoiY2s1eGp3ZWU0MjZxNzNlbjEwN2cxaWNqOSJ9.KZU64yYen57Yv-4LxdXSrg"'
+      buildConfigField "String", "S1_CORONA_API_KEY", '"AIzaSyDnpMUhVLaY-hv7V_DxUp8oePTBpI9JBmQ"'
+      buildConfigField "String", "S2_CORONA_API_KEY", '"AIzaSyDUwKbLCK5AW0-OojT5WV2x779m1aB05lM"'
     }
     debug {
       debuggable true
@@ -24,6 +27,9 @@ android {
       proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
 
       buildConfigField "java.util.Date", "BUILD_TIME", "new java.util.Date(" + System.currentTimeMillis() + "L)"
+      buildConfigField "String", "MAPBOX_TOKEN", '"pk.eyJ1Ijoia3lhbGQiLCJhIjoiY2s1eGp3ZWU0MjZxNzNlbjEwN2cxaWNqOSJ9.KZU64yYen57Yv-4LxdXSrg"'
+      buildConfigField "String", "S1_CORONA_API_KEY", '"AIzaSyDnpMUhVLaY-hv7V_DxUp8oePTBpI9JBmQ"'
+      buildConfigField "String", "S2_CORONA_API_KEY", '"AIzaSyDUwKbLCK5AW0-OojT5WV2x779m1aB05lM"'
 
     }
   }

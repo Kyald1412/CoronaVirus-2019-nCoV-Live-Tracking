@@ -1,4 +1,4 @@
-package co.kyald.coronavirustracking.data.model
+package co.kyald.coronavirustracking.data.database.model
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey

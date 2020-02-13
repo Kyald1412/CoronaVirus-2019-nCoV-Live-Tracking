@@ -1,6 +1,6 @@
 package co.kyald.coronavirustracking.data.network.category
 
-import co.kyald.coronavirustracking.data.model.DummyEntity
+import co.kyald.coronavirustracking.data.database.model.DummyEntity
 import retrofit2.Response
 import retrofit2.http.GET
 

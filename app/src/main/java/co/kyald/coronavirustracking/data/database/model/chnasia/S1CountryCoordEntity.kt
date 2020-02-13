@@ -1,15 +1,14 @@
-package co.kyald.coronavirustracking.data.model
+package co.kyald.coronavirustracking.data.database.model.chnasia
 
 import android.os.Parcelable
 import androidx.room.*
-import co.kyald.coronavirustracking.data.database.converter.EntryConverter
 import com.google.gson.annotations.SerializedName
 import kotlinx.android.parcel.Parcelize
 
 
 @Entity(tableName = "countrycoord")
 @Parcelize
-data class CountryCoordEntity(
+data class S1CountryCoordEntity(
     @PrimaryKey(autoGenerate = true)
     var id: Int,
     @ColumnInfo(name = "longitude")

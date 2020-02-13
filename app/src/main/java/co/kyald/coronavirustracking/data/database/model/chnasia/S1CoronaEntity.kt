@@ -1,4 +1,4 @@
-package co.kyald.coronavirustracking.data.model
+package co.kyald.coronavirustracking.data.database.model.chnasia
 
 import android.os.Parcelable
 import androidx.room.*
@@ -9,7 +9,7 @@ import kotlinx.android.parcel.Parcelize
 
 @Entity(tableName = "coronaentity")
 @Parcelize
-data class CoronaEntity(
+data class S1CoronaEntity(
     @PrimaryKey(autoGenerate = true)
     val id: Int,
     @SerializedName("feed")
@@ -81,7 +81,7 @@ data class CoronaEntity(
     data class Gsxreporteddeaths(
         @ColumnInfo(name = "GsxreporteddeathsT")
         @SerializedName("\$t")
-        val t: String
+        var t: String
     ) : Parcelable
 
     @Parcelize
@@ -113,7 +113,7 @@ data class CoronaEntity(
 
     @Parcelize
     data class UpdatedX(
-    @ColumnInfo(name = "UpdatedXT")
+        @ColumnInfo(name = "UpdatedXT")
         @SerializedName("\$t")
         val t: String
     ) : Parcelable

@@ -1,18 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name_prod">CoronaVirus Live Tracking</string>
-    <string name="app_name_staging">Corona Virus Tracking - Staging</string>
-    <string name="access_token">pk.eyJ1Ijoia3lhbGQiLCJhIjoiY2s1eGp3ZWU0MjZxNzNlbjEwN2cxaWNqOSJ9.KZU64yYen57Yv-4LxdXSrg</string>
+    <string name="app_name_prod">COVID-19 Live Tracking</string>
+    <string name="app_name_staging">COVID-19 Tracking - Staging</string>
     <string name="hide_data">Hide Data</string>
     <string name="show_data">Show Data</string>
     <string name="ganti_bahasa">Change language</string>
-    <string name="corona_virus_definition">What is CoronaVirus(2019-nCoV)</string>
-    <string name="prevent">Preventing</string>
+    <string name="corona_virus_definition">What is COVID-19</string>
+    <string name="prevent">Prevention</string>
     <string name="about">About</string>
     <string name="coronavirus_definition">https://en.wikipedia.org/wiki/Coronavirus</string>
     <string name="coronavirus_prevention">https://www.voanews.com/science-health/coronavirus-outbreak/health-coronavirus-prevention-tips</string>
     <string name="coronavirusapplogo">coronaVirusAppLogo</string>
-    <string name="corona_live_tracking">CoronaVirus(2019-nCoV) Live Tracking</string>
+    <string name="corona_live_tracking">COVID-19 Live Tracking</string>
     <string name="preferences">Preferences</string>
     <string name="last_update">Last Update: </string>
     <string name="title_activity_preference">Preference</string>
@@ -22,12 +21,41 @@
 
     <!-- Sync Preferences -->
     <string name="sync_title">Allow push notification when there\'s new data available</string>
-    <string name="check">check</string>
+    <string name="pref_key_check">pref_key_check</string>
     <string name="about_message">Hello, got any ideas?, don\'t hesitate to contact me \\n\\ndhikyaldwiansyah@gmail.com\\n\\nData scraped from:\\n- infographics.channelnewsasia.com\\n- JHU CSSE</string>
     <string name="refresh_timeout">You are refreshing too fast, please wait for a while before refreshing again</string>
     <string name="network_problem">There\'s a problem with your network</string>
+    <string name="pref_key_datasource" translatable="false">pref_key_datasource</string>
+    <string name="recover">Recover</string>
+    <string name="confirm">Confirm</string>
+    <string name="recovered">Recovered</string>
+    <string name="death">Death</string>
+    <string name="fetch">Fetch…</string>
+    <string name="infected">Infected</string>
+    <string name="pull_me_up">Pull me up</string>
+    <string name="deaths">Deaths</string>
+    <string name="cases">Cases</string>
+    <string name="country">Country</string>
+    <string name="enable_push_notif">Enable Push Notification</string>
+    <string name="what_is">What is COVID-19?</string>
+    <string name="covid_prevent">COVID-19 Prevention</string>
+    <string name="click_to_show">Click to show a list of data source to choose from</string>
+    <string name="data_source">Data Source</string>
+    <string name="other">Others</string>
+    <string name="select_data_source">Select data source</string>
+    <string name="change_language">Change Language</string>
 
     <!-- Preference Titles -->
 
     <!-- Messages Preferences -->
+
+    <string-array name="pref_auto_lock_labels">
+        <item>Channel New Asia</item>
+        <item>Johns Hopkins CSSE</item>
+    </string-array>
+
+    <string-array name="pref_auto_lock_values">
+        <item>0</item>
+        <item>1</item>
+    </string-array>
 </resources>

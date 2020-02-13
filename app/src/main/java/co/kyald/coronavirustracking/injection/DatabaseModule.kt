@@ -9,8 +9,8 @@ import org.koin.dsl.module
 val databaseModule = module {
     single { provideAppDatabase(get()) }
     single { provideDummyDao(get()) }
-    single { provideCoronaDao(get()) }
-    single { provideCountryCoordDao(get()) }
+    single { provideCoronaDao1(get()) }
+    single { provideCoronaDao2(get()) }
 }
 
 const val DATABASE_NAME = "app_db"
@@ -24,5 +24,5 @@ private fun provideAppDatabase(context: Context): AppDatabase {
 }
 
 private fun provideDummyDao(database: AppDatabase) = database.dummyDao()
-private fun provideCoronaDao(database: AppDatabase) = database.coronaDao()
-private fun provideCountryCoordDao(database: AppDatabase) = database.countryCoordDao()
+private fun provideCoronaDao1(database: AppDatabase) = database.coronaDao1()
+private fun provideCoronaDao2(database: AppDatabase) = database.coronaDao2()

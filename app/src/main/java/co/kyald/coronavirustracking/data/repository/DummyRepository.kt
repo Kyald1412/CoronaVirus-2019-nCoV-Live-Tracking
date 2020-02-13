@@ -1,7 +1,7 @@
 package co.kyald.coronavirustracking.data.repository
 
 import androidx.lifecycle.LiveData
-import co.kyald.coronavirustracking.data.model.DummyEntity
+import co.kyald.coronavirustracking.data.database.model.DummyEntity
 import co.kyald.coronavirustracking.data.database.dao.DummyDao
 import co.kyald.coronavirustracking.data.network.category.DummyApi
 

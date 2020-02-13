@@ -1,57 +1,27 @@
 package co.kyald.coronavirustracking.data.database.converter
 
-class ListStringTypeConverter {
+import androidx.room.TypeConverter
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 
-//    private var moshi: Moshi = Moshi.Builder().build()
-//
-//    @TypeConverter
-//    fun fromList(list: List<String>?): String? {
-//        if (list == null || list.isEmpty()) {
-//            return null
-//        }
-//
-//        val parameterizedType =
-//            Types.newParameterizedType(List::class.java, String::class.java)
-//        val adapter: JsonAdapter<List<String>> = moshi.adapter(parameterizedType)
-//
-//        return adapter.toJson(list)
-//    }
-//
-//    @TypeConverter
-//    fun toList(s: String): List<String>? {
-//        if (s == null || s.isEmpty()) {
-//            return null
-//        }
-//
-//        val parameterizedType = Types.newParameterizedType(List::class.java, String::class.java)
-//        val adapter: JsonAdapter<List<String>> = moshi.adapter(parameterizedType)
-//
-//        return adapter.fromJson(s)
-//    }
-//
-//
-//    @TypeConverter
-//    fun fromEntryList(list: List<CoronaEntity.Entry>?): String? {
-//        if (list == null || list.isEmpty()) {
-//            return null
-//        }
-//
-//        val parameterizedType =
-//            Types.newParameterizedType(List::class.java, CoronaEntity.Entry::class.java)
-//        val adapter: JsonAdapter<List<CoronaEntity.Entry>> = moshi.adapter(parameterizedType)
-//
-//        return adapter.toJson(list)
-//    }
-//
-//    @TypeConverter
-//    fun toEntryList(s: String): List<CoronaEntity.Entry>? {
-//        if (s == null || s.isEmpty()) {
-//            return null
-//        }
-//
-//        val parameterizedType = Types.newParameterizedType(List::class.java, CoronaEntity.Entry::class.java)
-//        val adapter: JsonAdapter<List<CoronaEntity.Entry>> = moshi.adapter(parameterizedType)
-//
-//        return adapter.fromJson(s)
-//    }
+class ListStringTypeConverter {
+    companion object {
+        private val gson = Gson()
+
+        @TypeConverter
+        @JvmStatic
+        fun toString(data: String?): List<String> {
+            if (data == null) {
+                return emptyList()
+            }
+            val listType = object : TypeToken<List<String>>() {}.type
+            return gson.fromJson(data, listType)
+        }
+
+        @TypeConverter
+        @JvmStatic
+        fun fromString(entry: List<String>): String {
+            return gson.toJson(entry)
+        }
+    }
 }

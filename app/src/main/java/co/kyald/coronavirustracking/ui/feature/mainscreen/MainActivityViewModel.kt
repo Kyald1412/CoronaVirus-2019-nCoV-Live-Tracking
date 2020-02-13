@@ -1,191 +1,109 @@
 package co.kyald.coronavirustracking.ui.feature.mainscreen
 
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import co.kyald.coronavirustracking.data.model.CoronaEntity
-import co.kyald.coronavirustracking.data.model.CountryCoordEntity
-import co.kyald.coronavirustracking.data.repository.CoronaRepository
-import co.kyald.coronavirustracking.utils.InternetChecker
-import com.mapbox.api.geocoding.v5.GeocodingCriteria
-import com.mapbox.api.geocoding.v5.MapboxGeocoding
-import com.mapbox.api.geocoding.v5.models.GeocodingResponse
+import android.content.SharedPreferences
+import androidx.lifecycle.*
+import co.kyald.coronavirustracking.data.database.model.chnasia.S1CoronaEntity
+import co.kyald.coronavirustracking.data.repository.CoronaS1Repository
+import co.kyald.coronavirustracking.data.repository.CoronaS2Repository
+import co.kyald.coronavirustracking.utils.Constants
 import com.mapbox.geojson.Feature
-import com.mapbox.geojson.Point
 import kotlinx.coroutines.*
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
-import timber.log.Timber
-import kotlin.coroutines.CoroutineContext
 
 
 class MainActivityViewModel(
-    private val coronaRepository: CoronaRepository
+    private val coronaS1Repository: CoronaS1Repository,
+    private val coronaS2Repository: CoronaS2Repository,
+    private val preferences: SharedPreferences
 ) : ViewModel() {
 
-    var access_token: String = ""
 
-    val coronaCountryList: MutableList<String> = mutableListOf()
-    val coronaLngLatList: MutableList<Feature> = mutableListOf()
+    var coronaLiveData = MediatorLiveData<List<Feature>>()
+    private var coronaData: MutableLiveData<List<Feature>> = MutableLiveData()
 
-    var coronaDataIsFinished: MutableLiveData<Map<String, Boolean>> = MutableLiveData()
-    val coronaLiveData: MutableLiveData<CoronaEntity> = MutableLiveData()
+    var isFinishedLiveData = MediatorLiveData<Map<String, Boolean>>()
+    private var isFinished: MutableLiveData<Map<String, Boolean>> = MutableLiveData()
 
-    fun fetchcoronaData(coroutineContext: CoroutineContext, forceUpdate: Boolean) {
+    var confirmedCaseLiveData = MediatorLiveData<String>()
+    var confirmedDeathLiveData = MediatorLiveData<String>()
+    var confirmedRecoveredLiveData = MediatorLiveData<String>()
 
-        if (coronaLngLatList.isNullOrEmpty() || forceUpdate) {
+    private var confirmCase: MutableLiveData<String> = MutableLiveData()
+    private var confirmDeath: MutableLiveData<String> = MutableLiveData()
+    private var confirmRecover: MutableLiveData<String> = MutableLiveData()
 
-            if (forceUpdate) {
-                coronaCountryList.clear()
-                coronaLngLatList.clear()
-            }
+    var currentDataSource: MutableLiveData<String> = MutableLiveData()
 
-            coronaDataIsFinished.postValue(mapOf("done" to false, "internet" to false))
+    val coronaS2ConfirmLiveData: MutableLiveData<List<List<String>>> = coronaS2Repository.coronaConfirmRawLiveData
+    val coronaS2DeathLiveData: MutableLiveData<List<List<String>>> = coronaS2Repository.coronaDeathRawLiveData
+    val coronaS2RecoverLiveData: MutableLiveData<List<List<String>>> = coronaS2Repository.coronaRecoverRawLiveData
 
-            InternetChecker(object : InternetChecker.Consumer {
-                override fun accept(internet: Boolean) {
+    val coronaS1LiveData: MutableLiveData<S1CoronaEntity> = coronaS1Repository.s1CoronaData
 
-                    if (internet) {
-                        CoroutineScope(coroutineContext).launch {
+    init {
+        refreshData()
+    }
 
-                            val newData = coronaRepository.fetchAll()
+    fun refreshData() {
+        if (preferences.getString(
+                Constants.PREF_DATA_SOURCE,
+                Constants.DATA_SOURCE.DATA_S2.value
+            ) == Constants.DATA_SOURCE.DATA_S1.value
+        ) coronaDataSourceS1() else coronaDataSourceS2()
+    }
 
-                            newData?.let {
+    fun coronaDataSourceS1() {
+        currentDataSource.postValue(Constants.DATA_SOURCE.DATA_S1.value)
 
-                                coronaRepository.deleteCountryCoord()
-                                coronaRepository.saveCoronaData(it)
+        coronaLiveData.removeSource(coronaData)
+        isFinishedLiveData.removeSource(isFinished)
 
-                                coronaLiveData.postValue(newData)
+        confirmedCaseLiveData.removeSource(confirmCase)
+        confirmedDeathLiveData.removeSource(confirmDeath)
+        confirmedRecoveredLiveData.removeSource(confirmRecover)
 
-                                for (i in it.feed.entry.indices) {
+        coronaS1Repository.fetchCoronaDataS1(Dispatchers.IO, true)
 
-                                    getLngLatFromCountryName(it.feed.entry[i].gsxcountry.t)
-                                }
-                            }
+        coronaData = coronaS1Repository.coronaLiveData
+        isFinished = coronaS1Repository.isFinished
+        confirmCase = coronaS1Repository.confirmCase
+        confirmDeath = coronaS1Repository.deathCase
 
+        coronaLiveData.addSource(coronaData) { coronaLiveData.value = it }
+        isFinishedLiveData.addSource(isFinished) { isFinishedLiveData.value = it }
 
-                        }
-
-                    } else {
-                        CoroutineScope(coroutineContext).launch {
-
-                            (coronaRepository.getCountryCoord()).map {
-                                coronaCountryList.add(it.country)
-                                coronaLngLatList.add(
-                                    Feature.fromGeometry(
-                                        Point.fromLngLat(it.longitude, it.latitude)
-                                    )
-                                )
-                            }
-
-
-                            coronaLiveData.postValue(coronaRepository.getAll())
-
-                            coronaDataIsFinished.postValue(
-                                mapOf(
-                                    "done" to true,
-                                    "internet" to false
-                                )
-                            )
-                        }
-                    }
-                }
-            })
+        confirmedCaseLiveData.addSource(confirmCase) { confirmedCaseLiveData.value = it }
+        confirmedDeathLiveData.addSource(confirmDeath) { confirmedDeathLiveData.value = it }
+        confirmedRecoveredLiveData.addSource(confirmRecover) {
+            confirmedRecoveredLiveData.value = it
         }
     }
 
-    fun getLngLatFromCountryName(countryName: String) {
-        val client = MapboxGeocoding.builder()
-            .accessToken(access_token)
-            .query(countryName)
-            .geocodingTypes(GeocodingCriteria.TYPE_COUNTRY)
-            .mode(GeocodingCriteria.MODE_PLACES)
-            .build()
+    fun coronaDataSourceS2() {
+        currentDataSource.postValue(Constants.DATA_SOURCE.DATA_S2.value)
 
-        client.enqueueCall(object : Callback<GeocodingResponse> {
-            override fun onFailure(call: Call<GeocodingResponse>, t: Throwable) {
-                Timber.e("onFailure ${t.localizedMessage}")
-            }
+        coronaLiveData.removeSource(coronaData)
+        isFinishedLiveData.removeSource(isFinished)
 
-            override fun onResponse(
-                call: Call<GeocodingResponse>,
-                response: Response<GeocodingResponse>
-            ) {
+        confirmedCaseLiveData.removeSource(confirmCase)
+        confirmedDeathLiveData.removeSource(confirmDeath)
+        confirmedRecoveredLiveData.removeSource(confirmRecover)
 
-                if (response.body() != null) {
-                    val results = response.body()!!.features()
-                    if (results.size > 0) {
+        coronaS2Repository.fetchCoronaDataS2()
 
-                        val feature = results[0]
+        coronaData = coronaS2Repository.coronaConfirmLiveData
+        isFinished = coronaS2Repository.isFinished
+        confirmCase = coronaS2Repository.confirmCase
+        confirmDeath = coronaS2Repository.deathCase
+        confirmRecover = coronaS2Repository.recoverCase
 
-                        coronaLngLatList.add(
-                            Feature.fromGeometry(feature.geometry(), feature.properties())
-                        )
-                        coronaCountryList.add(countryName)
+        coronaLiveData.addSource(coronaData) { coronaLiveData.value = it }
+        isFinishedLiveData.addSource(isFinished) { isFinishedLiveData.value = it }
 
-                        GlobalScope.launch {
-                            coronaRepository.saveCountryCoord(
-                                CountryCoordEntity(
-                                    id = 0,
-                                    country = feature?.placeName().toString(),
-                                    latitude = Point.fromJson(feature.geometry()?.toJson().toString()).latitude(),
-                                    longitude = Point.fromJson(feature.geometry()?.toJson().toString()).longitude()
-                                )
-                            )
-
-                            //Verify country list data with corona data source
-                            if (coronaLngLatList.size == coronaLiveData.value?.feed?.entry?.size) {
-                                coronaDataIsFinished.postValue(
-                                    mapOf(
-                                        "done" to true,
-                                        "internet" to true
-                                    )
-                                )
-                            }
-                        }
-                    }
-                }
-            }
-        })
-    }
-
-
-    suspend fun buildData(): MutableList<Feature> {
-        val featureList: MutableList<Feature> = mutableListOf()
-
-        // limits the scope of concurrency
-        withContext(Dispatchers.IO) {
-
-            (coronaLiveData.value?.feed?.entry!!.indices).map { entry ->
-
-                (0 until coronaCountryList.size).map { city ->
-
-                    if (coronaCountryList[city] == coronaLiveData.value?.feed?.entry!![entry].gsxcountry.t) {
-
-
-//                        Timber.e(("IS EQUAL ${viewModel.coronaCountryList[city]}"))
-
-                        (0 until coronaLiveData.value?.feed?.entry!![entry].gsxconfirmedcases.t.toInt()).map {
-
-                            withContext(Dispatchers.IO) {
-                                // async means "concurrently", context goes here
-
-                                featureList.add(
-                                    coronaLngLatList[city]
-                                )
-
-                            }
-                        }
-                    }
-
-                }
-
-            }
-
-
+        confirmedCaseLiveData.addSource(confirmCase) { confirmedCaseLiveData.value = it }
+        confirmedDeathLiveData.addSource(confirmDeath) { confirmedDeathLiveData.value = it }
+        confirmedRecoveredLiveData.addSource(confirmRecover) {
+            confirmedRecoveredLiveData.value = it
         }
-
-        return featureList
-
     }
+
 }

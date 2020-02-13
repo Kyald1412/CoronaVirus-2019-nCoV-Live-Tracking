@@ -5,7 +5,7 @@ import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import co.kyald.coronavirustracking.data.database.AppDatabase
-import co.kyald.coronavirustracking.data.database.dao.CoronaDao
+import co.kyald.coronavirustracking.data.database.dao.chnasia.S1CoronaDao
 import co.kyald.coronavirustracking.utils.DataDummy
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -17,9 +17,9 @@ import org.junit.runner.RunWith
 import java.io.IOException
 
 @RunWith(AndroidJUnit4::class)
-class CoronaDaoTest {
+class S1CoronaDaoTest {
 
-    private lateinit var userDao: CoronaDao
+    private lateinit var userDaoS1: S1CoronaDao
     private lateinit var db: AppDatabase
 
     @Before
@@ -28,7 +28,7 @@ class CoronaDaoTest {
         db = Room.inMemoryDatabaseBuilder(
             context, AppDatabase::class.java
         ).build()
-        userDao = db.coronaDao()
+        userDaoS1 = db.coronaDao1()
     }
 
     @After
@@ -45,7 +45,7 @@ class CoronaDaoTest {
 
             val coronaDummyEntity = DataDummy.generateCoronaEntity()
 
-            val addedID = userDao.save(coronaDummyEntity)
+            val addedID = userDaoS1.save(coronaDummyEntity)
 
             assertEquals(addedID, 1)
 

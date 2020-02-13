@@ -1,18 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name_prod">CoronaVirus Live Tracking</string>
-    <string name="app_name_staging">Corona Virus Tracking - Staging</string>
-    <string name="access_token">pk.eyJ1Ijoia3lhbGQiLCJhIjoiY2s1eGp3ZWU0MjZxNzNlbjEwN2cxaWNqOSJ9.KZU64yYen57Yv-4LxdXSrg</string>
+    <string name="app_name_prod">COVID-19 Live Tracking</string>
+    <string name="app_name_staging">COVID-19 Tracking - Staging</string>
     <string name="hide_data">Sembunyikan Data</string>
     <string name="show_data">Tampilkan Data</string>
     <string name="ganti_bahasa">Ganti Bahasa</string>
-    <string name="corona_virus_definition">Apa itu CoronaVirus(2019-nCoV)</string>
+    <string name="corona_virus_definition">Apa itu CoronaVirus(COVID-19)</string>
     <string name="prevent">Pencegahan</string>
     <string name="about">Tentang</string>
     <string name="coronavirus_definition">https://hellosehat.com/kesehatan/penyakit/coronavirus-adalah/</string>
     <string name="coronavirus_prevention">https://hellosehat.com/kesehatan/penyakit/coronavirus-adalah/#h-pencegahan</string>
     <string name="coronavirusapplogo">coronaVirusAppLogo</string>
-    <string name="corona_live_tracking">CoronaVirus(2019-nCoV) Live Tracking</string>
+    <string name="corona_live_tracking">CoronaVirus(COVID-19) Live Tracking</string>
     <string name="preferences">Pengaturan</string>
     <string name="last_update">Update terkini: </string>
     <string name="title_activity_preference">Pengaturan</string>
@@ -21,13 +20,41 @@
     <string name="sync_header">Notifikasi</string>
 
     <!-- Sync Preferences -->
-    <string name="sync_title">Allow push notification when there\'s new data available</string>
-    <string name="check">check</string>
+    <string name="sync_title">Kasih tau saya ya kalo ada yang baru</string>
+    <string name="pref_key_check">pref_key_check</string>
     <string name="about_message">Hello, got any ideas?, don\'t hesitate to contact me \\n\\ndhikyaldwiansyah@gmail.com\\n\\nData scraped from:\\n- infographics.channelnewsasia.com\\n- JHU CSSE</string>
-    <string name="refresh_timeout">You are refreshing too fast, please wait for a while before refreshing again</string>
-    <string name="network_problem">There\'s a problem with your network</string>
+    <string name="refresh_timeout">Kecepetan mau kemana, sabar.</string>
+    <string name="network_problem">Internet anda bermasalah</string>
+    <string name="pref_key_datasource" translatable="false">pref_key_datasource</string>
+    <string name="recover">Sembuh</string>
+    <string name="confirm">Terinfeksi</string>
+    <string name="recovered">Sembuh</string>
+    <string name="death">Korban</string>
+    <string name="fetch">Fetch…</string>
+    <string name="infected">Terinfeksi</string>
+    <string name="pull_me_up">Tarik ke atas</string>
+    <string name="deaths">Korban</string>
+    <string name="cases">Terinfeksi</string>
+    <string name="country">Negara</string>
+    <string name="enable_push_notif">Aktifkan notifikasi</string>
+    <string name="what_is">Apa itu COVID-19?</string>
+    <string name="covid_prevent">COVID-19 Pencegahan</string>
+    <string name="click_to_show">Daftar sumber data</string>
+    <string name="data_source">Sumber data</string>
+    <string name="other">Lain-lain</string>
+    <string name="select_data_source">Pilih sumber data</string>
+    <string name="change_language">Change Language</string>
 
     <!-- Preference Titles -->
+    <string-array name="pref_auto_lock_labels">
+        <item>Channel New Asia</item>
+        <item>Johns Hopkins CSSE</item>
+    </string-array>
+
+    <string-array name="pref_auto_lock_values">
+        <item>0</item>
+        <item>1</item>
+    </string-array>
 
     <!-- Messages Preferences -->
 </resources>
