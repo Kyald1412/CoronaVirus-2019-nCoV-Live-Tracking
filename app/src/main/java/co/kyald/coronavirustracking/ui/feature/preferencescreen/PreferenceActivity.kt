@@ -117,9 +117,9 @@ class PreferenceActivity : AppCompatActivity() {
 
             if (preference is ListPreference) {
                 val i = preference.findIndexOfValue(value.toString())
-                preference.setValueIndex(i)
 
                 if (i >= 0) {
+                    preference.setValueIndex(i)
                     preference.summary = preference.entries[i].toString()
 
                     preferences.edit().putString(
@@ -127,6 +127,7 @@ class PreferenceActivity : AppCompatActivity() {
                         preference.entryValues[i].toString()
                     ).apply()
                 } else {
+                    preference.setValueIndex(1)
                     preference.summary = preference.entries[1].toString()
                 }
 

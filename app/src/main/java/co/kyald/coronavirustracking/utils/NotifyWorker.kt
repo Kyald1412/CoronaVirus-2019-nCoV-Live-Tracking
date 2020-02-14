@@ -111,12 +111,7 @@ class NotifyWorker(
 
             }
 
-
-//            Timber.e("OLD DATA CASE $oldDataCountCase")
-//            Timber.e("NEW DATA CASE $newDataCountCase")
-//            Timber.e("New cases has been confirmed = ${preferences.getString(Constants.PREF_DATA_SOURCE, "SS")}")
-
-//            if (oldDataCountCase != newDataCountCase)
+            if (oldDataCountCase != newDataCountCase)
             sendNotification()
 
         }
