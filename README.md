@@ -1,4 +1,4 @@
-# CoronaVirus (COVID-19) Live Map Tracking Android App
+# CoronaVirus (COVID-19) Live Map Tracker Android App
 
 CoronaVirus(COVID-19) outbreak Live Map tracker 
 
