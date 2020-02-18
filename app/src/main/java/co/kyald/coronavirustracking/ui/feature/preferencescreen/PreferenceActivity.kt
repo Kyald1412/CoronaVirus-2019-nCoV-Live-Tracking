@@ -47,13 +47,13 @@ class PreferenceActivity : AppCompatActivity() {
 
         private val preferences: SharedPreferences by inject()
 
-        private fun oneTimeWorker() {
-            val requestBuilder = OneTimeWorkRequest.Builder(NotifyWorker::class.java)
-                .setInitialDelay(15, TimeUnit.SECONDS)
-                .build()
-
-            WorkManager.getInstance().enqueue(requestBuilder)
-        }
+//        private fun oneTimeWorker() {
+//            val requestBuilder = OneTimeWorkRequest.Builder(NotifyWorker::class.java)
+//                .setInitialDelay(15, TimeUnit.SECONDS)
+//                .build()
+//
+//            WorkManager.getInstance().enqueue(requestBuilder)
+//        }
 
         private fun stopAllWorker() {
             WorkManager.getInstance().cancelAllWork()
@@ -177,7 +177,7 @@ class PreferenceActivity : AppCompatActivity() {
             if (preference is SwitchPreferenceCompat) {
 
                 if (preference.isChecked) {
-                    oneTimeWorker()
+                    startNotifyWorker()
                     preferences.edit().putBoolean(Constants.PREF_CHECK_NOTIFICATION, true).apply()
                 } else {
                     stopAllWorker()

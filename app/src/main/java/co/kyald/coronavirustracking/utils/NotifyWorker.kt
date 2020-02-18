@@ -70,11 +70,11 @@ class NotifyWorker(
                 }
 
                 s1CoronaOldEntry.map {
-                    oldDataCountCase += it.gsxconfirmedcases.t.toInt()
+                    oldDataCountCase += it.gsxconfirmedcases.parsedT().toInt()
                 }
 
                 s1CoronaNewEntry.map {
-                    newDataCountCase += it.gsxconfirmedcases.t.toInt()
+                    newDataCountCase += it.gsxconfirmedcases.parsedT().toInt()
                 }
 
             } else {

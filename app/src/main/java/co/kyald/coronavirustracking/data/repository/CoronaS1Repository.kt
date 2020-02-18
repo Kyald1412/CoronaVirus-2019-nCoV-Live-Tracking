@@ -200,14 +200,14 @@ class CoronaS1Repository(
 
             (s1CoronaData.value?.feed?.entry?.indices)?.map { entry ->
 
-                confirmedCount += if (s1CoronaData.value?.feed?.entry!![entry].gsxconfirmedcases.t == "") 0 else s1CoronaData.value?.feed?.entry!![entry].gsxconfirmedcases.t.toInt()
-                deathCount += if (s1CoronaData.value?.feed?.entry!![entry].gsxreporteddeaths.t == "") 0 else s1CoronaData.value?.feed?.entry!![entry].gsxreporteddeaths.t.toInt()
+                confirmedCount += if (s1CoronaData.value?.feed?.entry!![entry].gsxconfirmedcases.parsedT() == "") 0 else s1CoronaData.value?.feed?.entry!![entry].gsxconfirmedcases.parsedT().toInt()
+                deathCount += if (s1CoronaData.value?.feed?.entry!![entry].gsxreporteddeaths.parsedT() == "") 0 else s1CoronaData.value?.feed?.entry!![entry].gsxreporteddeaths.parsedT().toInt()
 //
                 (0 until countryNameList.size).map { city ->
 
                     if (countryNameList[city] == s1CoronaData.value?.feed?.entry!![entry].gsxcountry.t) {
 
-                        (0 until s1CoronaData.value?.feed?.entry!![entry].gsxconfirmedcases.t.toInt()).map {
+                        (0 until s1CoronaData.value?.feed?.entry!![entry].gsxconfirmedcases.parsedT().toInt()).map {
 
                             withContext(Dispatchers.IO) {
 

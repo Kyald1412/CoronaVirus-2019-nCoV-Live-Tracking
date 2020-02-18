@@ -2,7 +2,6 @@ package co.kyald.coronavirustracking.data.repository
 
 import androidx.lifecycle.MutableLiveData
 import co.kyald.coronavirustracking.data.database.dao.jhu.S2CoronaDao
-import co.kyald.coronavirustracking.data.database.model.chnasia.S1CoronaEntity
 import co.kyald.coronavirustracking.data.database.model.jhu.S2CoronaConfirmedEntity
 import co.kyald.coronavirustracking.data.database.model.jhu.S2CoronaDeathsEntity
 import co.kyald.coronavirustracking.data.database.model.jhu.S2CoronaRecoveredEntity
@@ -10,6 +9,9 @@ import co.kyald.coronavirustracking.data.network.S2CoronaModel
 import co.kyald.coronavirustracking.data.network.category.CoronaS2Api
 import co.kyald.coronavirustracking.utils.Constants
 import co.kyald.coronavirustracking.utils.InternetChecker
+import com.fasterxml.jackson.databind.MappingIterator
+import com.fasterxml.jackson.dataformat.csv.CsvMapper
+import com.fasterxml.jackson.dataformat.csv.CsvParser
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.mapbox.geojson.Feature
@@ -18,7 +20,11 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import okhttp3.ResponseBody
+import timber.log.Timber
+import java.util.stream.StreamSupport
 import kotlin.coroutines.CoroutineContext
+
 
 class CoronaS2Repository(
     private val s2CoronaDao: S2CoronaDao,
@@ -56,13 +62,28 @@ class CoronaS2Repository(
         s2CoronaDao.saveRecovered(entities)
 
 
+    fun modifiedData(data: ResponseBody): S2CoronaModel{
+        val dataList: MutableList<List<String>> = mutableListOf()
+
+        val mapper = CsvMapper()
+        mapper.enable(CsvParser.Feature.WRAP_AS_ARRAY)
+        val it: MappingIterator<Array<String>> =
+            mapper.readerFor(Array<String>::class.java).readValues(data.byteStream())
+        while (it.hasNext()) {
+            val row: MutableList<String> = it.next().toMutableList()
+            dataList.add(Gson().fromJson(Gson().toJson(row), object : TypeToken<List<String>>() {}.type))
+        }
+
+        return S2CoronaModel("","", dataList)
+    }
+
     suspend fun callApiConfirmedCase(): S2CoronaModel? {
 
         val response = coronaS2Service.fetchConfirmed(Constants.S2_CORONA_API_KEY)
 
         if (response.isSuccessful) {
-            response.body()?.let {
-                return it
+            response.body()?.let { data ->
+                return modifiedData(data)
             }
         }
 
@@ -74,8 +95,8 @@ class CoronaS2Repository(
         val response = coronaS2Service.fetchDeaths(Constants.S2_CORONA_API_KEY)
 
         if (response.isSuccessful) {
-            response.body()?.let {
-                return it
+            response.body()?.let { data ->
+                return modifiedData(data)
             }
         }
 
@@ -87,8 +108,8 @@ class CoronaS2Repository(
         val response = coronaS2Service.fetchRecovered(Constants.S2_CORONA_API_KEY)
 
         if (response.isSuccessful) {
-            response.body()?.let {
-                return it
+            response.body()?.let { data ->
+                return modifiedData(data)
             }
         }
 
@@ -226,6 +247,8 @@ class CoronaS2Repository(
     private suspend fun buildDataConfirmed(dataConfirmed: List<List<String>>): MutableList<Feature> {
         val featureList: MutableList<Feature> = mutableListOf()
         var confirmedCount = 0
+
+        Timber.e("BuildDataConfirmed $dataConfirmed")
 
         // limits the scope of concurrency
         withContext(Dispatchers.IO) {

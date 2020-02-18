@@ -4,6 +4,7 @@ import co.kyald.coronavirustracking.data.network.NetworkConstants
 import co.kyald.coronavirustracking.data.network.category.CoronaS1Api
 import co.kyald.coronavirustracking.data.network.category.CoronaS2Api
 import co.kyald.coronavirustracking.data.network.category.DummyApi
+import com.riningan.retrofit2.converter.csv.CsvConverterFactory
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import okhttp3.HttpUrl
@@ -22,6 +23,7 @@ val networkModule = module {
         Retrofit.Builder()
             .client(get())
             .baseUrl(NetworkConstants.BASE_URL_S2)
+//            .addConverterFactory(CsvConverterFactory.create())
             .addConverterFactory(GsonConverterFactory.create())
             .build()
     }

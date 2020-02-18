@@ -92,6 +92,9 @@ dependencies {
     implementation 'androidx.preference:preference:1.1.0'
     implementation 'com.takisoft.preferencex:preferencex:1.1.0'
 
+    implementation 'com.riningan.retrofit2:converter-csv:1.1'
+    implementation 'com.fasterxml.jackson.dataformat:jackson-dataformat-csv:2.9.9'
+
     //ANKO
     implementation "org.jetbrains.anko:anko-commons:0.10.8"
     implementation "org.jetbrains.anko:anko-design:0.10.8"

@@ -9,4 +9,8 @@ data class S2CoronaModel(
     val range: String,
     @SerializedName("values")
     val values: List<List<String>>
-)
+) {
+    override fun toString(): String {
+        return "S2CoronaModel(majorDimension='$majorDimension', range='$range', values=$values)"
+    }
+}

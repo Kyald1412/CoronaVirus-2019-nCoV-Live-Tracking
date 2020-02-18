@@ -68,7 +68,12 @@ data class S1CoronaEntity(
         @ColumnInfo(name = "GsxconfirmedcasesT")
         @SerializedName("\$t")
         val t: String
-    ) : Parcelable
+    ) : Parcelable{
+
+        fun parsedT(): String {
+            return t.replace(".","").replace(",","")
+        }
+    }
 
     @Parcelize
     data class Gsxcountry(
@@ -82,7 +87,11 @@ data class S1CoronaEntity(
         @ColumnInfo(name = "GsxreporteddeathsT")
         @SerializedName("\$t")
         var t: String
-    ) : Parcelable
+    ) : Parcelable{
+        fun parsedT(): String {
+            return t.replace(".","").replace(",","")
+        }
+    }
 
     @Parcelize
     data class Title(
