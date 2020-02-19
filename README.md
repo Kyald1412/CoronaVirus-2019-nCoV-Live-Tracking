@@ -17,7 +17,7 @@ CoronaVirus(COVID-19) outbreak Live Map tracker
 ##  Introduction
 With latest CoronaVirus(COVID-19) outbreak, this app helps you to monitor current situation of the outbreak.
 
-## TO-DO list (Update 1.2.0)
+## TO-DO list (Update 1.2.2)
 - [x] Push Notification
 - [x] Automatically fetch data every xx hours
 - [x] Add more data sources
