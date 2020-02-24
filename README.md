@@ -2,7 +2,7 @@
 
 CoronaVirus(COVID-19) outbreak Live Map tracker 
 
-[![PlayStore][playstore-image]][playstore-url]
+<!-- [![PlayStore][playstore-image]][playstore-url] -->
 
 
 #Removed from google play due to sensitivity towards tragis event.
