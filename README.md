@@ -6,7 +6,7 @@ CoronaVirus(COVID-19) outbreak Live Map tracker
 
 
 #Removed from google play due to sensitivity towards tragic event.
-(You can still download the lateest apk [Here](https://github.com/Kyald1412/CoronaVirus-2019-nCoV-Live-Tracking/releases/download/1.2.3/app-debug.apk)
+(You can still download the latest apk [**Here**](https://github.com/Kyald1412/CoronaVirus-2019-nCoV-Live-Tracking/releases/download/1.2.3/app-debug.apk))
 
 <!-- Put the following at the end of README.md -->
 <!-- [playstore-image]: https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png -->
