@@ -6,7 +6,7 @@ CoronaVirus(COVID-19) outbreak Live Map tracker
 
 
 #Removed from google play due to sensitivity towards tragic event.
-(You can still download the lateest apk [HERE](https://github.com/Kyald1412/CoronaVirus-2019-nCoV-Live-Tracking/releases/download/1.2.3/app-debug.apk)
+(You can still download the lateest apk [Here](https://github.com/Kyald1412/CoronaVirus-2019-nCoV-Live-Tracking/releases/download/1.2.3/app-debug.apk)
 
 <!-- Put the following at the end of README.md -->
 <!-- [playstore-image]: https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png -->
@@ -20,7 +20,7 @@ CoronaVirus(COVID-19) outbreak Live Map tracker
 ##  Introduction
 With latest CoronaVirus(COVID-19) outbreak, this app helps you to monitor current situation of the outbreak.
 
-## TO-DO list (Update 1.2.2)
+## TO-DO list (Update 1.2.3)
 - [x] Push Notification
 - [x] Automatically fetch data every xx hours
 - [x] Add more data sources
@@ -46,7 +46,7 @@ In this project I'm using MVVM and Repository Pattern.
 
 ## Data Source
 - The Center for Systems Science and Engineering (CSSE) at JHU
-~~- https://infographics.channelnewsasia.com/ ~~	
+- ~~https://infographics.channelnewsasia.com/~~
 - ArcGIS Esri Corona Virus dataset.
 
 
