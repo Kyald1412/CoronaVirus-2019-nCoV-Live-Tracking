@@ -1,7 +1,11 @@
 package co.kyald.coronavirustracking
 
 import android.app.Application
+import android.content.res.Resources
+import androidx.appcompat.app.AppCompatDelegate
+import androidx.preference.PreferenceManager
 import co.kyald.coronavirustracking.injection.*
+import co.kyald.coronavirustracking.utils.Constants
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
 import org.koin.core.context.startKoin
@@ -12,6 +16,8 @@ class MainApplication : Application() {
         super.onCreate()
 
         Timber.plant(Timber.DebugTree())
+
+        initTheme()
 
         startKoin {
             androidLogger()
@@ -27,5 +33,14 @@ class MainApplication : Application() {
 
         }
 
+    }
+
+    private fun initTheme() {
+        val preferences = PreferenceManager.getDefaultSharedPreferences(this)
+
+        Timber.e("CURRENT THEME ${preferences.getString(Constants.PREF_THEME, "2")}")
+
+        AppCompatDelegate.setDefaultNightMode(preferences.getString(Constants.PREF_THEME, "2")?.toInt()!!)
+//        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
     }
 }

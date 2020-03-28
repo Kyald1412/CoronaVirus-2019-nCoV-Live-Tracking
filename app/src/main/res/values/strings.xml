@@ -26,6 +26,7 @@
     <string name="refresh_timeout">You are refreshing too fast, please wait for a while before refreshing again</string>
     <string name="network_problem">There\'s a problem with your network</string>
     <string name="pref_key_datasource" translatable="false">pref_key_datasource</string>
+    <string name="pref_key_theme" translatable="false">pref_key_theme</string>
     <string name="recover">Recover</string>
     <string name="confirm">Confirm</string>
     <string name="recovered">Recovered</string>
@@ -41,9 +42,11 @@
     <string name="covid_prevent">COVID-19 Prevention</string>
     <string name="click_to_show">Click to show a list of data source to choose from</string>
     <string name="data_source">Data Source</string>
+    <string name="data_provided">Data provided by </string>
     <string name="other">Others</string>
     <string name="select_data_source">Select data source</string>
     <string name="change_language">Change Language</string>
+    <string name="change_theme">Change Theme</string>
 
     <!-- Preference Titles -->
 
@@ -52,10 +55,24 @@
     <string-array name="pref_auto_lock_labels">
         <item>Channel New Asia</item>
         <item>Johns Hopkins CSSE</item>
+        <item>ArcGIS-NCOV</item>
     </string-array>
 
     <string-array name="pref_auto_lock_values">
         <item>0</item>
         <item>1</item>
+        <item>2</item>
     </string-array>
+
+
+    <string-array name="pref_auto_lock_labels_theme">
+        <item>Day</item>
+        <item>Night</item>
+    </string-array>
+
+    <string-array name="pref_auto_lock_values_theme">
+        <item>1</item>
+        <item>2</item>
+    </string-array>
+
 </resources>

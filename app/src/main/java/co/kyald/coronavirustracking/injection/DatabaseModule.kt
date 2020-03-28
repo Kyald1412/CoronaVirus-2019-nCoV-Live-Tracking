@@ -11,6 +11,7 @@ val databaseModule = module {
     single { provideDummyDao(get()) }
     single { provideCoronaDao1(get()) }
     single { provideCoronaDao2(get()) }
+    single { provideCoronaDao3(get()) }
 }
 
 const val DATABASE_NAME = "app_db"
@@ -20,9 +21,10 @@ private fun provideAppDatabase(context: Context): AppDatabase {
         context,
         AppDatabase::class.java,
         DATABASE_NAME
-    ).build()
+    ).fallbackToDestructiveMigration().build()
 }
 
 private fun provideDummyDao(database: AppDatabase) = database.dummyDao()
 private fun provideCoronaDao1(database: AppDatabase) = database.coronaDao1()
 private fun provideCoronaDao2(database: AppDatabase) = database.coronaDao2()
+private fun provideCoronaDao3(database: AppDatabase) = database.coronaDao3()

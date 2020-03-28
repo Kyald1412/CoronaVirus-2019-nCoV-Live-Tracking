@@ -51,64 +51,64 @@ class NotifyWorker(
 
         CoroutineScope(coroutineContext).launch {
 
+            when(preferences.getString(
+                Constants.PREF_DATA_SOURCE,
+                ""
+            )){
+                Constants.DATA_SOURCE.DATA_S1.value -> {
+                    var s1CoronaOldEntry = Gson().fromJson(
+                        coronaS1Repository.getJsonEntryS1(),
+                        Array<S1CoronaEntity.Entry>::class.java
+                    ).toList()
 
-            if (preferences.getString(
-                    Constants.PREF_DATA_SOURCE,
-                    ""
-                ) == Constants.DATA_SOURCE.DATA_S1.value
-            ) {
+                    var s1CoronaNewEntry: List<S1CoronaEntity.Entry> = listOf()
 
-                var s1CoronaOldEntry = Gson().fromJson(
-                    coronaS1Repository.getJsonEntryS1(),
-                    Array<S1CoronaEntity.Entry>::class.java
-                ).toList()
-
-                var s1CoronaNewEntry: List<S1CoronaEntity.Entry> = listOf()
-
-                coronaS1Repository.callNetwork()?.let {
-                    s1CoronaNewEntry = it.feed.entry
-                }
-
-                s1CoronaOldEntry.map {
-                    oldDataCountCase += it.gsxconfirmedcases.parsedT().toInt()
-                }
-
-                s1CoronaNewEntry.map {
-                    newDataCountCase += it.gsxconfirmedcases.parsedT().toInt()
-                }
-
-            } else {
-
-                val s2CoronaOldEntry: List<List<String>> = Gson().fromJson(
-                    coronaS2Repository.getAllConfirmedCase().confirmed, object : TypeToken<List<List<String>>>() {}.type)
-
-                var s2CoronaNewEntry: List<List<String>> = listOf()
-
-
-                coronaS2Repository.callApiConfirmedCase()?.let {
-                    s2CoronaNewEntry = it.values
-                }
-
-                s2CoronaOldEntry.filterIndexed { index, _ -> (index != 0) }.forEach { value ->
-
-                    oldDataCountCase += try {
-                        value[value.size - 1].toInt()
-                    } catch (nfe: NumberFormatException) {
-                        1
+                    coronaS1Repository.callNetwork()?.let {
+                        s1CoronaNewEntry = it.feed.entry
                     }
 
-                }
-
-                s2CoronaNewEntry.filterIndexed { index, _ -> (index != 0) }.forEach { value ->
-
-                    newDataCountCase += try {
-                        value[value.size - 1].toInt()
-                    } catch (nfe: NumberFormatException) {
-                        1
+                    s1CoronaOldEntry.map {
+                        oldDataCountCase += it.gsxconfirmedcases.parsedT().toInt()
                     }
 
+                    s1CoronaNewEntry.map {
+                        newDataCountCase += it.gsxconfirmedcases.parsedT().toInt()
+                    }
                 }
 
+                Constants.DATA_SOURCE.DATA_S2.value -> {
+
+
+//                val s2CoronaOldEntry: List<List<String>> = Gson().fromJson(
+//                    coronaS2Repository.getAllConfirmedCase().confirmed, object : TypeToken<List<List<String>>>() {}.type)
+//
+//                var s2CoronaNewEntry: List<List<String>> = listOf()
+//
+//
+//                coronaS2Repository.callApiConfirmedCase()?.let {
+//                    s2CoronaNewEntry = it.values
+//                }
+//
+//                s2CoronaOldEntry.filterIndexed { index, _ -> (index != 0) }.forEach { value ->
+//
+//                    oldDataCountCase += try {
+//                        value[value.size - 1].toInt()
+//                    } catch (nfe: NumberFormatException) {
+//                        1
+//                    }
+//
+//                }
+//
+//                s2CoronaNewEntry.filterIndexed { index, _ -> (index != 0) }.forEach { value ->
+//
+//                    newDataCountCase += try {
+//                        value[value.size - 1].toInt()
+//                    } catch (nfe: NumberFormatException) {
+//                        1
+//                    }
+//
+//                }
+                }
             }
 
             if (oldDataCountCase != newDataCountCase)

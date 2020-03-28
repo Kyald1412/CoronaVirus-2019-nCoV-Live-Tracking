@@ -18,7 +18,7 @@
         android:usesCleartextTraffic="true"
         tools:ignore="GoogleAppIndexingWarning,UnusedAttribute">
         <activity
-            android:theme="@style/Theme.AppCompat.Light"
+            android:theme="@style/PreferenceTheme"
             android:name=".ui.feature.preferencescreen.PreferenceActivity"
             android:label="@string/title_activity_preference" />
         <activity android:name=".ui.feature.SplashScreenActivity">
@@ -29,7 +29,8 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-        <activity android:name=".ui.feature.mainscreen.MainActivity" />
+        <activity android:name=".ui.feature.mainscreen.MainActivity"
+            android:windowSoftInputMode="stateHidden" />
     </application>
 
 </manifest>

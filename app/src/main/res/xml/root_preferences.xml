@@ -51,7 +51,19 @@
             android:dialogTitle="@string/covid_prevent"
             android:key="@string/coronavirus_prevention"
             android:title="@string/covid_prevent" />
+        <ListPreference
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:defaultValue="true"
+            android:dialogTitle="@string/change_theme"
+            android:entries="@array/pref_auto_lock_labels_theme"
+            android:entryValues="@array/pref_auto_lock_values_theme"
+            android:key="@string/pref_key_theme"
+            android:title="@string/change_theme" />
         <Preference
+            android:id="@+id/preference"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:defaultValue="true"
             android:dialogTitle="@string/change_language"
             android:key="@string/change_language"

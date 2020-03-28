@@ -6,6 +6,71 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="preferenceTheme">@style/PreferenceThemeOverlay</item>
     </style>
 
+    <style name="PreferenceTheme" parent="Theme.AppCompat.Light">
+        <item name="toolbarStyle">@style/ToolbarStyle</item>
+<!--        <item name="actionOverflowButtonStyle">@style/ToolbarStyle.Overflow</item>-->
+<!--        <item name="drawerArrowStyle">@style/ToolbarStyle.DrawerIcon</item>-->
+        <item name="actionOverflowButtonStyle">@style/ToolbarStyle.Overflow</item>
+        <item name="toolbarNavigationButtonStyle">@style/Toolbar.Button.Navigation.Tinted</item>
+
+        <item name="alertDialogTheme">@style/AlertDialogStyle</item>
+<!--        <item name="alertDialogStyle">@style/AlertDialogStyle</item>-->
+<!--        <item name="dialogPreferenceStyle">@style/AlertDialogStyle</item>-->
+
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:colorBackground">@color/white_night</item>
+        <item name="android:textColorSecondary">@color/gray</item>
+        <item name="android:textColor">@color/black_night</item>
+
+    </style>
+
+    <style name="AlertDialogStyle" parent="Theme.AppCompat.DayNight.Dialog.Alert">
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:textColor">@color/black_night</item>
+        <item name="android:background">@color/white_night</item>
+<!--        <item name="android:popupBackground">@color/white_night</item>-->
+<!--        <item name="android:windowBackground">@color/white_night</item>-->
+<!--        <item name="android:itemBackground">@color/white_night</item>-->
+    </style>
+
+    <style name="OverlayThemeNight" parent="AppTheme">
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
+
+    <style name="OverlayThemeDay" parent="AppTheme">
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
+
+
+    <style name="ToolbarStyle" parent="@style/Widget.MaterialComponents.Toolbar">
+        <item name="titleTextColor">@color/black_night</item>
+        <item name="android:background">@color/white_night</item>
+    </style>
+
+<!--    <style name="ToolbarStyle.Overflow" parent="@style/Widget.AppCompat.ActionButton.Overflow">-->
+<!--        <item name="android:tint">@color/black_night</item>-->
+<!--    </style>-->
+
+<!--    <style name="ToolbarStyle.DrawerIcon" parent="Widget.AppCompat.DrawerArrowToggle">-->
+<!--        <item name="colorControlNormal">@color/black_night</item>-->
+<!--    </style>-->
+
+    <style name="ToolbarStyle.Overflow" parent="Widget.AppCompat.ActionButton.Overflow">
+        <!-- For toolbar menu -->
+        <item name="android:tint">@color/black_night</item>
+    </style>
+
+    <style name="Toolbar.Button.Navigation.Tinted" parent="Widget.AppCompat.Toolbar.Button.Navigation">
+        <!-- For the hamburger menu, back button, etc -->
+        <item name="tint">@color/black_night</item>
+    </style>
 </resources>

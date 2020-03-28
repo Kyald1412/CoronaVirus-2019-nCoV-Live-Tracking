@@ -7,6 +7,6 @@
     <color name="white">#ffffff</color>
     <color name="night">#121212</color>
 
-    <color name="black_night">#121212</color>
-    <color name="white_night">#ffffff</color>
+    <color name="black_night">#ffffff</color>
+    <color name="white_night">#121212</color>
 </resources>

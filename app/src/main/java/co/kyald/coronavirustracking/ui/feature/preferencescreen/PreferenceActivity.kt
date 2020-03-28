@@ -5,7 +5,9 @@ import android.content.SharedPreferences
 import android.net.Uri
 import android.os.Bundle
 import android.provider.Settings
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.preference.*
 import androidx.work.ExistingPeriodicWorkPolicy
 import androidx.work.OneTimeWorkRequest
@@ -16,6 +18,7 @@ import co.kyald.coronavirustracking.utils.Constants
 import co.kyald.coronavirustracking.utils.NotifyWorker
 import co.kyald.coronavirustracking.utils.Utils
 import org.koin.android.ext.android.inject
+import timber.log.Timber
 import java.util.concurrent.TimeUnit
 
 class PreferenceActivity : AppCompatActivity() {
@@ -47,17 +50,10 @@ class PreferenceActivity : AppCompatActivity() {
 
         private val preferences: SharedPreferences by inject()
 
-//        private fun oneTimeWorker() {
-//            val requestBuilder = OneTimeWorkRequest.Builder(NotifyWorker::class.java)
-//                .setInitialDelay(15, TimeUnit.SECONDS)
-//                .build()
-//
-//            WorkManager.getInstance().enqueue(requestBuilder)
-//        }
-
         private fun stopAllWorker() {
             WorkManager.getInstance().cancelAllWork()
         }
+
 
         //    Schedule PeriodicWorkRequest
         private fun startNotifyWorker() {
@@ -74,12 +70,14 @@ class PreferenceActivity : AppCompatActivity() {
             addPreferencesFromResource(R.xml.root_preferences)
 
             bindPreferenceSummaryToValue(findPreference(Constants.PREF_DATA_SOURCE)!!)
-            bindPreferenceSummaryToValue(findPreference(Constants.PREF_CHECK_NOTIFICATION)!!)
 
+            bindPreferenceSummaryToValue(findPreference(Constants.PREF_CHECK_NOTIFICATION)!!)
 
             bindPreferenceSummaryToValue(findPreference(getString(R.string.corona_virus_definition))!!)
 
             bindPreferenceSummaryToValue(findPreference(getString(R.string.change_language))!!)
+
+            bindPreferenceSummaryToValue(findPreference(Constants.PREF_THEME)!!)
 
             bindPreferenceSummaryToValue(findPreference(getString(R.string.coronavirus_prevention))!!)
 
@@ -91,12 +89,23 @@ class PreferenceActivity : AppCompatActivity() {
             preference.onPreferenceChangeListener = this
 
             if (preference is ListPreference) {
-                onPreferenceChange(
-                    preference,
-                    PreferenceManager
-                        .getDefaultSharedPreferences(preference.context)
-                        .getString(preference.key, Constants.DATA_SOURCE.DATA_S2.value)
-                )
+                if (preference.key == Constants.PREF_DATA_SOURCE) {
+                    onPreferenceChange(
+                        preference,
+                        PreferenceManager
+                            .getDefaultSharedPreferences(preference.context)
+                            .getString(preference.key, Constants.DATA_SOURCE.DATA_S2.value)
+                    )
+                }
+
+                if (preference.key == Constants.PREF_THEME) {
+                    onPreferenceChange(
+                        preference,
+                        PreferenceManager
+                            .getDefaultSharedPreferences(preference.context)
+                            .getString(preference.key, Constants.THEME.DARK.value)
+                    )
+                }
             }
 
             if (preference is SwitchPreferenceCompat) {
@@ -108,7 +117,6 @@ class PreferenceActivity : AppCompatActivity() {
                 )
             }
 
-
         }
 
         override fun onPreferenceChange(preference: Preference?, value: Any?): Boolean {
@@ -116,19 +124,41 @@ class PreferenceActivity : AppCompatActivity() {
 
 
             if (preference is ListPreference) {
-                val i = preference.findIndexOfValue(value.toString())
+                if (preference.key == Constants.PREF_DATA_SOURCE) {
+                    val i = preference.findIndexOfValue(value.toString())
 
-                if (i >= 0) {
-                    preference.setValueIndex(i)
-                    preference.summary = preference.entries[i].toString()
+                    if (i >= 0) {
+                        preference.setValueIndex(i)
+                        preference.summary = preference.entries[i].toString()
 
-                    preferences.edit().putString(
-                        Constants.PREF_DATA_SOURCE,
-                        preference.entryValues[i].toString()
-                    ).apply()
-                } else {
-                    preference.setValueIndex(1)
-                    preference.summary = preference.entries[1].toString()
+                        preferences.edit().putString(
+                            Constants.PREF_DATA_SOURCE,
+                            preference.entryValues[i].toString()
+                        ).apply()
+
+                    } else {
+                        preference.setValueIndex(1)
+                        preference.summary = preference.entries[1].toString()
+                    }
+                }
+
+                if (preference.key == Constants.PREF_THEME) {
+                    val i = preference.findIndexOfValue(value.toString())
+
+                    if (i >= 0) {
+                        preference.setValueIndex(i)
+                        preference.summary = preference.entries[i].toString()
+
+                        Timber.e("SET THEME ${preference.entryValues[i]}")
+
+                        preferences.edit().putString(
+                            Constants.PREF_THEME,
+                            preference.entryValues[i].toString()
+                        ).apply()
+                    } else {
+                        preference.setValueIndex(1)
+                        preference.summary = preference.entries[1].toString()
+                    }
                 }
 
             } else if (preference is SwitchPreferenceCompat) {
