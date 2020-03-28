@@ -23,7 +23,6 @@ import java.util.concurrent.TimeUnit
 
 class PreferenceActivity : AppCompatActivity() {
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.settings_activity)
