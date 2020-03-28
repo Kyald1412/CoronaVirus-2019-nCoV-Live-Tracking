@@ -11,6 +11,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import okhttp3.Response
 import kotlin.coroutines.CoroutineContext
 
 
@@ -29,6 +30,10 @@ class CoronaS2Repository(
     var deathCase: MutableLiveData<String> = MutableLiveData()
     var recoverCase: MutableLiveData<String> = MutableLiveData()
 
+    fun getCoronaDataS2(): List<S2CoronaEntity> = s2CoronaDao.getAllCases()
+
+    suspend fun callCoronaDataS2() = coronaS2Service.fetchJHUCSSE()
+
     fun fetchCoronaDataS2(coroutineContext: CoroutineContext = Dispatchers.IO) {
 
         isFinished.postValue(
@@ -45,7 +50,7 @@ class CoronaS2Repository(
 
                     if (internet) {
 
-                        val response = coronaS2Service.fetchJHUCSSE()
+                        val response = callCoronaDataS2()
 
                         if (response.isSuccessful) {
                             s2CoronaDao.deleteAll()
@@ -98,13 +103,19 @@ class CoronaS2Repository(
                         try {
                             featureList.add(
                                 Feature.fromGeometry(
-                                    Point.fromLngLat(value.coordinates.longitude!!.toDouble(), value.coordinates.latitude!!.toDouble())
+                                    Point.fromLngLat(
+                                        value.coordinates.longitude!!.toDouble(),
+                                        value.coordinates.latitude!!.toDouble()
+                                    )
                                 )
                             )
                         } catch (nfe: NumberFormatException) {
                             featureList.add(
                                 Feature.fromGeometry(
-                                    Point.fromLngLat(value.coordinates.longitude!!.toDouble(), value.coordinates.latitude!!.toDouble())
+                                    Point.fromLngLat(
+                                        value.coordinates.longitude!!.toDouble(),
+                                        value.coordinates.latitude!!.toDouble()
+                                    )
                                 )
                             )
                         }

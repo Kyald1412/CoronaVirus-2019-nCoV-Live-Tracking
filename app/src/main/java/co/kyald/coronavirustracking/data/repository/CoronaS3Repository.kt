@@ -3,6 +3,7 @@ package co.kyald.coronavirustracking.data.repository
 import androidx.lifecycle.MutableLiveData
 import co.kyald.coronavirustracking.data.database.dao.arcgis.S3CoronaDao
 import co.kyald.coronavirustracking.data.database.model.arcgis.S3CoronaEntity
+import co.kyald.coronavirustracking.data.database.model.jhu.S2CoronaEntity
 import co.kyald.coronavirustracking.data.network.category.CoronaS3Api
 import co.kyald.coronavirustracking.utils.InternetChecker
 import com.mapbox.geojson.Feature
@@ -29,6 +30,10 @@ class CoronaS3Repository(
     var deathCase: MutableLiveData<String> = MutableLiveData()
     var recoverCase: MutableLiveData<String> = MutableLiveData()
 
+    fun getCoronaDataS3(): List<S3CoronaEntity> = s3CoronaDao.getAllCases()
+
+    suspend fun callCoronaS3Data() = coronaS3Service.fetchArcGIS()
+
     fun fetchCoronaDataS3(coroutineContext: CoroutineContext = Dispatchers.IO) {
 
         isFinished.postValue(
@@ -45,7 +50,7 @@ class CoronaS3Repository(
 
                     if (internet) {
 
-                        val caseResponse = coronaS3Service.fetchArcGIS()
+                        val caseResponse = callCoronaS3Data()
 
                         if (caseResponse.isSuccessful) {
                             s3CoronaDao.deleteAll()
