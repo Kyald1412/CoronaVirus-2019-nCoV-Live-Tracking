@@ -6,7 +6,7 @@ CoronaVirus(COVID-19) outbreak Live Map tracker
 
 
 #Removed from google play due to sensitivity towards tragic event.
-(You can download the apk in the release section)
+(You can still download the lateest apk [HERE](https://github.com/Kyald1412/CoronaVirus-2019-nCoV-Live-Tracking/releases/download/1.2.3/app-debug.apk)
 
 <!-- Put the following at the end of README.md -->
 <!-- [playstore-image]: https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png -->
@@ -14,7 +14,7 @@ CoronaVirus(COVID-19) outbreak Live Map tracker
 <!-- Setup URLs -->
 <!-- [playstore-url]: https://play.google.com/store/apps/details?id=co.kyald.coronavirustracking&hl=en -->
 
-<img src="https://raw.githubusercontent.com/Kyald1412/CoronaVirus-2019-nCoV-Live-Tracking/master/screenshots/Screenshot_1581621224_pixel_very_silver_portrait.png" width="200"> <img src="https://raw.githubusercontent.com/Kyald1412/CoronaVirus-2019-nCoV-Live-Tracking/master/screenshots/Screenshot_1581621226_pixel_very_silver_portrait.png" width="200"> <img src="https://raw.githubusercontent.com/Kyald1412/CoronaVirus-2019-nCoV-Live-Tracking/master/screenshots/Screenshot_1581621216_pixel_very_silver_portrait.png" width="200">
+<img src="https://raw.githubusercontent.com/Kyald1412/CoronaVirus-2019-nCoV-Live-Tracking/master/screenshots/ss_black1.png" width="200"> <img src="https://raw.githubusercontent.com/Kyald1412/CoronaVirus-2019-nCoV-Live-Tracking/master/screenshots/ss_black2.png" width="200"> <img src="https://raw.githubusercontent.com/Kyald1412/CoronaVirus-2019-nCoV-Live-Tracking/master/screenshots/ss_black3.png" width="200">
 
 
 ##  Introduction
@@ -46,7 +46,7 @@ In this project I'm using MVVM and Repository Pattern.
 
 ## Data Source
 - The Center for Systems Science and Engineering (CSSE) at JHU
-- https://infographics.channelnewsasia.com/
+~~- https://infographics.channelnewsasia.com/ ~~	
 - ArcGIS Esri Corona Virus dataset.
 
 
