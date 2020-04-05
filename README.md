@@ -13,10 +13,7 @@ CoronaVirus(COVID-19) outbreak Live Map tracker
 <!-- Setup URLs -->
 <!-- [playstore-url]: https://play.google.com/store/apps/details?id=co.kyald.coronavirustracking&hl=en -->
 
-<img src="https://raw.githubusercontent.com/Kyald1412/CoronaVirus-2019-nCoV-Live-Tracking/master/screenshots/ss_black4.png" width="200"> 
-<img src="https://raw.githubusercontent.com/Kyald1412/CoronaVirus-2019-nCoV-Live-Tracking/master/screenshots/ss_black5.png" width="200"> 
-<img src="https://raw.githubusercontent.com/Kyald1412/CoronaVirus-2019-nCoV-Live-Tracking/master/screenshots/ss_black3.png" width="200">
-<img src="https://raw.githubusercontent.com/Kyald1412/CoronaVirus-2019-nCoV-Live-Tracking/master/screenshots/ss_black6.png" width="200">
+<img src="https://raw.githubusercontent.com/Kyald1412/CoronaVirus-2019-nCoV-Live-Tracking/master/screenshots/ss_black4.png" width="200"><img src="https://raw.githubusercontent.com/Kyald1412/CoronaVirus-2019-nCoV-Live-Tracking/master/screenshots/ss_black5.png" width="200"><img src="https://raw.githubusercontent.com/Kyald1412/CoronaVirus-2019-nCoV-Live-Tracking/master/screenshots/ss_black3.png" width="200"><img src="https://raw.githubusercontent.com/Kyald1412/CoronaVirus-2019-nCoV-Live-Tracking/master/screenshots/ss_black6.png" width="200">
 
 
 ##  Introduction
