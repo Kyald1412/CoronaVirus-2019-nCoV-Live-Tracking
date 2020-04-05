@@ -6,21 +6,23 @@ CoronaVirus(COVID-19) outbreak Live Map tracker
 
 
 #Removed from google play due to sensitivity towards tragic event.
-(You can still download the latest apk [**Here**](https://github.com/Kyald1412/CoronaVirus-2019-nCoV-Live-Tracking/releases/download/1.2.3/app-debug.apk))
-
+(You can still download the latest apk [**Here**](https://github.com/Kyald1412/CoronaVirus-2019-nCoV-Live-Tracking/releases/download/1.2.4/app-debug.apk))
 <!-- Put the following at the end of README.md -->
 <!-- [playstore-image]: https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png -->
 
 <!-- Setup URLs -->
 <!-- [playstore-url]: https://play.google.com/store/apps/details?id=co.kyald.coronavirustracking&hl=en -->
 
-<img src="https://raw.githubusercontent.com/Kyald1412/CoronaVirus-2019-nCoV-Live-Tracking/master/screenshots/ss_black1.png" width="200"> <img src="https://raw.githubusercontent.com/Kyald1412/CoronaVirus-2019-nCoV-Live-Tracking/master/screenshots/ss_black2.png" width="200"> <img src="https://raw.githubusercontent.com/Kyald1412/CoronaVirus-2019-nCoV-Live-Tracking/master/screenshots/ss_black3.png" width="200">
+<img src="https://raw.githubusercontent.com/Kyald1412/CoronaVirus-2019-nCoV-Live-Tracking/master/screenshots/ss_black4.png" width="200"> 
+<img src="https://raw.githubusercontent.com/Kyald1412/CoronaVirus-2019-nCoV-Live-Tracking/master/screenshots/ss_black5.png" width="200"> 
+<img src="https://raw.githubusercontent.com/Kyald1412/CoronaVirus-2019-nCoV-Live-Tracking/master/screenshots/ss_black3.png" width="200">
+<img src="https://raw.githubusercontent.com/Kyald1412/CoronaVirus-2019-nCoV-Live-Tracking/master/screenshots/ss_black6.png" width="200">
 
 
 ##  Introduction
 With latest CoronaVirus(COVID-19) outbreak, this app helps you to monitor current situation of the outbreak.
 
-## TO-DO list (Update 1.2.3)
+## TO-DO list (Update 1.2.4)
 - [x] Push Notification
 - [x] Automatically fetch data every xx hours
 - [x] Add more data sources
@@ -48,6 +50,7 @@ In this project I'm using MVVM and Repository Pattern.
 - The Center for Systems Science and Engineering (CSSE) at JHU
 - ~~https://infographics.channelnewsasia.com/~~
 - ArcGIS Esri Corona Virus dataset.
+- [Worldometers](https://www.worldometers.info/coronavirus/)
 
 
 ## Got any interesting ideas?
