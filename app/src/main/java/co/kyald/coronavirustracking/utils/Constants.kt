@@ -6,8 +6,7 @@ import co.kyald.coronavirustracking.BuildConfig
 
 class Constants {
     companion object {
-        val S1_CORONA_API_KEY = BuildConfig.S1_CORONA_API_KEY
-        val MAPBOX_TOKEN = BuildConfig.MAPBOX_TOKEN //Google Sheet Api
+        const val MAPBOX_TOKEN = BuildConfig.MAPBOX_TOKEN //Google Sheet Api
 
         const val PREF_LAST_UPDATE = "pref_last_update"
         const val PREF_CHECK_NOTIFICATION = "pref_key_check"

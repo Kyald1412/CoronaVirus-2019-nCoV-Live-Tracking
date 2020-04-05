@@ -1,11 +1,11 @@
 package co.kyald.coronavirustracking.ui.feature
 
+import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import androidx.appcompat.app.AppCompatActivity
 import co.kyald.coronavirustracking.R
 import co.kyald.coronavirustracking.ui.feature.mainscreen.MainActivity
-import org.jetbrains.anko.startActivity
 
 class SplashScreenActivity : AppCompatActivity() {
 
@@ -14,7 +14,7 @@ class SplashScreenActivity : AppCompatActivity() {
         setContentView(R.layout.activity_splash_screen)
 
         Handler().postDelayed({
-            startActivity<MainActivity>()
+            startActivity(Intent(this, MainActivity::class.java))
             finish()
         }, 1500)
 

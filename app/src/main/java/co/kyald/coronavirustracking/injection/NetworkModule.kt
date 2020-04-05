@@ -5,18 +5,12 @@ import co.kyald.coronavirustracking.data.network.category.CoronaS1Api
 import co.kyald.coronavirustracking.data.network.category.CoronaS2Api
 import co.kyald.coronavirustracking.data.network.category.CoronaS3Api
 import co.kyald.coronavirustracking.data.network.category.DummyApi
-import com.riningan.retrofit2.converter.csv.CsvConverterFactory
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
-import okhttp3.HttpUrl
-import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import org.koin.core.qualifier.named
 import org.koin.dsl.module
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import java.io.IOException
 import java.util.concurrent.TimeUnit
 
 val networkModule = module {

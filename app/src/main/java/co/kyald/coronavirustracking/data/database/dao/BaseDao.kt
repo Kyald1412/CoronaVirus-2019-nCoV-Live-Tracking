@@ -1,7 +1,9 @@
 package co.kyald.coronavirustracking.data.database.dao
 
-import androidx.room.*
-import retrofit2.http.DELETE
+import androidx.room.Dao
+import androidx.room.Delete
+import androidx.room.Insert
+import androidx.room.OnConflictStrategy
 
 @Dao
 interface BaseDao<T> {

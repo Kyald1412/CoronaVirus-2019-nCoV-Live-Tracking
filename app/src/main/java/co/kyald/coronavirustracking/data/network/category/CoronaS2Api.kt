@@ -4,9 +4,6 @@ import co.kyald.coronavirustracking.data.database.model.jhu.S2CoronaEntity
 import co.kyald.coronavirustracking.data.database.model.worldometers.S4CoronaEntity
 import retrofit2.Response
 import retrofit2.http.GET
-import retrofit2.http.Query
-import okhttp3.ResponseBody
-import retrofit2.http.Headers
 
 
 interface CoronaS2Api {

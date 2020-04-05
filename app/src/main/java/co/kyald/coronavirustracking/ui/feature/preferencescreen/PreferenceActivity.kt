@@ -1,16 +1,14 @@
 package co.kyald.coronavirustracking.ui.feature.preferencescreen
 
+import android.app.Activity
 import android.content.Intent
 import android.content.SharedPreferences
 import android.net.Uri
 import android.os.Bundle
 import android.provider.Settings
-import android.view.View
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.app.AppCompatDelegate
 import androidx.preference.*
 import androidx.work.ExistingPeriodicWorkPolicy
-import androidx.work.OneTimeWorkRequest
 import androidx.work.PeriodicWorkRequest
 import androidx.work.WorkManager
 import co.kyald.coronavirustracking.R
@@ -36,13 +34,28 @@ class PreferenceActivity : AppCompatActivity() {
     }
 
     override fun onSupportNavigateUp(): Boolean {
-        onBackPressed()
+//        onBackPressed()
+        val result = Intent()
+        result.putExtra("refresh", true)
+        setResult(Activity.RESULT_OK, result)
+        finish()
         return true
     }
 
     override fun onNavigateUp(): Boolean {
-        onBackPressed()
+//        onBackPressed()
+        val result = Intent()
+        result.putExtra("refresh", true)
+        setResult(Activity.RESULT_OK, result)
+        finish()
         return true
+    }
+
+    override fun onBackPressed() {
+        val result = Intent()
+        result.putExtra("refresh", true)
+        setResult(Activity.RESULT_OK, result)
+        finish()
     }
 
     class SettingsFragment : PreferenceFragmentCompat(), Preference.OnPreferenceChangeListener {

@@ -1,18 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name_prod">COVID-19 Live Tracking</string>
-    <string name="app_name_staging">COVID-19 Tracking - Staging</string>
-    <string name="hide_data">Hide Data</string>
-    <string name="show_data">Show Data</string>
-    <string name="ganti_bahasa">Change language</string>
+    <string name="app_name_staging">COVID-19 Live Tracking - Staging</string>
     <string name="corona_virus_definition">What is COVID-19</string>
-    <string name="prevent">Prevention</string>
     <string name="about">About</string>
     <string name="coronavirus_definition">https://en.wikipedia.org/wiki/Coronavirus</string>
     <string name="coronavirus_prevention">https://www.voanews.com/science-health/coronavirus-outbreak/health-coronavirus-prevention-tips</string>
     <string name="coronavirusapplogo">coronaVirusAppLogo</string>
     <string name="corona_live_tracking">COVID-19 Live Tracking</string>
-    <string name="preferences">Preferences</string>
     <string name="last_update">Last Update: </string>
     <string name="title_activity_preference">Preference</string>
 
@@ -34,8 +29,6 @@
     <string name="fetch">Fetch…</string>
     <string name="infected">Infected</string>
     <string name="pull_me_up">Pull me up</string>
-    <string name="deaths">Deaths</string>
-    <string name="cases">Cases</string>
     <string name="country">Country</string>
     <string name="enable_push_notif">Enable Push Notification</string>
     <string name="what_is">What is COVID-19?</string>
@@ -47,6 +40,10 @@
     <string name="select_data_source">Select data source</string>
     <string name="change_language">Change Language</string>
     <string name="change_theme">Change Theme</string>
+    <string name="info_recovered">Recovered: </string>
+    <string name="info_death">Death: </string>
+    <string name="info_active">Active: </string>
+    <string name="info_confirm">Confirm: </string>
 
     <!-- Preference Titles -->
 

@@ -27,7 +27,6 @@
                 android:id="@+id/imageview"
                 android:layout_width="32dp"
                 android:layout_height="32dp"
-                android:layout_alignParentLeft="true"
                 android:padding="4dp"
                 app:srcCompat="@drawable/mapbox_ic_place" />
 
@@ -51,60 +50,42 @@
             android:id="@+id/content"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:gravity="center"
-            android:orientation="horizontal">
+            android:orientation="vertical">
 
-            <FrameLayout
+            <TextView
+                android:id="@+id/country"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:gravity="center|start"
+                android:textStyle="bold" />
 
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
+            <TextView
+                android:id="@+id/active_case"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center|start" />
 
-                    <TextView
-                        android:id="@+id/country"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="8dp"
-                        android:gravity="center"
-                        android:textAlignment="textStart"
-                        android:textStyle="bold" />
+            <TextView
+                android:id="@+id/confirm_case"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center|start"
+                android:textColor="#FF9800" />
 
-                    <TextView
-                        android:id="@+id/active_case"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:gravity="center"
-                        android:textAlignment="textStart" />
+            <TextView
+                android:id="@+id/death_case"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center|start"
+                android:textColor="#FF0000" />
 
-                    <TextView
-                        android:id="@+id/confirm_case"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:gravity="center"
-                        android:textAlignment="textStart"
-                        android:textColor="#FF9800" />
-
-                    <TextView
-                        android:id="@+id/death_case"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:gravity="center"
-                        android:textAlignment="textStart"
-                        android:textColor="#FF0000" />
-
-                    <TextView
-                        android:id="@+id/recovered_case"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:gravity="center"
-                        android:textAlignment="textStart"
-                        android:textColor="#20BE25" />
-                </LinearLayout>
-
-            </FrameLayout>
+            <TextView
+                android:id="@+id/recovered_case"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center|start"
+                android:textColor="#20BE25" />
         </LinearLayout>
 
 

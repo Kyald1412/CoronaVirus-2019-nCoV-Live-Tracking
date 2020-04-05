@@ -8,7 +8,7 @@ val repositoryModule = module {
         DummyRepository(dummyDao = get(), dummyService = get())
     }
     single {
-        CoronaS1Repository(s1CoronaDao = get(),coronaS1Service = get())
+        CoronaS1Repository()
     }
     single {
         CoronaS2Repository(s2CoronaDao = get(),coronaS2Service = get())

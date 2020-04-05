@@ -5,29 +5,21 @@ import android.app.NotificationManager
 import android.content.Context
 import android.content.SharedPreferences
 import androidx.core.app.NotificationCompat
-import androidx.lifecycle.MutableLiveData
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
 import co.kyald.coronavirustracking.R
 import co.kyald.coronavirustracking.data.database.model.arcgis.S3CoronaEntity
-import co.kyald.coronavirustracking.data.database.model.chnasia.S1CoronaEntity
 import co.kyald.coronavirustracking.data.database.model.jhu.S2CoronaEntity
 import co.kyald.coronavirustracking.data.database.model.worldometers.S4CoronaEntity
 import co.kyald.coronavirustracking.data.repository.CoronaS1Repository
 import co.kyald.coronavirustracking.data.repository.CoronaS2Repository
 import co.kyald.coronavirustracking.data.repository.CoronaS3Repository
 import co.kyald.coronavirustracking.data.repository.CoronaS4Repository
-import com.google.gson.Gson
-import com.google.gson.reflect.TypeToken
-import com.mapbox.geojson.Feature
-import com.mapbox.geojson.Point
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import org.koin.android.ext.android.inject
 import org.koin.core.KoinComponent
 import org.koin.core.inject
-import timber.log.Timber
 import kotlin.coroutines.CoroutineContext
 
 
@@ -41,10 +33,10 @@ class NotifyWorker(
     private val coronaS4Repository: CoronaS4Repository by inject()
     private val preferences: SharedPreferences by inject()
 
-    val mContext = context
+    private val mContext = context
 
-    var oldDataCountCase = 0
-    var newDataCountCase = 0
+    private var oldDataCountCase = 0
+    private var newDataCountCase = 0
 
     override suspend fun doWork(): Result {
 
@@ -54,33 +46,33 @@ class NotifyWorker(
     }
 
 
-    fun fetchcoronaData(coroutineContext: CoroutineContext = Dispatchers.IO) {
+    private fun fetchcoronaData(coroutineContext: CoroutineContext = Dispatchers.IO) {
 
         CoroutineScope(coroutineContext).launch {
 
             when (preferences.getString(
                 Constants.PREF_DATA_SOURCE,
-                ""
+                Constants.DATA_SOURCE.DATA_S4.value
             )) {
                 Constants.DATA_SOURCE.DATA_S1.value -> {
-                    val s1CoronaOldEntry = Gson().fromJson(
-                        coronaS1Repository.getJsonEntryS1(),
-                        Array<S1CoronaEntity.Entry>::class.java
-                    ).toList()
-
-                    var s1CoronaNewEntry: List<S1CoronaEntity.Entry> = listOf()
-
-                    coronaS1Repository.callNetwork()?.let {
-                        s1CoronaNewEntry = it.feed.entry
-                    }
-
-                    s1CoronaOldEntry.map {
-                        oldDataCountCase += it.gsxconfirmedcases.parsedT().toInt()
-                    }
-
-                    s1CoronaNewEntry.map {
-                        newDataCountCase += it.gsxconfirmedcases.parsedT().toInt()
-                    }
+//                    val s1CoronaOldEntry = Gson().fromJson(
+//                        coronaS1Repository.getJsonEntryS1(),
+//                        Array<S1CoronaEntity.Entry>::class.java
+//                    ).toList()
+//
+//                    var s1CoronaNewEntry: List<S1CoronaEntity.Entry> = listOf()
+//
+//                    coronaS1Repository.callNetwork()?.let {
+//                        s1CoronaNewEntry = it.feed.entry
+//                    }
+//
+//                    s1CoronaOldEntry.map {
+//                        oldDataCountCase += it.gsxconfirmedcases.parsedT().toInt()
+//                    }
+//
+//                    s1CoronaNewEntry.map {
+//                        newDataCountCase += it.gsxconfirmedcases.parsedT().toInt()
+//                    }
                 }
 
                 Constants.DATA_SOURCE.DATA_S2.value -> {
@@ -133,7 +125,7 @@ class NotifyWorker(
                     s3CoronaOldEntry.forEach { value ->
 
                         oldDataCountCase += try {
-                            value.attributes.confirmed!!.toInt()
+                            value.attributes.attr_confirmed!!.toInt()
                         } catch (nfe: NumberFormatException) {
                             1
                         }
@@ -143,7 +135,7 @@ class NotifyWorker(
                     s3CoronaNewEntry.forEach { value ->
 
                         newDataCountCase += try {
-                            value.attributes.confirmed!!.toInt()
+                            value.attributes.attr_confirmed!!.toInt()
                         } catch (nfe: NumberFormatException) {
                             1
                         }
@@ -190,12 +182,12 @@ class NotifyWorker(
 
 
             if (oldDataCountCase != newDataCountCase)
-                sendNotification()
+                sendNotification(newDataCountCase - oldDataCountCase)
 
         }
     }
 
-    fun sendNotification() {
+    private fun sendNotification(total: Int) {
         val notificationManager =
             mContext.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
         val channelId = "WorkManager_01"
@@ -211,13 +203,9 @@ class NotifyWorker(
         }
 
         val notification = NotificationCompat.Builder(mContext, channelId)
-            .setContentTitle("CoronaVirus (2019-nCoV) Update!!")
-//            .setContentText("New cases has been confirmed")
+            .setContentTitle("Covid19 Update!")
             .setContentText(
-                "New cases has been confirmed = ${preferences.getString(
-                    Constants.PREF_DATA_SOURCE,
-                    "0"
-                )}"
+                "$total new cases has been confirmed"
             )
             .setSmallIcon(R.mipmap.ic_launcher)
 

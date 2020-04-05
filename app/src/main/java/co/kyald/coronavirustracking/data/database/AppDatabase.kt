@@ -5,15 +5,14 @@ import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import co.kyald.coronavirustracking.data.database.converter.EntryConverter
 import co.kyald.coronavirustracking.data.database.converter.ListStringTypeConverter
-import co.kyald.coronavirustracking.data.database.model.chnasia.S1CoronaEntity
-import co.kyald.coronavirustracking.data.database.model.DummyEntity
-import co.kyald.coronavirustracking.data.database.dao.chnasia.S1CoronaDao
 import co.kyald.coronavirustracking.data.database.dao.DummyDao
 import co.kyald.coronavirustracking.data.database.dao.arcgis.S3CoronaDao
+import co.kyald.coronavirustracking.data.database.dao.chnasia.S1CoronaDao
 import co.kyald.coronavirustracking.data.database.dao.jhu.S2CoronaDao
 import co.kyald.coronavirustracking.data.database.dao.worldometers.S4CoronaDao
+import co.kyald.coronavirustracking.data.database.model.DummyEntity
 import co.kyald.coronavirustracking.data.database.model.arcgis.S3CoronaEntity
-import co.kyald.coronavirustracking.data.database.model.arcgis.S3CoronaEntityResponse
+import co.kyald.coronavirustracking.data.database.model.chnasia.S1CoronaEntity
 import co.kyald.coronavirustracking.data.database.model.chnasia.S1CountryCoordEntity
 import co.kyald.coronavirustracking.data.database.model.jhu.S2CoronaEntity
 import co.kyald.coronavirustracking.data.database.model.worldometers.S4CoronaEntity
@@ -25,7 +24,7 @@ import co.kyald.coronavirustracking.data.database.model.worldometers.S4CoronaEnt
         S2CoronaEntity::class,
         S3CoronaEntity::class,
         S4CoronaEntity::class],
-    version = 10,
+    version = 11,
     exportSchema = false
 )
 @TypeConverters(EntryConverter::class, ListStringTypeConverter::class)

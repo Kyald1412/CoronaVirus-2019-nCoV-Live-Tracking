@@ -1,13 +1,8 @@
 package co.kyald.coronavirustracking.data.database.dao.jhu
 
 import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import co.kyald.coronavirustracking.data.database.dao.BaseDao
-import co.kyald.coronavirustracking.data.database.model.DummyEntity
-import co.kyald.coronavirustracking.data.database.model.chnasia.S1CoronaEntity
-import co.kyald.coronavirustracking.data.database.model.chnasia.S1CountryCoordEntity
 import co.kyald.coronavirustracking.data.database.model.jhu.S2CoronaEntity
 
 @Dao

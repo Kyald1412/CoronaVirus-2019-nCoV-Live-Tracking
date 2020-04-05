@@ -3,6 +3,7 @@ package co.kyald.coronavirustracking.utils
 import android.util.Log
 import co.kyald.coronavirustracking.data.database.model.chnasia.S1CoronaEntity
 import com.google.gson.Gson
+import timber.log.Timber
 import java.io.IOException
 import java.io.InputStream
 
@@ -10,7 +11,7 @@ import java.io.InputStream
 object DataDummy {
     private var gson = Gson()
 
-    fun generateCoronaEntity() =
+    fun generateCoronaEntity(): S1CoronaEntity =
         gson.fromJson(loadJSON("corona.json"), S1CoronaEntity::class.java)
 
     private fun loadJSON(fileSource: String): String? {
@@ -25,7 +26,7 @@ object DataDummy {
             json = String(buffer, charset("UTF-8"))
 
         } catch (ex: IOException) {
-            Log.e("Dummy", ex.localizedMessage)
+            Timber.e(ex.localizedMessage)
         }
 
         return json

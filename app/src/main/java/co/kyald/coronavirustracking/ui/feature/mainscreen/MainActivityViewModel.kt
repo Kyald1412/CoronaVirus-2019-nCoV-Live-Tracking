@@ -1,55 +1,44 @@
 package co.kyald.coronavirustracking.ui.feature.mainscreen
 
 import android.content.SharedPreferences
-import androidx.lifecycle.*
-import co.kyald.coronavirustracking.data.database.model.arcgis.S3CoronaEntity
-import co.kyald.coronavirustracking.data.database.model.arcgis.S3CoronaEntityResponse
-import co.kyald.coronavirustracking.data.database.model.chnasia.S1CoronaEntity
-import co.kyald.coronavirustracking.data.database.model.jhu.S2CoronaEntity
-import co.kyald.coronavirustracking.data.database.model.worldometers.S4CoronaEntity
-import co.kyald.coronavirustracking.data.repository.CoronaS1Repository
+import androidx.lifecycle.MediatorLiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
+import co.kyald.coronavirustracking.data.database.model.CoronaEntity
 import co.kyald.coronavirustracking.data.repository.CoronaS2Repository
 import co.kyald.coronavirustracking.data.repository.CoronaS3Repository
 import co.kyald.coronavirustracking.data.repository.CoronaS4Repository
 import co.kyald.coronavirustracking.utils.Constants
-import com.mapbox.geojson.Feature
-import kotlinx.coroutines.*
 
 
 class MainActivityViewModel(
-    private val coronaS1Repository: CoronaS1Repository,
     private val coronaS2Repository: CoronaS2Repository,
     private val coronaS3Repository: CoronaS3Repository,
     private val coronaS4Repository: CoronaS4Repository,
     private val preferences: SharedPreferences
 ) : ViewModel() {
 
-    var coronaLiveData = MediatorLiveData<List<Feature>>()
-    private var coronaData: MutableLiveData<List<Feature>> = MutableLiveData()
-
     var isFinishedLiveData = MediatorLiveData<Map<String, Boolean>>()
-    private var isFinished: MutableLiveData<Map<String, Boolean>> = MutableLiveData()
+    private var isFinishedSource: MutableLiveData<Map<String, Boolean>> = MutableLiveData()
 
-    var confirmedCaseLiveData = MediatorLiveData<String>()
-    var confirmedDeathLiveData = MediatorLiveData<String>()
-    var confirmedRecoveredLiveData = MediatorLiveData<String>()
+    var coronaLiveData = MediatorLiveData<List<CoronaEntity>>()
+    private var coronaLiveDataSource: MutableLiveData<List<CoronaEntity>> = MutableLiveData()
 
-    private var confirmCase: MutableLiveData<String> = MutableLiveData()
-    private var confirmDeath: MutableLiveData<String> = MutableLiveData()
-    private var confirmRecover: MutableLiveData<String> = MutableLiveData()
+    var totalCases = MediatorLiveData<Map<String, String>>()
+    private var totalCasesSource: MutableLiveData<Map<String, String>> = MutableLiveData()
 
-    var currentDataSource: MutableLiveData<String> = MutableLiveData()
-
-    val coronaS1LiveData: MutableLiveData<S1CoronaEntity> = coronaS1Repository.s1CoronaData
-    val coronaS2LiveData: MutableLiveData<List<S2CoronaEntity>> = coronaS2Repository.coronaLiveDataS2
-    val coronaS3LiveData: MutableLiveData<List<S3CoronaEntity>> = coronaS3Repository.coronaLiveDataS3
-    val coronaS4LiveData: MutableLiveData<List<S4CoronaEntity>> = coronaS4Repository.coronaLiveDataS4
+    private var currentDataSource: MutableLiveData<String> = MutableLiveData()
 
     init {
         refreshData()
     }
 
     fun refreshData() {
+
+        isFinishedLiveData.removeSource(isFinishedSource)
+        coronaLiveData.removeSource(coronaLiveDataSource)
+        totalCases.removeSource(totalCasesSource)
+
         when(preferences.getString(
             Constants.PREF_DATA_SOURCE,
             Constants.DATA_SOURCE.DATA_S4.value
@@ -61,115 +50,70 @@ class MainActivityViewModel(
         }
     }
 
-    fun coronaDataSourceS1() {
-        currentDataSource.postValue(Constants.DATA_SOURCE.DATA_S1.value)
-
-        coronaLiveData.removeSource(coronaData)
-        isFinishedLiveData.removeSource(isFinished)
-
-        confirmedCaseLiveData.removeSource(confirmCase)
-        confirmedDeathLiveData.removeSource(confirmDeath)
-        confirmedRecoveredLiveData.removeSource(confirmRecover)
-
-        coronaS1Repository.fetchCoronaDataS1(Dispatchers.IO, true)
-
-        coronaData = coronaS1Repository.coronaLiveData
-        isFinished = coronaS1Repository.isFinished
-        confirmCase = coronaS1Repository.confirmCase
-        confirmDeath = coronaS1Repository.deathCase
-
-        coronaLiveData.addSource(coronaData) { coronaLiveData.value = it }
-        isFinishedLiveData.addSource(isFinished) { isFinishedLiveData.value = it }
-
-        confirmedCaseLiveData.addSource(confirmCase) { confirmedCaseLiveData.value = it }
-        confirmedDeathLiveData.addSource(confirmDeath) { confirmedDeathLiveData.value = it }
-        confirmedRecoveredLiveData.addSource(confirmRecover) {
-            confirmedRecoveredLiveData.value = it
-        }
+    private fun coronaDataSourceS1() {
     }
 
-    fun coronaDataSourceS2() {
+    private fun coronaDataSourceS2() {
         currentDataSource.postValue(Constants.DATA_SOURCE.DATA_S2.value)
-
-        coronaLiveData.removeSource(coronaData)
-        isFinishedLiveData.removeSource(isFinished)
-
-        confirmedCaseLiveData.removeSource(confirmCase)
-        confirmedDeathLiveData.removeSource(confirmDeath)
-        confirmedRecoveredLiveData.removeSource(confirmRecover)
 
         coronaS2Repository.fetchCoronaDataS2()
 
-        coronaData = coronaS2Repository.coronaLiveMapDataS2
-        isFinished = coronaS2Repository.isFinished
-        confirmCase = coronaS2Repository.confirmCase
-        confirmDeath = coronaS2Repository.deathCase
-        confirmRecover = coronaS2Repository.recoverCase
+        coronaLiveDataSource = coronaS2Repository.coronaLiveDataS2
+        totalCasesSource = coronaS2Repository.totalCases
+        isFinishedSource = coronaS2Repository.isFinished
 
-        coronaLiveData.addSource(coronaData) { coronaLiveData.value = it }
-        isFinishedLiveData.addSource(isFinished) { isFinishedLiveData.value = it }
 
-        confirmedCaseLiveData.addSource(confirmCase) { confirmedCaseLiveData.value = it }
-        confirmedDeathLiveData.addSource(confirmDeath) { confirmedDeathLiveData.value = it }
-        confirmedRecoveredLiveData.addSource(confirmRecover) {
-            confirmedRecoveredLiveData.value = it
+        isFinishedLiveData.addSource(isFinishedSource) {
+            isFinishedLiveData.value = it
+        }
+        totalCases.addSource(totalCasesSource) {
+            totalCases.value = it
+        }
+        coronaLiveData.addSource(coronaLiveDataSource) {
+            coronaLiveData.value = it
         }
     }
 
-    fun coronaDataSourceS3() {
+    private fun coronaDataSourceS3() {
         currentDataSource.postValue(Constants.DATA_SOURCE.DATA_S3.value)
-
-        coronaLiveData.removeSource(coronaData)
-        isFinishedLiveData.removeSource(isFinished)
-
-        confirmedCaseLiveData.removeSource(confirmCase)
-        confirmedDeathLiveData.removeSource(confirmDeath)
-        confirmedRecoveredLiveData.removeSource(confirmRecover)
 
         coronaS3Repository.fetchCoronaDataS3()
 
-        coronaData = coronaS3Repository.coronaLiveMapDataS3
-        isFinished = coronaS3Repository.isFinished
-        confirmCase = coronaS3Repository.confirmCase
-        confirmDeath = coronaS3Repository.deathCase
-        confirmRecover = coronaS3Repository.recoverCase
+        coronaLiveDataSource = coronaS3Repository.coronaLiveDataS3
+        totalCasesSource = coronaS3Repository.totalCases
+        isFinishedSource = coronaS3Repository.isFinished
 
-        coronaLiveData.addSource(coronaData) { coronaLiveData.value = it }
-        isFinishedLiveData.addSource(isFinished) { isFinishedLiveData.value = it }
 
-        confirmedCaseLiveData.addSource(confirmCase) { confirmedCaseLiveData.value = it }
-        confirmedDeathLiveData.addSource(confirmDeath) { confirmedDeathLiveData.value = it }
-        confirmedRecoveredLiveData.addSource(confirmRecover) {
-            confirmedRecoveredLiveData.value = it
+        isFinishedLiveData.addSource(isFinishedSource) {
+            isFinishedLiveData.value = it
+        }
+        totalCases.addSource(totalCasesSource) {
+            totalCases.value = it
+        }
+        coronaLiveData.addSource(coronaLiveDataSource) {
+            coronaLiveData.value = it
         }
     }
 
 
-    fun coronaDataSourceS4() {
+    private fun coronaDataSourceS4() {
         currentDataSource.postValue(Constants.DATA_SOURCE.DATA_S4.value)
-
-        coronaLiveData.removeSource(coronaData)
-        isFinishedLiveData.removeSource(isFinished)
-
-        confirmedCaseLiveData.removeSource(confirmCase)
-        confirmedDeathLiveData.removeSource(confirmDeath)
-        confirmedRecoveredLiveData.removeSource(confirmRecover)
 
         coronaS4Repository.fetchCoronaDataS4()
 
-        coronaData = coronaS4Repository.coronaLiveMapDataS4
-        isFinished = coronaS4Repository.isFinished
-        confirmCase = coronaS4Repository.confirmCase
-        confirmDeath = coronaS4Repository.deathCase
-        confirmRecover = coronaS4Repository.recoverCase
+        coronaLiveDataSource = coronaS4Repository.coronaLiveDataS4
+        totalCasesSource = coronaS4Repository.totalCases
+        isFinishedSource = coronaS4Repository.isFinished
 
-        coronaLiveData.addSource(coronaData) { coronaLiveData.value = it }
-        isFinishedLiveData.addSource(isFinished) { isFinishedLiveData.value = it }
 
-        confirmedCaseLiveData.addSource(confirmCase) { confirmedCaseLiveData.value = it }
-        confirmedDeathLiveData.addSource(confirmDeath) { confirmedDeathLiveData.value = it }
-        confirmedRecoveredLiveData.addSource(confirmRecover) {
-            confirmedRecoveredLiveData.value = it
+        isFinishedLiveData.addSource(isFinishedSource) {
+            isFinishedLiveData.value = it
+        }
+        totalCases.addSource(totalCasesSource) {
+            totalCases.value = it
+        }
+        coronaLiveData.addSource(coronaLiveDataSource) {
+            coronaLiveData.value = it
         }
     }
 

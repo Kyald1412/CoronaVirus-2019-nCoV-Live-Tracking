@@ -1,9 +1,11 @@
 package co.kyald.coronavirustracking.data.database.model.jhu
 import android.os.Parcelable
-import androidx.room.*
-import co.kyald.coronavirustracking.data.database.converter.ListStringTypeConverter
-import kotlinx.android.parcel.Parcelize
+import androidx.room.ColumnInfo
+import androidx.room.Embedded
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 import com.google.gson.annotations.SerializedName
+import kotlinx.android.parcel.Parcelize
 
 
 @Entity(tableName = "corona_s2_entity")

@@ -1,14 +1,9 @@
 package co.kyald.coronavirustracking.data.database.dao.arcgis
 
 import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import co.kyald.coronavirustracking.data.database.dao.BaseDao
 import co.kyald.coronavirustracking.data.database.model.arcgis.S3CoronaEntity
-import co.kyald.coronavirustracking.data.database.model.chnasia.S1CoronaEntity
-import co.kyald.coronavirustracking.data.database.model.chnasia.S1CountryCoordEntity
-import co.kyald.coronavirustracking.data.database.model.jhu.S2CoronaEntity
 
 @Dao
 interface S3CoronaDao : BaseDao<S3CoronaEntity> {

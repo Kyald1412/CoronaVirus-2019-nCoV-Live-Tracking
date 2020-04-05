@@ -3,11 +3,9 @@ package co.kyald.coronavirustracking.ui.feature.mainscreen
 import android.animation.Animator
 import android.animation.ValueAnimator
 import android.annotation.SuppressLint
+import android.app.Activity
+import android.content.Intent
 import android.content.SharedPreferences
-import android.graphics.Bitmap
-import android.graphics.Canvas
-import android.graphics.Color
-import android.graphics.PointF
 import android.os.Bundle
 import android.os.PersistableBundle
 import android.text.Editable
@@ -20,19 +18,13 @@ import android.widget.FrameLayout
 import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
-import androidx.annotation.NonNull
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
-import androidx.appcompat.content.res.AppCompatResources
-import androidx.core.graphics.drawable.toBitmap
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import co.kyald.coronavirustracking.R
-import co.kyald.coronavirustracking.data.database.model.worldometers.S4CoronaEntity
-import co.kyald.coronavirustracking.ui.feature.mainscreen.bottomsheet.s1adapter.S1RecyclerViewAdapter
-import co.kyald.coronavirustracking.ui.feature.mainscreen.bottomsheet.s2adapter.S2RecyclerViewAdapter
-import co.kyald.coronavirustracking.ui.feature.mainscreen.bottomsheet.s3adapter.S3RecyclerViewAdapter
-import co.kyald.coronavirustracking.ui.feature.mainscreen.bottomsheet.s4adapter.S4RecyclerViewAdapter
+import co.kyald.coronavirustracking.data.database.model.CoronaEntity
+import co.kyald.coronavirustracking.ui.feature.mainscreen.bottomsheet.CoronaRecyclerViewAdapter
 import co.kyald.coronavirustracking.ui.feature.preferencescreen.PreferenceActivity
 import co.kyald.coronavirustracking.utils.Constants
 import co.kyald.coronavirustracking.utils.Utils
@@ -41,37 +33,22 @@ import co.kyald.coronavirustracking.utils.extensions.setSafeOnClickListener
 import co.kyald.coronavirustracking.utils.extensions.toSimpleString
 import co.kyald.coronavirustracking.utils.extensions.visible
 import com.google.android.material.bottomsheet.BottomSheetBehavior
-import com.mapbox.geojson.Feature
-import com.mapbox.geojson.FeatureCollection
 import com.mapbox.mapboxsdk.Mapbox
-import com.mapbox.mapboxsdk.annotations.BubbleLayout
 import com.mapbox.mapboxsdk.camera.CameraUpdateFactory
 import com.mapbox.mapboxsdk.geometry.LatLng
 import com.mapbox.mapboxsdk.maps.MapboxMap
-import com.mapbox.mapboxsdk.maps.OnMapReadyCallback
 import com.mapbox.mapboxsdk.maps.Style
-import com.mapbox.mapboxsdk.plugins.annotation.SymbolManager
 import com.mapbox.mapboxsdk.plugins.markerview.MarkerView
 import com.mapbox.mapboxsdk.plugins.markerview.MarkerViewManager
-import com.mapbox.mapboxsdk.style.expressions.Expression.*
-import com.mapbox.mapboxsdk.style.layers.Property.ICON_ANCHOR_BOTTOM
-import com.mapbox.mapboxsdk.style.layers.PropertyFactory.*
-import com.mapbox.mapboxsdk.style.layers.SymbolLayer
 import com.mapbox.mapboxsdk.style.layers.TransitionOptions
-import com.mapbox.mapboxsdk.style.sources.GeoJsonSource
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.coroutines.*
-import kotlinx.coroutines.GlobalScope.coroutineContext
-import org.jetbrains.anko.startActivity
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import timber.log.Timber
-import java.lang.NumberFormatException
-import java.net.URISyntaxException
 import java.util.*
 
 
-class MainActivity : AppCompatActivity(),OnMapReadyCallback {
+class MainActivity : AppCompatActivity() {
 
     private val viewModel: MainActivityViewModel by viewModel()
 
@@ -81,21 +58,10 @@ class MainActivity : AppCompatActivity(),OnMapReadyCallback {
 
     private lateinit var sheetBehavior: BottomSheetBehavior<LinearLayout>
 
-    private var adapterS1: S1RecyclerViewAdapter? = null
-    private var adapterS2: S2RecyclerViewAdapter? = null
-    private var adapterS3: S3RecyclerViewAdapter? = null
-    private var adapterS4: S4RecyclerViewAdapter? = null
-
-    private var featureCollection: FeatureCollection? = null
-    private var source: GeoJsonSource? = null;
+    private var dataAdapter: CoronaRecyclerViewAdapter? = null
 
     private var markerViewManager: MarkerViewManager? = null
-    private var marker: MarkerView? = null
-
-    companion object {
-        val GEOJSON_SOURCE_ID = "GEOJSON_SOURCE_ID"
-        val CALLOUT_LAYER_ID = "CALLOUT_LAYER_ID"
-    }
+    private var marker: MutableList<MarkerView> = mutableListOf()
 
     @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -105,10 +71,7 @@ class MainActivity : AppCompatActivity(),OnMapReadyCallback {
 
         setContentView(R.layout.activity_main)
 
-        setupRvS1()
-        setupRvS2()
-        setupRvS3()
-        setupRvS4()
+        setupRvData()
 
         initMap(savedInstanceState)
         initListener()
@@ -121,31 +84,6 @@ class MainActivity : AppCompatActivity(),OnMapReadyCallback {
     private fun initView() {
 
         btnRefresh.startAnimation(Utils().rotatingAnimation())
-
-        when (preferences.getString(
-            Constants.PREF_DATA_SOURCE,
-            ""
-        )) {
-            Constants.DATA_SOURCE.DATA_S1.value -> {
-                llRecovered.gone()
-                tvRecoverCase.gone()
-            }
-
-            Constants.DATA_SOURCE.DATA_S2.value -> {
-                llRecovered.visible()
-                tvRecoverCase.visible()
-            }
-
-            Constants.DATA_SOURCE.DATA_S3.value -> {
-                llRecovered.visible()
-                tvRecoverCase.visible()
-            }
-
-            Constants.DATA_SOURCE.DATA_S4.value -> {
-                llRecovered.visible()
-                tvRecoverCase.visible()
-            }
-        }
     }
 
     private fun initBottomSheet() {
@@ -175,6 +113,9 @@ class MainActivity : AppCompatActivity(),OnMapReadyCallback {
                     }
                     BottomSheetBehavior.STATE_SETTLING -> {
                     }
+                    BottomSheetBehavior.STATE_HALF_EXPANDED -> {
+                        TODO()
+                    }
                 }
             }
 
@@ -190,66 +131,16 @@ class MainActivity : AppCompatActivity(),OnMapReadyCallback {
             refreshLastUpdate(data)
         })
 
-        viewModel.confirmedCaseLiveData.observe(this, Observer { data ->
-            tv_infected.text = data
-        })
+        viewModel.totalCases.observe(this, Observer { data ->
 
-        viewModel.confirmedDeathLiveData.observe(this, Observer { data ->
-            tv_death.text = data
-        })
-
-        viewModel.confirmedRecoveredLiveData.observe(this, Observer { data ->
-            tv_recovered.text = data
-        })
-
-        viewModel.currentDataSource.observe(this, Observer { data ->
-
-            when (data) {
-                Constants.DATA_SOURCE.DATA_S1.value -> {
-                    llRecovered.gone()
-                    tvRecoverCase.gone()
-                    setupRvS1()
-                }
-                Constants.DATA_SOURCE.DATA_S2.value -> {
-                    llRecovered.visible()
-                    tvRecoverCase.visible()
-                    setupRvS2()
-                }
-                Constants.DATA_SOURCE.DATA_S3.value -> {
-                    llRecovered.visible()
-                    tvRecoverCase.visible()
-                    setupRvS3()
-                }
-                Constants.DATA_SOURCE.DATA_S4.value -> {
-                    llRecovered.visible()
-                    tvRecoverCase.visible()
-                    setupRvS4()
-                }
-            }
-        })
-
-        viewModel.coronaS2LiveData.observe(this, Observer { data ->
-            adapterS2?.setEntity(data)
-        })
-
-        viewModel.coronaS3LiveData.observe(this, Observer { data ->
-            adapterS3?.setEntity(data)
-        })
-
-        viewModel.coronaS1LiveData.observe(this, Observer { data ->
-            adapterS1?.setEntity(data.feed.entry)
-        })
-        viewModel.coronaS4LiveData.observe(this, Observer { data ->
-            adapterS4?.setEntity(data)
-
-//            CoroutineScope(coroutineContext).launch {
-                setupMarker(data)
-//            }
+            tv_infected.text = data.getValue("confirmed")
+            tv_death.text = data.getValue("deaths")
+            tv_recovered.text = data.getValue("recovered")
         })
 
     }
 
-    fun refreshLastUpdate(data: Map<String, Boolean>) {
+    private fun refreshLastUpdate(data: Map<String, Boolean>) {
 
         if (data["done"] == true) {
             if (data["internet"] == false) {
@@ -305,83 +196,86 @@ class MainActivity : AppCompatActivity(),OnMapReadyCallback {
             }
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                when (preferences.getString(
-                    Constants.PREF_DATA_SOURCE,
-                    ""
-                )) {
-                    Constants.DATA_SOURCE.DATA_S1.value -> {
-                        adapterS1?.filter?.filter(s)
-                    }
-                    Constants.DATA_SOURCE.DATA_S2.value -> {
-                        adapterS2?.filter?.filter(s)
-                    }
-                    Constants.DATA_SOURCE.DATA_S3.value -> {
-                        adapterS3?.filter?.filter(s)
-                    }
-                    Constants.DATA_SOURCE.DATA_S4.value -> {
-                        adapterS4?.filter?.filter(s)
-                    }
-                }
+                dataAdapter?.filter?.filter(s)
             }
 
         })
 
         fabButton.setOnClickListener {
-            startActivity<PreferenceActivity>()
+            startActivityForResult(Intent(this, PreferenceActivity::class.java), 20)
         }
 
     }
 
     private fun initMap(savedInstanceState: Bundle?) {
         mapView.onCreate(savedInstanceState)
-        mapView.getMapAsync(this)
-    }
+        mapView.getMapAsync { map ->
+            this.mapboxMap = map
+            map.setStyle(
+                when (preferences.getString(Constants.PREF_THEME, "2")?.toInt()!!) {
+                    AppCompatDelegate.MODE_NIGHT_YES -> Style.DARK
+                    AppCompatDelegate.MODE_NIGHT_NO -> Style.LIGHT
+                    else -> Style.DARK
+                }
+            ) { style ->
+                // Disable any type of fading transition when icons collide on the map. This enhances the visual
+                // look of the data clustering together and breaking apart.
+                style.transition = TransitionOptions(0, 0, false)
+                mapboxMap?.animateCamera(
+                    CameraUpdateFactory.newLatLngZoom(
+                        LatLng(
+                            39.913818,
+                            116.363625
+                        ), 1.0
+                    )
+                )
 
-    private fun setupData() {
-        if (mapboxMap != null) {
-            mapboxMap!!.getStyle { style ->
-                setupSource(style)
+                Timber.e("CALLED HOW MANY TIMES?")
+
+                viewModel.coronaLiveData.observe(this, Observer { data ->
+                    dataAdapter?.setEntity(data)
+
+                    setupMarker(data)
+                })
+
                 markerViewManager = MarkerViewManager(mapView, mapboxMap)
 
             }
         }
     }
 
-    private fun setupMarker(data: List<S4CoronaEntity>) {
+    private fun setupMarker(data: List<CoronaEntity>) {
         btnRefresh.startAnimation(Utils().rotatingAnimation())
 
-            data.forEach { it ->
-                val customView = createCustomAnimationView(it)
-                marker = MarkerView(
-                    try {
-                        LatLng(it.countryInfo.info_lat!!, it.countryInfo.info_long!!)
-                    } catch (e: NumberFormatException) {
-                        LatLng()
-                    }
-                    , customView
-                )
-                marker?.let {
-                    markerViewManager?.addMarker(it)
-                }
+        if (markerViewManager != null || marker.size > 0) {
 
+            marker.forEach {
+                markerViewManager?.removeMarker(it)
             }
 
-            btnRefresh.clearAnimation()
-
-
-    }
-
-
-    private fun refreshSource(): Boolean {
-        if (source != null && featureCollection != null) {
-            source!!.setGeoJson(featureCollection);
-            return true
+            markerViewManager?.onDestroy()
         }
 
-        return false
+        data.forEach {
+            val customView = createCustomAnimationView(it)
+            val markerView = MarkerView(
+                LatLng(it.info.latitude!!, it.info.longitude!!)
+                , customView
+            )
+
+            marker.add(markerView)
+
+            marker.let {
+                markerViewManager?.addMarker(markerView)
+            }
+        }
+
+        btnRefresh.clearAnimation()
+
     }
 
-    private fun createCustomAnimationView(it: S4CoronaEntity): View {
+    private fun createCustomAnimationView(it: CoronaEntity)
+            : View {
         val customView = LayoutInflater.from(this).inflate(R.layout.marker_view, null)
         customView.layoutParams = FrameLayout.LayoutParams(WRAP_CONTENT, WRAP_CONTENT)
         val icon = customView.findViewById<View>(R.id.imageview)
@@ -392,11 +286,21 @@ class MainActivity : AppCompatActivity(),OnMapReadyCallback {
         val txtDeathCase = customView.findViewById<TextView>(R.id.death_case)
         val txtRecoverdCase = customView.findViewById<TextView>(R.id.recovered_case)
 
-        txtCountry.text = it.country
-        txtActiveCase.text = "Active: ${it.active}"
-        txtConfirmCase.text = "Confirm: ${it.cases}"
-        txtDeathCase.text = "Death: ${it.deaths}"
-        txtRecoverdCase.text = "Recovered: ${it.recovered}"
+        txtCountry.text = it.info.country
+
+        when (preferences.getString(
+            Constants.PREF_DATA_SOURCE,
+            Constants.DATA_SOURCE.DATA_S4.value
+        )) {
+            Constants.DATA_SOURCE.DATA_S1.value -> txtActiveCase.gone()
+            Constants.DATA_SOURCE.DATA_S2.value -> txtActiveCase.gone()
+            Constants.DATA_SOURCE.DATA_S3.value -> txtActiveCase.gone()
+            Constants.DATA_SOURCE.DATA_S4.value -> txtActiveCase.visible()
+        }
+        txtActiveCase.text = "${getString(R.string.info_active)} ${it.info.case_actives}"
+        txtConfirmCase.text = "${getString(R.string.info_confirm)} ${it.info.case_confirms}"
+        txtDeathCase.text = "${getString(R.string.info_death)} ${it.info.case_deaths}"
+        txtRecoverdCase.text = "${getString(R.string.info_recovered)} ${it.info.case_recovered}"
 
         icon.setOnClickListener {
 
@@ -410,14 +314,15 @@ class MainActivity : AppCompatActivity(),OnMapReadyCallback {
             val targetWidth =
                 if (animationView.layoutParams.width == 0) animationView.measuredWidth else 0
 
-            val anim = ValueAnimator.ofInt(animationView.measuredHeight, targetHeight);
+            val anim = ValueAnimator.ofInt(animationView.measuredHeight, targetHeight)
 
             anim.interpolator = AccelerateDecelerateInterpolator()
             anim.addUpdateListener { valueAnimator ->
-                val `val` = valueAnimator.animatedValue as Int
                 val layoutParams = animationView.layoutParams
-                layoutParams.width = ((targetWidth * valueAnimator.animatedFraction).toInt());
-                layoutParams.height = ((targetHeight * valueAnimator.animatedFraction).toInt());
+                layoutParams.width =
+                    ((targetWidth * valueAnimator.animatedFraction).toInt())
+                layoutParams.height =
+                    ((targetHeight * valueAnimator.animatedFraction).toInt())
                 animationView.layoutParams = layoutParams
             }
             anim.addListener(object : Animator.AnimatorListener {
@@ -425,8 +330,8 @@ class MainActivity : AppCompatActivity(),OnMapReadyCallback {
                 }
 
                 override fun onAnimationEnd(animation: Animator?) {
-                    val layoutParams = animationView.layoutParams;
-                    layoutParams.height = WRAP_CONTENT;
+                    val layoutParams = animationView.layoutParams
+                    layoutParams.height = WRAP_CONTENT
 
                 }
 
@@ -444,110 +349,20 @@ class MainActivity : AppCompatActivity(),OnMapReadyCallback {
         return customView
     }
 
-    override fun onMapReady(map: MapboxMap) {
-        this.mapboxMap = map
-        map.setStyle(
-            when (preferences.getString(Constants.PREF_THEME, "2")?.toInt()!!) {
-                AppCompatDelegate.MODE_NIGHT_YES -> Style.DARK
-                AppCompatDelegate.MODE_NIGHT_NO -> Style.LIGHT
-                else -> Style.DARK
-            }
-        ) { style ->
-            // Disable any type of fading transition when icons collide on the map. This enhances the visual
-            // look of the data clustering together and breaking apart.
-            style.transition = TransitionOptions(0, 0, false)
-            mapboxMap?.animateCamera(
-                CameraUpdateFactory.newLatLngZoom(
-                    LatLng(
-                        39.913818,
-                        116.363625
-                    ), 1.0
-                )
-            )
+    private fun setupRvData() {
 
-            viewModel.coronaLiveData.observe(this, Observer { data ->
-
-                this.featureCollection = FeatureCollection.fromFeatures(data)
-
-                if (!refreshSource()) {
-                    setupData()
-                }
-            })
-
-        }
-    }
-
-    private fun setupSource(loadedMapStyle: Style) {
-        btnRefresh.clearAnimation()
-        source = GeoJsonSource(GEOJSON_SOURCE_ID, featureCollection)
-
-        try {
-
-            loadedMapStyle.addSource(
-                source!!
-            )
-
-        } catch (uriSyntaxException: URISyntaxException) {
-            Timber.e("Check the URL %s", uriSyntaxException.message)
-        }
-
-    }
-
-    private fun setupRvS1() {
-
-        adapterS1 = S1RecyclerViewAdapter(this)
+        dataAdapter = CoronaRecyclerViewAdapter(this)
 
         rvData.apply {
             layoutManager = LinearLayoutManager(this@MainActivity)
             setHasFixedSize(true)
         }
 
-        rvData.adapter = adapterS1
+        rvData.adapter = dataAdapter
 
         rvData.adapter?.notifyDataSetChanged()
     }
 
-    private fun setupRvS2() {
-
-        adapterS2 = S2RecyclerViewAdapter(this)
-
-        rvData.apply {
-            layoutManager = LinearLayoutManager(this@MainActivity)
-            setHasFixedSize(true)
-        }
-
-        rvData.adapter = adapterS2
-
-        rvData.adapter?.notifyDataSetChanged()
-    }
-
-    private fun setupRvS3() {
-
-        adapterS3 = S3RecyclerViewAdapter(this)
-
-        rvData.apply {
-            layoutManager = LinearLayoutManager(this@MainActivity)
-            setHasFixedSize(true)
-        }
-
-        rvData.adapter = adapterS3
-
-        rvData.adapter?.notifyDataSetChanged()
-    }
-
-    private fun setupRvS4() {
-
-        adapterS4 = S4RecyclerViewAdapter(this)
-
-        rvData.apply {
-            layoutManager = LinearLayoutManager(this@MainActivity)
-            setHasFixedSize(true)
-        }
-
-        rvData.adapter = adapterS4
-
-        rvData.adapter?.notifyDataSetChanged()
-    }
 
     override fun onStart() {
         super.onStart()
@@ -557,11 +372,7 @@ class MainActivity : AppCompatActivity(),OnMapReadyCallback {
 
     override fun onResume() {
         super.onResume()
-        if (viewModel.isFinishedLiveData.value?.get("done") == true
-        ) {
-            btnRefresh.startAnimation(Utils().rotatingAnimation())
-            viewModel.refreshData()
-        }
+
         mapView.onResume()
     }
 
@@ -588,6 +399,24 @@ class MainActivity : AppCompatActivity(),OnMapReadyCallback {
         mapView.onDestroy()
     }
 
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+
+        Timber.e("RESULT CODE $resultCode")
+
+        when (resultCode) {
+
+            Activity.RESULT_OK -> {
+                if (viewModel.isFinishedLiveData.value?.get("done") == true
+                ) {
+                    btnRefresh.startAnimation(Utils().rotatingAnimation())
+                    viewModel.refreshData()
+                }
+            }
+
+        }
+
+        super.onActivityResult(requestCode, resultCode, data)
+    }
 
     override fun onSaveInstanceState(
         outState: Bundle,

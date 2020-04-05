@@ -1,36 +1,31 @@
 apply plugin: 'com.android.application'
 
 android {
-  buildTypes {
-    release {
-      resValue "string", "app_name", "@string/app_name_prod"
+    buildTypes {
+        release {
+            resValue "string", "app_name", "@string/app_name_prod"
 
-      debuggable false
-      zipAlignEnabled true
-      minifyEnabled true
-      shrinkResources true
+            debuggable false
+            zipAlignEnabled true
+            minifyEnabled true
+            shrinkResources true
 
-      proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
 
-      buildConfigField "java.util.Date", "BUILD_TIME", "new java.util.Date(" + System.currentTimeMillis() + "L)"
-      buildConfigField "String", "MAPBOX_TOKEN", '"pk.eyJ1IjoiaHVuZ2luZGEiLCJhIjoiY2s4YmQ4MnF0MGF2czNucGVhdjR5a25iMiJ9.NTY-yC5gfz3KIua1lKjSzg"'
-      buildConfigField "String", "S1_CORONA_API_KEY", '"AIzaSyDnpMUhVLaY-hv7V_DxUp8oePTBpI9JBmQ"'
-      buildConfigField "String", "S2_CORONA_API_KEY", '"AIzaSyDUwKbLCK5AW0-OojT5WV2x779m1aB05lM"'
+            buildConfigField "java.util.Date", "BUILD_TIME", "new java.util.Date(" + System.currentTimeMillis() + "L)"
+            buildConfigField "String", "MAPBOX_TOKEN", '"pk.eyJ1IjoiaHVuZ2luZGEiLCJhIjoiY2s4YmQ4MnF0MGF2czNucGVhdjR5a25iMiJ9.NTY-yC5gfz3KIua1lKjSzg"'
+        }
+        debug {
+            debuggable true
+            minifyEnabled true
+            zipAlignEnabled true
+
+            resValue "string", "app_name", "@string/app_name_staging"
+
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+
+            buildConfigField "java.util.Date", "BUILD_TIME", "new java.util.Date(" + System.currentTimeMillis() + "L)"
+            buildConfigField "String", "MAPBOX_TOKEN", '"pk.eyJ1IjoiaHVuZ2luZGEiLCJhIjoiY2s4YmQ4MnF0MGF2czNucGVhdjR5a25iMiJ9.NTY-yC5gfz3KIua1lKjSzg"'
+        }
     }
-    debug {
-      debuggable true
-      minifyEnabled true
-      zipAlignEnabled true
-
-      resValue "string", "app_name", "@string/app_name_staging"
-
-      proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-
-      buildConfigField "java.util.Date", "BUILD_TIME", "new java.util.Date(" + System.currentTimeMillis() + "L)"
-      buildConfigField "String", "MAPBOX_TOKEN", '"pk.eyJ1IjoiaHVuZ2luZGEiLCJhIjoiY2s4YmQ4MnF0MGF2czNucGVhdjR5a25iMiJ9.NTY-yC5gfz3KIua1lKjSzg"'
-      buildConfigField "String", "S1_CORONA_API_KEY", '"AIzaSyDnpMUhVLaY-hv7V_DxUp8oePTBpI9JBmQ"'
-      buildConfigField "String", "S2_CORONA_API_KEY", '"AIzaSyDUwKbLCK5AW0-OojT5WV2x779m1aB05lM"'
-
-    }
-  }
 }

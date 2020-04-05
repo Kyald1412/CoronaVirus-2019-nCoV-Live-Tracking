@@ -1,7 +1,6 @@
 package co.kyald.coronavirustracking
 
 import android.app.Application
-import android.content.res.Resources
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.preference.PreferenceManager
 import co.kyald.coronavirustracking.injection.*

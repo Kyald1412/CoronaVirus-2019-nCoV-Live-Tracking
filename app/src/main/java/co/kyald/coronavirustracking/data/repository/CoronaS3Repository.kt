@@ -2,16 +2,14 @@ package co.kyald.coronavirustracking.data.repository
 
 import androidx.lifecycle.MutableLiveData
 import co.kyald.coronavirustracking.data.database.dao.arcgis.S3CoronaDao
+import co.kyald.coronavirustracking.data.database.model.CoronaEntity
 import co.kyald.coronavirustracking.data.database.model.arcgis.S3CoronaEntity
-import co.kyald.coronavirustracking.data.database.model.jhu.S2CoronaEntity
 import co.kyald.coronavirustracking.data.network.category.CoronaS3Api
+import co.kyald.coronavirustracking.utils.Constants
 import co.kyald.coronavirustracking.utils.InternetChecker
-import com.mapbox.geojson.Feature
-import com.mapbox.geojson.Point
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import kotlin.coroutines.CoroutineContext
 
 
@@ -20,15 +18,11 @@ class CoronaS3Repository(
     private val coronaS3Service: CoronaS3Api
 ) {
 
-    val coronaLiveMapDataS3: MutableLiveData<List<Feature>> = MutableLiveData()
-
-    var coronaLiveDataS3: MutableLiveData<List<S3CoronaEntity>> = MutableLiveData()
+    var coronaLiveDataS3: MutableLiveData<List<CoronaEntity>> = MutableLiveData()
 
     var isFinished: MutableLiveData<Map<String, Boolean>> = MutableLiveData()
 
-    var confirmCase: MutableLiveData<String> = MutableLiveData()
-    var deathCase: MutableLiveData<String> = MutableLiveData()
-    var recoverCase: MutableLiveData<String> = MutableLiveData()
+    var totalCases: MutableLiveData<Map<String, String>> = MutableLiveData()
 
     fun getCoronaDataS3(): List<S3CoronaEntity> = s3CoronaDao.getAllCases()
 
@@ -56,42 +50,52 @@ class CoronaS3Repository(
                             s3CoronaDao.deleteAll()
 
                             caseResponse.body()?.let { it ->
-                                coronaLiveMapDataS3.postValue(buildDataConfirmed(it.features))
-                                coronaLiveDataS3.postValue(it.features)
+                                coronaLiveDataS3.postValue(coronaEntityData(it.features))
                                 s3CoronaDao.save(it.features)
                             }
 
                         }
 
+                        val totalCasesMap: MutableMap<String, String> = mutableMapOf()
+
+
                         val confirmCaseResponse = coronaS3Service.fetchArcGISConfirmed()
                         if (confirmCaseResponse.isSuccessful) {
                             confirmCaseResponse.body()?.let {
-                                confirmCase.postValue(it.features[0].attributes.value.toString())
+                                totalCasesMap["confirmed"] =
+                                    it.features[0].attributes.value.toString()
                             }
                         }
                         val deathCaseResponse = coronaS3Service.fetchArcGISDeaths()
                         if (deathCaseResponse.isSuccessful) {
                             deathCaseResponse.body()?.let {
-                                deathCase.postValue(it.features[0].attributes.value.toString())
+                                totalCasesMap["deaths"] = it.features[0].attributes.value.toString()
                             }
                         }
                         val recoveredCaseResponse = coronaS3Service.fetchArcGISRecovered()
                         if (recoveredCaseResponse.isSuccessful) {
                             recoveredCaseResponse.body()?.let {
-                                recoverCase.postValue(it.features[0].attributes.value.toString())
+                                totalCasesMap["recovered"] =
+                                    it.features[0].attributes.value.toString()
                             }
                         }
+
+                        totalCases.postValue(
+                            totalCasesMap
+                        )
 
 
                     } else {
 
+                        coronaLiveDataS3.postValue(coronaEntityData(s3CoronaDao.getAllCases()))
 
-                        coronaLiveMapDataS3.postValue(buildDataConfirmed(s3CoronaDao.getAllCases()))
-                        coronaLiveDataS3.postValue(s3CoronaDao.getAllCases())
-
-                        confirmCase.postValue(s3CoronaDao.getTotalConfirmedCase().toString())
-                        deathCase.postValue(s3CoronaDao.getTotalDeathCase().toString())
-                        recoverCase.postValue(s3CoronaDao.getTotalRecoveredCase().toString())
+                        totalCases.postValue(
+                            mapOf(
+                                "confirmed" to s3CoronaDao.getTotalConfirmedCase().toString(),
+                                "recovered" to s3CoronaDao.getTotalRecoveredCase().toString(),
+                                "deaths" to s3CoronaDao.getTotalDeathCase().toString()
+                            )
+                        )
 
                         isFinished.postValue(
                             mapOf(
@@ -105,47 +109,58 @@ class CoronaS3Repository(
         })
     }
 
+    fun coronaEntityData(data: List<S3CoronaEntity>): List<CoronaEntity> {
 
-    private suspend fun buildDataConfirmed(data: List<S3CoronaEntity>): MutableList<Feature> {
-        val featureList: MutableList<Feature> = mutableListOf()
+        val coronaEntity: MutableList<CoronaEntity> = mutableListOf()
 
-        // limits the scope of concurrency
-        withContext(Dispatchers.IO) {
+        data.forEach {
 
-            data.forEach { value ->
-
-                withContext(Dispatchers.IO) {
-                    try {
-                        featureList.add(
-                            Feature.fromGeometry(
-                                Point.fromLngLat(
-                                    value.attributes.long!!.toDouble(),
-                                    value.attributes.lat!!.toDouble()
-                                )
-                            )
+            try {
+                coronaEntity.add(
+                    CoronaEntity(
+                        data_source = Constants.DATA_SOURCE.DATA_S3.value,
+                        data_source_name = "arcgis",
+                        info = CoronaEntity.DataInfo(
+                            country = it.attributes.attr_combinedKey,
+                            latitude = it.attributes.attr_lat ?: 0.0,
+                            longitude = it.attributes.attr_long ?: 0.0,
+                            case_actives = 0,
+                            case_confirms = it.attributes.attr_confirmed?.toLong(),
+                            case_deaths = it.attributes.attr_deaths?.toLong(),
+                            case_recovered = it.attributes.attr_recovered?.toLong(),
+                            flags = ""
                         )
-                    } catch (nfe: NumberFormatException) {
-                        featureList.add(
-                            Feature.fromGeometry(
-                                Point.fromLngLat(0.0, 0.0)
-                            )
+                    )
+                )
+            } catch (nfe: NumberFormatException) {
+                coronaEntity.add(
+                    CoronaEntity(
+                        data_source = Constants.DATA_SOURCE.DATA_S3.value,
+                        data_source_name = "arcgis",
+                        info = CoronaEntity.DataInfo(
+                            country = it.attributes.attr_combinedKey,
+                            latitude = 0.0,
+                            longitude = 0.0,
+                            case_actives = 0,
+                            case_confirms = it.attributes.attr_confirmed?.toLong(),
+                            case_deaths = it.attributes.attr_deaths?.toLong(),
+                            case_recovered = it.attributes.attr_recovered?.toLong(),
+                            flags = ""
                         )
-                    }
-
-                }
-
+                    )
+                )
             }
 
-            isFinished.postValue(
-                mapOf(
-                    "done" to true,
-                    "internet" to true
-                )
-            )
         }
 
-        return featureList
+        isFinished.postValue(
+            mapOf(
+                "done" to true,
+                "internet" to true
+            )
+        )
 
+        return coronaEntity
     }
 }
 

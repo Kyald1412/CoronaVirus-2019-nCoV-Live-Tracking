@@ -2,11 +2,11 @@ package co.kyald.coronavirustracking.data.repository
 
 import androidx.lifecycle.MutableLiveData
 import co.kyald.coronavirustracking.data.database.dao.worldometers.S4CoronaDao
+import co.kyald.coronavirustracking.data.database.model.CoronaEntity
 import co.kyald.coronavirustracking.data.database.model.worldometers.S4CoronaEntity
 import co.kyald.coronavirustracking.data.network.category.CoronaS2Api
+import co.kyald.coronavirustracking.utils.Constants
 import co.kyald.coronavirustracking.utils.InternetChecker
-import com.mapbox.geojson.Feature
-import com.mapbox.geojson.Point
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -19,15 +19,11 @@ class CoronaS4Repository(
     private val coronaS4Service: CoronaS2Api
 ) {
 
-    val coronaLiveMapDataS4: MutableLiveData<List<Feature>> = MutableLiveData()
-
-    var coronaLiveDataS4: MutableLiveData<List<S4CoronaEntity>> = MutableLiveData()
+    var coronaLiveDataS4: MutableLiveData<List<CoronaEntity>> = MutableLiveData()
 
     var isFinished: MutableLiveData<Map<String, Boolean>> = MutableLiveData()
 
-    var confirmCase: MutableLiveData<String> = MutableLiveData()
-    var deathCase: MutableLiveData<String> = MutableLiveData()
-    var recoverCase: MutableLiveData<String> = MutableLiveData()
+    var totalCases: MutableLiveData<Map<String, String>> = MutableLiveData()
 
     fun getCoronaDataS4(): List<S4CoronaEntity> = s4CoronaDao.getAllCases()
 
@@ -55,28 +51,32 @@ class CoronaS4Repository(
                             s4CoronaDao.deleteAll()
 
                             caseResponse.body()?.let { it ->
-                                coronaLiveMapDataS4.postValue(buildDataConfirmed(it))
-                                coronaLiveDataS4.postValue(it)
+                                buildData(it)
                                 s4CoronaDao.save(it)
                             }
 
                         }
 
-                        confirmCase.postValue(s4CoronaDao.getTotalConfirmedCase().toString())
-                        deathCase.postValue(s4CoronaDao.getTotalDeathCase().toString())
-                        recoverCase.postValue(s4CoronaDao.getTotalRecoveredCase().toString())
+                        totalCases.postValue(
+                            mapOf(
+                                "confirmed" to s4CoronaDao.getTotalConfirmedCase().toString(),
+                                "recovered" to s4CoronaDao.getTotalRecoveredCase().toString(),
+                                "deaths" to s4CoronaDao.getTotalDeathCase().toString()
+                            )
+                        )
 
 
                     } else {
 
+                        buildData(s4CoronaDao.getAllCases())
 
-                        coronaLiveMapDataS4.postValue(buildDataConfirmed(s4CoronaDao.getAllCases()))
-                        coronaLiveDataS4.postValue(s4CoronaDao.getAllCases())
-
-                        confirmCase.postValue(s4CoronaDao.getTotalConfirmedCase().toString())
-                        deathCase.postValue(s4CoronaDao.getTotalDeathCase().toString())
-                        recoverCase.postValue(s4CoronaDao.getTotalRecoveredCase().toString())
-
+                        totalCases.postValue(
+                            mapOf(
+                                "confirmed" to s4CoronaDao.getTotalConfirmedCase().toString(),
+                                "recovered" to s4CoronaDao.getTotalRecoveredCase().toString(),
+                                "deaths" to s4CoronaDao.getTotalDeathCase().toString()
+                            )
+                        )
                         isFinished.postValue(
                             mapOf(
                                 "done" to true,
@@ -89,33 +89,50 @@ class CoronaS4Repository(
         })
     }
 
-
-    private suspend fun buildDataConfirmed(data: List<S4CoronaEntity>): MutableList<Feature> {
-        val featureList: MutableList<Feature> = mutableListOf()
+    private suspend fun buildData(data: List<S4CoronaEntity>) {
+        val coronaEntity: MutableList<CoronaEntity> = mutableListOf()
 
         // limits the scope of concurrency
         withContext(Dispatchers.IO) {
 
-            data.forEach { value ->
+            data.forEach {
 
                 withContext(Dispatchers.IO) {
                     try {
-                        featureList.add(
-                            Feature.fromGeometry(
-                                Point.fromLngLat(
-                                    value.countryInfo.info_long!!.toDouble(),
-                                    value.countryInfo.info_lat!!.toDouble()
+                        coronaEntity.add(
+                            CoronaEntity(
+                                data_source = Constants.DATA_SOURCE.DATA_S4.value,
+                                data_source_name = "worldometers",
+                                info = CoronaEntity.DataInfo(
+                                    country = it.country,
+                                    latitude = it.countryInfo.info_lat ?: 0.0,
+                                    longitude = it.countryInfo.info_long ?: 0.0,
+                                    case_actives = it.active,
+                                    case_confirms = it.cases,
+                                    case_deaths = it.deaths,
+                                    case_recovered = it.recovered,
+                                    flags = it.countryInfo.info_flag
                                 )
                             )
                         )
                     } catch (nfe: NumberFormatException) {
-                        featureList.add(
-                            Feature.fromGeometry(
-                                Point.fromLngLat(0.0, 0.0)
+                        coronaEntity.add(
+                            CoronaEntity(
+                                data_source = Constants.DATA_SOURCE.DATA_S4.value,
+                                data_source_name = "worldometers",
+                                info = CoronaEntity.DataInfo(
+                                    country = it.country,
+                                    latitude = 0.0,
+                                    longitude = 0.0,
+                                    case_actives = it.active,
+                                    case_confirms = it.cases,
+                                    case_deaths = it.deaths,
+                                    case_recovered = it.recovered,
+                                    flags = it.countryInfo.info_flag
+                                )
                             )
                         )
                     }
-
                 }
 
             }
@@ -126,10 +143,10 @@ class CoronaS4Repository(
                     "internet" to true
                 )
             )
+            coronaLiveDataS4.postValue(coronaEntity)
         }
 
-        return featureList
-
     }
+
 }
 

@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -113,10 +112,11 @@
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="16dp"
                 android:layout_marginBottom="8dp"
-                android:text="Data provided by: ASd"
+                android:text="Data provided by: "
                 android:visibility="gone" />
 
             <LinearLayout
+                android:baselineAligned="false"
                 android:id="@+id/llTotalData"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -256,7 +256,7 @@
                     android:focusable="true"
                     android:focusableInTouchMode="true"
                     android:paddingStart="16dp"
-                    android:paddingRight="16dp"
+                    android:paddingEnd="16dp"
                     android:textColor="@color/black_night" />
             </LinearLayout>
 

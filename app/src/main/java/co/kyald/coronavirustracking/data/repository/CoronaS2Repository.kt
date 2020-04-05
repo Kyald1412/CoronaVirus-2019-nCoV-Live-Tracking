@@ -2,16 +2,14 @@ package co.kyald.coronavirustracking.data.repository
 
 import androidx.lifecycle.MutableLiveData
 import co.kyald.coronavirustracking.data.database.dao.jhu.S2CoronaDao
+import co.kyald.coronavirustracking.data.database.model.CoronaEntity
 import co.kyald.coronavirustracking.data.database.model.jhu.S2CoronaEntity
 import co.kyald.coronavirustracking.data.network.category.CoronaS2Api
+import co.kyald.coronavirustracking.utils.Constants
 import co.kyald.coronavirustracking.utils.InternetChecker
-import com.mapbox.geojson.Feature
-import com.mapbox.geojson.Point
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
-import okhttp3.Response
 import kotlin.coroutines.CoroutineContext
 
 
@@ -20,15 +18,11 @@ class CoronaS2Repository(
     private val coronaS2Service: CoronaS2Api
 ) {
 
-    val coronaLiveMapDataS2: MutableLiveData<List<Feature>> = MutableLiveData()
-
-    var coronaLiveDataS2: MutableLiveData<List<S2CoronaEntity>> = MutableLiveData()
+    var coronaLiveDataS2: MutableLiveData<List<CoronaEntity>> = MutableLiveData()
 
     var isFinished: MutableLiveData<Map<String, Boolean>> = MutableLiveData()
 
-    var confirmCase: MutableLiveData<String> = MutableLiveData()
-    var deathCase: MutableLiveData<String> = MutableLiveData()
-    var recoverCase: MutableLiveData<String> = MutableLiveData()
+    var totalCases: MutableLiveData<Map<String, String>> = MutableLiveData()
 
     fun getCoronaDataS2(): List<S2CoronaEntity> = s2CoronaDao.getAllCases()
 
@@ -56,25 +50,32 @@ class CoronaS2Repository(
                             s2CoronaDao.deleteAll()
 
                             response.body()?.let { it ->
-                                coronaLiveMapDataS2.postValue(buildDataConfirmed(it))
-                                coronaLiveDataS2.postValue(it)
+                                coronaLiveDataS2.postValue(coronaEntityData(it))
                                 s2CoronaDao.save(it)
                             }
 
-                            confirmCase.postValue(s2CoronaDao.getTotalConfirmedCase().toString())
-                            deathCase.postValue(s2CoronaDao.getTotalDeathCase().toString())
-                            recoverCase.postValue(s2CoronaDao.getTotalRecoveredCase().toString())
+                            totalCases.postValue(
+                                mapOf(
+                                    "confirmed" to s2CoronaDao.getTotalConfirmedCase().toString(),
+                                    "recovered" to s2CoronaDao.getTotalRecoveredCase().toString(),
+                                    "deaths" to s2CoronaDao.getTotalDeathCase().toString()
+                                )
+                            )
+
                         }
 
                     } else {
 
 
-                        coronaLiveMapDataS2.postValue(buildDataConfirmed(s2CoronaDao.getAllCases()))
-                        coronaLiveDataS2.postValue(s2CoronaDao.getAllCases())
+                        coronaLiveDataS2.postValue(coronaEntityData(s2CoronaDao.getAllCases()))
 
-                        confirmCase.postValue(s2CoronaDao.getTotalConfirmedCase().toString())
-                        deathCase.postValue(s2CoronaDao.getTotalDeathCase().toString())
-                        recoverCase.postValue(s2CoronaDao.getTotalRecoveredCase().toString())
+                        totalCases.postValue(
+                            mapOf(
+                                "confirmed" to s2CoronaDao.getTotalConfirmedCase().toString(),
+                                "recovered" to s2CoronaDao.getTotalRecoveredCase().toString(),
+                                "deaths" to s2CoronaDao.getTotalDeathCase().toString()
+                            )
+                        )
 
                         isFinished.postValue(
                             mapOf(
@@ -88,38 +89,60 @@ class CoronaS2Repository(
         })
     }
 
+    fun coronaEntityData(data: List<S2CoronaEntity>): List<CoronaEntity> {
 
-    private suspend fun buildDataConfirmed(data: List<S2CoronaEntity>): MutableList<Feature> {
-        val featureList: MutableList<Feature> = mutableListOf()
+        val coronaEntity: MutableList<CoronaEntity> = mutableListOf()
 
-        // limits the scope of concurrency
-        withContext(Dispatchers.IO) {
+        data.forEach {
 
-            data.forEach { value ->
-                withContext(Dispatchers.IO) {
-                    try {
-                        featureList.add(
-                            Feature.fromGeometry(
-                                Point.fromLngLat(
-                                    value.coordinates.longitude!!.toDouble(),
-                                    value.coordinates.latitude!!.toDouble()
-                                )
-                            )
+            try {
+                coronaEntity.add(
+                    CoronaEntity(
+                        data_source = Constants.DATA_SOURCE.DATA_S2.value,
+                        data_source_name = "John Hopkins CSSE",
+                        info = CoronaEntity.DataInfo(
+                            country = "${it.country} ${
+
+                            if(!it.province.isNullOrEmpty()) {
+                                "("+it.province+")"
+                            } else {
+                                ""
+                            }
+                            }",
+                            latitude = it.coordinates.latitude?.toDouble(),
+                            longitude = it.coordinates.longitude?.toDouble(),
+                            case_actives = 0,
+                            case_confirms = it.stats.confirmed?.toLong(),
+                            case_deaths = it.stats.deaths?.toLong(),
+                            case_recovered = it.stats.recovered?.toLong(),
+                            flags = ""
                         )
+                    )
+                )
+            } catch (nfe: NumberFormatException) {
+                coronaEntity.add(
+                    CoronaEntity(
+                        data_source = Constants.DATA_SOURCE.DATA_S2.value,
+                        data_source_name = "John Hopkins CSSE",
+                        info = CoronaEntity.DataInfo(
+                            country = "${it.country} ${
 
-
-                    } catch (nfe: NumberFormatException) {
-                        featureList.add(
-                            Feature.fromGeometry(
-                                Point.fromLngLat(
-                                   0.0,
-                                   0.0
-                                )
-                            )
+                            if(!it.province.isNullOrEmpty()) {
+                                "("+it.province+")"
+                            } else {
+                                ""
+                            }
+                            }",
+                            latitude = 0.0,
+                            longitude = 0.0,
+                            case_actives = 0,
+                            case_confirms = it.stats.confirmed?.toLong(),
+                            case_deaths = it.stats.deaths?.toLong(),
+                            case_recovered = it.stats.recovered?.toLong(),
+                            flags = ""
                         )
-                    }
-
-                }
+                    )
+                )
             }
 
             isFinished.postValue(
@@ -130,8 +153,7 @@ class CoronaS2Repository(
             )
         }
 
-        return featureList
-
+        return coronaEntity
     }
 }
 
