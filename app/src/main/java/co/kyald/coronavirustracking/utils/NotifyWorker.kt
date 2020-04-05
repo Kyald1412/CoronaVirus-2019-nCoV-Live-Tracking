@@ -12,9 +12,11 @@ import co.kyald.coronavirustracking.R
 import co.kyald.coronavirustracking.data.database.model.arcgis.S3CoronaEntity
 import co.kyald.coronavirustracking.data.database.model.chnasia.S1CoronaEntity
 import co.kyald.coronavirustracking.data.database.model.jhu.S2CoronaEntity
+import co.kyald.coronavirustracking.data.database.model.worldometers.S4CoronaEntity
 import co.kyald.coronavirustracking.data.repository.CoronaS1Repository
 import co.kyald.coronavirustracking.data.repository.CoronaS2Repository
 import co.kyald.coronavirustracking.data.repository.CoronaS3Repository
+import co.kyald.coronavirustracking.data.repository.CoronaS4Repository
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.mapbox.geojson.Feature
@@ -36,6 +38,7 @@ class NotifyWorker(
     private val coronaS1Repository: CoronaS1Repository by inject()
     private val coronaS2Repository: CoronaS2Repository by inject()
     private val coronaS3Repository: CoronaS3Repository by inject()
+    private val coronaS4Repository: CoronaS4Repository by inject()
     private val preferences: SharedPreferences by inject()
 
     val mContext = context
@@ -147,6 +150,41 @@ class NotifyWorker(
 
                     }
                 }
+
+                Constants.DATA_SOURCE.DATA_S4.value -> {
+
+
+                    val s4CoronaOldEntry: List<S4CoronaEntity> =
+                        coronaS4Repository.getCoronaDataS4()
+                    var s4CoronaNewEntry: List<S4CoronaEntity> = listOf()
+
+                    coronaS4Repository.callCoronaS4Data().let {
+                        if(it.isSuccessful){
+                            s4CoronaNewEntry = it.body()!!
+                        }
+                    }
+
+                    s4CoronaOldEntry.forEach { value ->
+
+                        oldDataCountCase += try {
+                            value.cases!!.toInt()
+                        } catch (nfe: NumberFormatException) {
+                            1
+                        }
+
+                    }
+
+                    s4CoronaNewEntry.forEach { value ->
+
+                        newDataCountCase += try {
+                            value.cases!!.toInt()
+                        } catch (nfe: NumberFormatException) {
+                            1
+                        }
+
+                    }
+                }
+
             }
 
 
@@ -178,7 +216,7 @@ class NotifyWorker(
             .setContentText(
                 "New cases has been confirmed = ${preferences.getString(
                     Constants.PREF_DATA_SOURCE,
-                    "SS"
+                    "0"
                 )}"
             )
             .setSmallIcon(R.mipmap.ic_launcher)

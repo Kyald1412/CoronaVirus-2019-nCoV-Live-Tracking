@@ -1,9 +1,6 @@
 package co.kyald.coronavirustracking.injection
 
-import co.kyald.coronavirustracking.data.repository.CoronaS1Repository
-import co.kyald.coronavirustracking.data.repository.CoronaS2Repository
-import co.kyald.coronavirustracking.data.repository.CoronaS3Repository
-import co.kyald.coronavirustracking.data.repository.DummyRepository
+import co.kyald.coronavirustracking.data.repository.*
 import org.koin.dsl.module
 
 val repositoryModule = module {
@@ -18,5 +15,8 @@ val repositoryModule = module {
     }
     single {
         CoronaS3Repository(s3CoronaDao = get(),coronaS3Service = get())
+    }
+    single {
+        CoronaS4Repository(s4CoronaDao = get(),coronaS4Service = get())
     }
 }

@@ -93,7 +93,7 @@ class PreferenceActivity : AppCompatActivity() {
                         preference,
                         PreferenceManager
                             .getDefaultSharedPreferences(preference.context)
-                            .getString(preference.key, Constants.DATA_SOURCE.DATA_S2.value)
+                            .getString(preference.key, Constants.DATA_SOURCE.DATA_S4.value)
                     )
                 }
 

@@ -64,19 +64,19 @@ class CoronaS3Repository(
                         }
 
                         val confirmCaseResponse = coronaS3Service.fetchArcGISConfirmed()
-                        if(confirmCaseResponse.isSuccessful){
+                        if (confirmCaseResponse.isSuccessful) {
                             confirmCaseResponse.body()?.let {
                                 confirmCase.postValue(it.features[0].attributes.value.toString())
                             }
                         }
                         val deathCaseResponse = coronaS3Service.fetchArcGISDeaths()
-                        if(deathCaseResponse.isSuccessful){
+                        if (deathCaseResponse.isSuccessful) {
                             deathCaseResponse.body()?.let {
                                 deathCase.postValue(it.features[0].attributes.value.toString())
                             }
                         }
                         val recoveredCaseResponse = coronaS3Service.fetchArcGISRecovered()
-                        if(recoveredCaseResponse.isSuccessful){
+                        if (recoveredCaseResponse.isSuccessful) {
                             recoveredCaseResponse.body()?.let {
                                 recoverCase.postValue(it.features[0].attributes.value.toString())
                             }
@@ -114,24 +114,24 @@ class CoronaS3Repository(
 
             data.forEach { value ->
 
-                (0 until value.attributes.confirmed!!.toInt()).map {
-
-                    withContext(Dispatchers.IO) {
-                        try {
-                            featureList.add(
-                                Feature.fromGeometry(
-                                    Point.fromLngLat(value.attributes.long!!.toDouble(), value.attributes.lat!!.toDouble())
+                withContext(Dispatchers.IO) {
+                    try {
+                        featureList.add(
+                            Feature.fromGeometry(
+                                Point.fromLngLat(
+                                    value.attributes.long!!.toDouble(),
+                                    value.attributes.lat!!.toDouble()
                                 )
                             )
-                        } catch (nfe: NumberFormatException) {
-                            featureList.add(
-                                Feature.fromGeometry(
-                                    Point.fromLngLat(value.attributes.long!!.toDouble(), value.attributes.lat!!.toDouble())
-                                )
+                        )
+                    } catch (nfe: NumberFormatException) {
+                        featureList.add(
+                            Feature.fromGeometry(
+                                Point.fromLngLat(0.0, 0.0)
                             )
-                        }
-
+                        )
                     }
+
                 }
 
             }

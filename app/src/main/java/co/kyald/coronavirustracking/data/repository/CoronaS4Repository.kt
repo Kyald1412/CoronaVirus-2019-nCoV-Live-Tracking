@@ -1,8 +1,8 @@
 package co.kyald.coronavirustracking.data.repository
 
 import androidx.lifecycle.MutableLiveData
-import co.kyald.coronavirustracking.data.database.dao.jhu.S2CoronaDao
-import co.kyald.coronavirustracking.data.database.model.jhu.S2CoronaEntity
+import co.kyald.coronavirustracking.data.database.dao.worldometers.S4CoronaDao
+import co.kyald.coronavirustracking.data.database.model.worldometers.S4CoronaEntity
 import co.kyald.coronavirustracking.data.network.category.CoronaS2Api
 import co.kyald.coronavirustracking.utils.InternetChecker
 import com.mapbox.geojson.Feature
@@ -11,18 +11,17 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import okhttp3.Response
 import kotlin.coroutines.CoroutineContext
 
 
-class CoronaS2Repository(
-    private val s2CoronaDao: S2CoronaDao,
-    private val coronaS2Service: CoronaS2Api
+class CoronaS4Repository(
+    private val s4CoronaDao: S4CoronaDao,
+    private val coronaS4Service: CoronaS2Api
 ) {
 
-    val coronaLiveMapDataS2: MutableLiveData<List<Feature>> = MutableLiveData()
+    val coronaLiveMapDataS4: MutableLiveData<List<Feature>> = MutableLiveData()
 
-    var coronaLiveDataS2: MutableLiveData<List<S2CoronaEntity>> = MutableLiveData()
+    var coronaLiveDataS4: MutableLiveData<List<S4CoronaEntity>> = MutableLiveData()
 
     var isFinished: MutableLiveData<Map<String, Boolean>> = MutableLiveData()
 
@@ -30,11 +29,11 @@ class CoronaS2Repository(
     var deathCase: MutableLiveData<String> = MutableLiveData()
     var recoverCase: MutableLiveData<String> = MutableLiveData()
 
-    fun getCoronaDataS2(): List<S2CoronaEntity> = s2CoronaDao.getAllCases()
+    fun getCoronaDataS4(): List<S4CoronaEntity> = s4CoronaDao.getAllCases()
 
-    suspend fun callCoronaDataS2() = coronaS2Service.fetchJHUCSSE()
+    suspend fun callCoronaS4Data() = coronaS4Service.fetchWorlOdMeters()
 
-    fun fetchCoronaDataS2(coroutineContext: CoroutineContext = Dispatchers.IO) {
+    fun fetchCoronaDataS4(coroutineContext: CoroutineContext = Dispatchers.IO) {
 
         isFinished.postValue(
             mapOf(
@@ -50,31 +49,33 @@ class CoronaS2Repository(
 
                     if (internet) {
 
-                        val response = callCoronaDataS2()
+                        val caseResponse = callCoronaS4Data()
 
-                        if (response.isSuccessful) {
-                            s2CoronaDao.deleteAll()
+                        if (caseResponse.isSuccessful) {
+                            s4CoronaDao.deleteAll()
 
-                            response.body()?.let { it ->
-                                coronaLiveMapDataS2.postValue(buildDataConfirmed(it))
-                                coronaLiveDataS2.postValue(it)
-                                s2CoronaDao.save(it)
+                            caseResponse.body()?.let { it ->
+                                coronaLiveMapDataS4.postValue(buildDataConfirmed(it))
+                                coronaLiveDataS4.postValue(it)
+                                s4CoronaDao.save(it)
                             }
 
-                            confirmCase.postValue(s2CoronaDao.getTotalConfirmedCase().toString())
-                            deathCase.postValue(s2CoronaDao.getTotalDeathCase().toString())
-                            recoverCase.postValue(s2CoronaDao.getTotalRecoveredCase().toString())
                         }
+
+                        confirmCase.postValue(s4CoronaDao.getTotalConfirmedCase().toString())
+                        deathCase.postValue(s4CoronaDao.getTotalDeathCase().toString())
+                        recoverCase.postValue(s4CoronaDao.getTotalRecoveredCase().toString())
+
 
                     } else {
 
 
-                        coronaLiveMapDataS2.postValue(buildDataConfirmed(s2CoronaDao.getAllCases()))
-                        coronaLiveDataS2.postValue(s2CoronaDao.getAllCases())
+                        coronaLiveMapDataS4.postValue(buildDataConfirmed(s4CoronaDao.getAllCases()))
+                        coronaLiveDataS4.postValue(s4CoronaDao.getAllCases())
 
-                        confirmCase.postValue(s2CoronaDao.getTotalConfirmedCase().toString())
-                        deathCase.postValue(s2CoronaDao.getTotalDeathCase().toString())
-                        recoverCase.postValue(s2CoronaDao.getTotalRecoveredCase().toString())
+                        confirmCase.postValue(s4CoronaDao.getTotalConfirmedCase().toString())
+                        deathCase.postValue(s4CoronaDao.getTotalDeathCase().toString())
+                        recoverCase.postValue(s4CoronaDao.getTotalRecoveredCase().toString())
 
                         isFinished.postValue(
                             mapOf(
@@ -89,37 +90,34 @@ class CoronaS2Repository(
     }
 
 
-    private suspend fun buildDataConfirmed(data: List<S2CoronaEntity>): MutableList<Feature> {
+    private suspend fun buildDataConfirmed(data: List<S4CoronaEntity>): MutableList<Feature> {
         val featureList: MutableList<Feature> = mutableListOf()
 
         // limits the scope of concurrency
         withContext(Dispatchers.IO) {
 
             data.forEach { value ->
+
                 withContext(Dispatchers.IO) {
                     try {
                         featureList.add(
                             Feature.fromGeometry(
                                 Point.fromLngLat(
-                                    value.coordinates.longitude!!.toDouble(),
-                                    value.coordinates.latitude!!.toDouble()
+                                    value.countryInfo.info_long!!.toDouble(),
+                                    value.countryInfo.info_lat!!.toDouble()
                                 )
                             )
                         )
-
-
                     } catch (nfe: NumberFormatException) {
                         featureList.add(
                             Feature.fromGeometry(
-                                Point.fromLngLat(
-                                   0.0,
-                                   0.0
-                                )
+                                Point.fromLngLat(0.0, 0.0)
                             )
                         )
                     }
 
                 }
+
             }
 
             isFinished.postValue(

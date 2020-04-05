@@ -19,7 +19,8 @@ class Constants {
     enum class DATA_SOURCE(val value: String) {
         DATA_S1("0"),
         DATA_S2("1"),
-        DATA_S3("2")
+        DATA_S3("2"),
+        DATA_S4("3")
     }
 
 
