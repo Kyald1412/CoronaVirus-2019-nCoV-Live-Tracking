@@ -1,4 +1,4 @@
-package co.kyald.coronavirustracking.ui.feature.mainscreen.bottomsheet
+package co.kyald.coronavirustracking.ui.adapter
 
 import android.content.Context
 import android.view.LayoutInflater

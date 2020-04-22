@@ -15,3 +15,4 @@ fun ViewGroup.inflate(
         LayoutInflater.from(this.context).inflate(resId, container, attachToRoot)
     }
 }
+

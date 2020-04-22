@@ -12,7 +12,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@null"
-        app:cardBackgroundColor="#FFFFFF"
+        app:cardBackgroundColor="#ffffff"
         app:cardCornerRadius="10dp"
         app:cardElevation="5dp"
         app:cardUseCompatPadding="false">
@@ -28,7 +28,7 @@
                 android:layout_width="32dp"
                 android:layout_height="32dp"
                 android:padding="4dp"
-                app:srcCompat="@drawable/mapbox_ic_place" />
+                app:srcCompat="@drawable/ic_pie_chart_white" />
 
         </LinearLayout>
 
@@ -40,7 +40,7 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:background="@null"
-        app:cardBackgroundColor="#FFFFFF"
+        app:cardBackgroundColor="#ffffff"
         app:cardCornerRadius="10dp"
         app:cardElevation="5dp"
         app:cardUseCompatPadding="false"
@@ -71,21 +71,21 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center|start"
-                android:textColor="#FF9800" />
+                android:textColor="@color/colorConfirm" />
 
             <TextView
                 android:id="@+id/death_case"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center|start"
-                android:textColor="#FF0000" />
+                android:textColor="@color/colorDeaths" />
 
             <TextView
                 android:id="@+id/recovered_case"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center|start"
-                android:textColor="#20BE25" />
+                android:textColor="@color/colorRecovered" />
         </LinearLayout>
 
 

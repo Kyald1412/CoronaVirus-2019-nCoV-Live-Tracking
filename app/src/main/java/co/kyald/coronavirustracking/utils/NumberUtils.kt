@@ -7,9 +7,6 @@ import org.threeten.bp.format.DateTimeFormatter
 import java.text.NumberFormat
 import java.util.*
 
-/**
- * rizmaulana 04/03/20.
- */
 object NumberUtils {
 
     fun numberFormat(number: Int?) = number?.let {

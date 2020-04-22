@@ -9,12 +9,14 @@ import co.kyald.coronavirustracking.data.database.dao.DummyDao
 import co.kyald.coronavirustracking.data.database.dao.arcgis.S3CoronaDao
 import co.kyald.coronavirustracking.data.database.dao.chnasia.S1CoronaDao
 import co.kyald.coronavirustracking.data.database.dao.jhu.S2CoronaDao
+import co.kyald.coronavirustracking.data.database.dao.jhu.S5CoronaDao
 import co.kyald.coronavirustracking.data.database.dao.worldometers.S4CoronaDao
 import co.kyald.coronavirustracking.data.database.model.DummyEntity
 import co.kyald.coronavirustracking.data.database.model.arcgis.S3CoronaEntity
 import co.kyald.coronavirustracking.data.database.model.chnasia.S1CoronaEntity
 import co.kyald.coronavirustracking.data.database.model.chnasia.S1CountryCoordEntity
 import co.kyald.coronavirustracking.data.database.model.jhu.S2CoronaEntity
+import co.kyald.coronavirustracking.data.database.model.jhu.S5CoronaEntity
 import co.kyald.coronavirustracking.data.database.model.worldometers.S4CoronaEntity
 
 @Database(
@@ -23,8 +25,9 @@ import co.kyald.coronavirustracking.data.database.model.worldometers.S4CoronaEnt
         S1CoronaEntity::class,
         S2CoronaEntity::class,
         S3CoronaEntity::class,
-        S4CoronaEntity::class],
-    version = 11,
+        S4CoronaEntity::class,
+        S5CoronaEntity::class],
+    version = 12,
     exportSchema = false
 )
 @TypeConverters(EntryConverter::class, ListStringTypeConverter::class)
@@ -34,4 +37,5 @@ abstract class AppDatabase : RoomDatabase() {
     abstract fun coronaDao2(): S2CoronaDao
     abstract fun coronaDao3(): S3CoronaDao
     abstract fun coronaDao4(): S4CoronaDao
+    abstract fun coronaDao5(): S5CoronaDao
 }

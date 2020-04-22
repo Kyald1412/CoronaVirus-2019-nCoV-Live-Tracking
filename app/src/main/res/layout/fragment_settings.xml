@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.feature.menuscreen.fragment.settings.SettingsFragment">
+    android:background="@color/white_night">
 
     <TextView
         android:id="@+id/text_notifications"

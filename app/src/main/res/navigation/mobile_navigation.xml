@@ -3,23 +3,23 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
-    app:startDestination="@+id/navigation_home">
+    app:startDestination="@+id/navigation_graph">
 
     <fragment
-        android:id="@+id/navigation_home"
-        android:name="co.kyald.coronavirustracking.ui.feature.menuscreen.ui.home.HomeFragment"
-        android:label="@string/title_home"
-        tools:layout="@layout/fragment_home" />
-
-    <fragment
-        android:id="@+id/navigation_dashboard"
-        android:name="co.kyald.coronavirustracking.ui.feature.menuscreen.ui.dashboard.DashboardFragment"
-        android:label="@string/title_dashboard"
-        tools:layout="@layout/fragment_dashboard" />
+        android:id="@+id/navigation_trending"
+        android:name="co.kyald.coronavirustracking.ui.feature.menuscreen.fragment.trending.TrendingFragment"
+        android:label="@string/title_settings"
+        tools:layout="@layout/fragment_trending" />
 
     <fragment
         android:id="@+id/navigation_notifications"
-        android:name="co.kyald.coronavirustracking.ui.feature.menuscreen.ui.notifications.NotificationsFragment"
-        android:label="@string/title_notifications"
-        tools:layout="@layout/fragment_notifications" />
+        android:name="co.kyald.coronavirustracking.ui.feature.menuscreen.fragment.settings.SettingsFragment"
+        android:label="@string/title_settings"
+        tools:layout="@layout/fragment_settings" />
+
+    <fragment
+        android:id="@+id/navigation_graph"
+        android:name="co.kyald.coronavirustracking.ui.feature.menuscreen.fragment.graph.GraphFragment"
+        android:label="@string/title_graph"
+        tools:layout="@layout/fragment_graph" />
 </navigation>

@@ -1,10 +1,10 @@
-package co.kyald.coronavirustracking.ui.feature.menuscreen.fragment.outline
+package co.kyald.coronavirustracking.ui.feature.menuscreen.fragment.graph
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 
-class DashboardViewModel : ViewModel() {
+class GraphViewModel : ViewModel() {
 
     private val _text = MutableLiveData<String>().apply {
         value = "This is dashboard Fragment"

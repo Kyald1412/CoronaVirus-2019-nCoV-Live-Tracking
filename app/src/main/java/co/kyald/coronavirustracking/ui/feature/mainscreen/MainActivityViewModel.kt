@@ -27,7 +27,7 @@ class MainActivityViewModel(
     var totalCases = MediatorLiveData<Map<String, String>>()
     private var totalCasesSource: MutableLiveData<Map<String, String>> = MutableLiveData()
 
-    private var currentDataSource: MutableLiveData<String> = MutableLiveData()
+    var currentDataSource: MutableLiveData<String> = MutableLiveData()
 
     init {
         refreshData()
@@ -82,7 +82,6 @@ class MainActivityViewModel(
         coronaLiveDataSource = coronaS3Repository.coronaLiveDataS3
         totalCasesSource = coronaS3Repository.totalCases
         isFinishedSource = coronaS3Repository.isFinished
-
 
         isFinishedLiveData.addSource(isFinishedSource) {
             isFinishedLiveData.value = it

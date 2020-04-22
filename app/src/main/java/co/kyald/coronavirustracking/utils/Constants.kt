@@ -2,6 +2,9 @@ package co.kyald.coronavirustracking.utils
 
 import androidx.appcompat.app.AppCompatDelegate
 import co.kyald.coronavirustracking.BuildConfig
+import com.mapbox.mapboxsdk.camera.CameraUpdate
+import com.mapbox.mapboxsdk.camera.CameraUpdateFactory
+import com.mapbox.mapboxsdk.geometry.LatLng
 
 
 class Constants {
@@ -14,6 +17,13 @@ class Constants {
         const val PREF_THEME = "pref_key_theme"
 
     }
+
+    val defaultLocation: CameraUpdate = CameraUpdateFactory.newLatLngZoom(
+        LatLng(
+            39.913818,
+            116.363625
+        ), 1.0
+    )
 
     enum class DATA_SOURCE(val value: String) {
         DATA_S1("0"),

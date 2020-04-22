@@ -101,7 +101,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/white_night"
+            android:background="@color/colorBackground"
             android:orientation="vertical">
 
 
@@ -139,7 +139,7 @@
                         android:minLines="1"
                         android:text="@string/infected"
                         android:textAlignment="center"
-                        android:textColor="#FF9800"
+                        android:textColor="@color/colorConfirm"
                         android:textSize="16sp"
                         app:autoSizeMaxTextSize="20sp"
                         app:autoSizeMinTextSize="10sp" />
@@ -153,7 +153,7 @@
                         android:minLines="1"
                         android:text="@string/fetch"
                         android:textAlignment="center"
-                        android:textColor="#FF9800"
+                        android:textColor="@color/colorConfirm"
                         android:textSize="16sp"
                         app:autoSizeMaxTextSize="20sp"
                         app:autoSizeMinTextSize="10sp" />
@@ -175,7 +175,7 @@
                         android:minLines="1"
                         android:text="@string/death"
                         android:textAlignment="center"
-                        android:textColor="#FF0000"
+                        android:textColor="@color/colorDeaths"
                         android:textSize="16sp"
                         app:autoSizeMaxTextSize="20sp"
                         app:autoSizeMinTextSize="10sp" />
@@ -189,7 +189,7 @@
                         android:minLines="1"
                         android:text="@string/fetch"
                         android:textAlignment="center"
-                        android:textColor="#FF0000"
+                        android:textColor="@color/colorDeaths"
                         android:textSize="16sp"
                         app:autoSizeMaxTextSize="20sp"
                         app:autoSizeMinTextSize="10sp" />
@@ -211,7 +211,7 @@
                         android:minLines="1"
                         android:text="@string/recovered"
                         android:textAlignment="center"
-                        android:textColor="#20BE25"
+                        android:textColor="@color/colorRecovered"
                         android:textSize="16sp"
                         app:autoSizeMaxTextSize="20sp"
                         app:autoSizeMinTextSize="10sp" />
@@ -225,7 +225,7 @@
                         android:minLines="1"
                         android:text="@string/fetch"
                         android:textAlignment="center"
-                        android:textColor="#20BE25"
+                        android:textColor="@color/colorRecovered"
                         android:textSize="16sp"
                         app:autoSizeMaxTextSize="20sp"
                         app:autoSizeMinTextSize="10sp" />
@@ -378,12 +378,12 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:layout_marginEnd="10dp"
-        app:srcCompat="@drawable/ic_bubble_chart_white"
-        app:backgroundTint="@color/colorAccent"
+        app:backgroundTint="@color/colorPrimary"
         app:layout_anchor="@+id/bottom_sheet"
         app:layout_anchorGravity="top|right"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_bubble_chart_white" />
 
 
     <!--    <io.github.kobakei.materialfabspeeddial.FabSpeedDial-->

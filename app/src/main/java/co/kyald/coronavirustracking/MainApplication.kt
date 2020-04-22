@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatDelegate
 import androidx.preference.PreferenceManager
 import co.kyald.coronavirustracking.injection.*
 import co.kyald.coronavirustracking.utils.Constants
+import com.jakewharton.threetenabp.AndroidThreeTen
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
 import org.koin.core.context.startKoin
@@ -15,6 +16,8 @@ class MainApplication : Application() {
         super.onCreate()
 
         Timber.plant(Timber.DebugTree())
+
+        AndroidThreeTen.init(this)
 
         initTheme()
 

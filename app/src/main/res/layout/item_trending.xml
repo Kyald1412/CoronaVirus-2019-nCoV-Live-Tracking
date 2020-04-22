@@ -1,94 +1,58 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginBottom="1dp"
-    android:background="@color/davy_grey"
-    android:padding="@dimen/space_x2"
-    app:layout_goneMarginBottom="@dimen/space_half">
+    android:layout_marginLeft="10dp"
+    android:layout_marginRight="10dp"
+    android:orientation="horizontal">
 
-    <ImageView
-        android:id="@+id/img_icon"
+    <com.github.vipulasri.timelineview.TimelineView
+        android:id="@+id/timeline"
         android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        app:endLineColor="@color/white"
+        app:lineStyle="normal"
+        app:lineWidth="3dp"
+        app:markerSize="5dp"
+        app:startLineColor="@color/white" />
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_access_time" />
+        android:layout_gravity="center_vertical"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginRight="5dp"
+        android:layout_marginBottom="15dp"
+        app:cardBackgroundColor="@color/colorRecovered"
+        app:contentPadding="15dp">
 
-    <TextView
-        android:id="@+id/txt_date"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/space_x2"
-        android:textColor="@color/white"
-        android:textSize="@dimen/text_14"
-        app:layout_constraintStart_toEndOf="@id/img_icon"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:text="20 Januari 2019" />
-
-    <LinearLayout
-        android:id="@+id/layout_case"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/space_x2"
-        android:layout_marginTop="@dimen/space_quarter"
-        android:gravity="center_vertical"
-        android:orientation="horizontal"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/img_icon"
-        app:layout_constraintTop_toBottomOf="@id/txt_date">
-
-        <ImageView
-            android:id="@+id/img_confirmed"
-            android:layout_width="@dimen/space_x3"
-            android:layout_height="@dimen/space_x3"
-            app:srcCompat="@drawable/ic_trending_up" />
-
-        <TextView
-            android:id="@+id/txt_confirmed"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/space"
-            android:textAppearance="@style/TextAppearance.App.TextView.H5.White.Bold"
-            android:textColor="@color/color_confirmed"
-            android:textSize="@dimen/text_14"
-            tools:text="Confirmed : 220 " />
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:orientation="vertical">
 
-        <ImageView
-            android:id="@+id/img_recovered"
-            android:layout_width="@dimen/space_x3"
-            android:layout_height="@dimen/space_x3"
-            android:layout_marginLeft="@dimen/space_x2"
-            app:srcCompat="@drawable/ic_trending_down" />
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/text_timeline_date"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="12sp"
+                tools:text="08, September 2020" />
 
-        <TextView
-            android:id="@+id/txt_recovered"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/space"
-            android:textAppearance="@style/TextAppearance.App.TextView.H5.White.Bold"
-            android:textColor="@color/color_recovered"
-            android:textSize="@dimen/text_14"
-            tools:text="Recovered : 90 " />
-    </LinearLayout>
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/text_timeline_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:textColor="@android:color/black"
+                tools:text="Order Successfully Completed" />
 
-    <TextView
-        android:layout_marginTop="@dimen/space"
-        android:id="@+id/txt_information"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:textColor="@color/cool_grey"
-        android:textSize="@dimen/text_14"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@id/layout_case"
-        app:layout_constraintTop_toBottomOf="@id/layout_case"
-        app:layout_constraintBottom_toBottomOf="parent"
-        tools:text="Tap onData source : https://covid19.mathdro.id/api/" />
+        </LinearLayout>
 
+    </androidx.cardview.widget.CardView>
 
-
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>

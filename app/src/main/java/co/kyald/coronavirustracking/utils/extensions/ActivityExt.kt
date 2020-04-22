@@ -2,7 +2,11 @@ package co.kyald.coronavirustracking.utils.extensions
 
 import android.animation.Animator
 import android.animation.ValueAnimator
+import android.app.Activity
 import android.content.Context
+import android.content.Intent
+import android.os.Build
+import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
@@ -11,56 +15,34 @@ import android.widget.EditText
 import androidx.core.content.ContextCompat
 import co.kyald.coronavirustracking.utils.SafeClickListener
 import kotlinx.android.synthetic.main.marker_view.*
-
-fun View.gone() = this.apply { visibility = View.GONE }
-
-fun View.visible() = this.apply { visibility = View.VISIBLE }
-
-fun View.invisible() = this.apply { visibility = View.INVISIBLE }
-
-fun View.setSafeOnClickListener(onSafeClick: (View) -> Unit) {
-    val safeClickListener = SafeClickListener {
-        onSafeClick(it)
+inline fun <reified T : Any> Activity.startActivity (
+    requestCode: Int = -1,
+    options: Bundle? = null,
+    noinline init: Intent.() -> Unit = {})
+{
+    val intent = newIntent<T>(this)
+    intent.init()
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN)
+    {
+        startActivityForResult(intent, requestCode, options)
+    } else {
+        startActivityForResult(intent, requestCode)
     }
-    setOnClickListener(safeClickListener)
 }
 
-fun Context.color(resource: Int): Int {
-    return ContextCompat.getColor(this, resource)
+inline fun <reified T : Any> Context.startActivity (
+    options: Bundle? = null,
+    noinline init: Intent.() -> Unit = {})
+{
+    val intent = newIntent<T>(this)
+    intent.init()
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN)
+    {
+        startActivity(intent, options)
+    } else {
+        startActivity(intent)
+    }
 }
 
-fun EditText.OnTextChangedListener(afterTextChanged: (String) -> Unit) {
-    this.addTextChangedListener(object : TextWatcher {
-        override fun afterTextChanged(p0: Editable?) {}
-
-        override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
-
-        override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-            p0?.let {
-                afterTextChanged(editableText.toString())
-            }
-        }
-
-    })
-}
-
-fun Animator.OnAnimationListener(animator: (Animator) -> Unit) {
-    this.addListener(object : Animator.AnimatorListener {
-        override fun onAnimationRepeat(animation: Animator?) {
-        }
-
-        override fun onAnimationEnd(animation: Animator?) {
-            animation?.let{
-                animator(animation)
-            }
-
-        }
-
-        override fun onAnimationCancel(animation: Animator?) {
-        }
-
-        override fun onAnimationStart(animation: Animator?) {
-        }
-
-    })
-}
+inline fun <reified T : Any> newIntent(context: Context): Intent =
+    Intent(context, T::class.java)

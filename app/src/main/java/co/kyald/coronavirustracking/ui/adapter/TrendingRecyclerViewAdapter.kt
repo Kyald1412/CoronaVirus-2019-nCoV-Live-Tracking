@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import co.kyald.coronavirustracking.R
 import co.kyald.coronavirustracking.data.database.model.CoronaEntity
 import kotlinx.android.synthetic.main.item_country_second.view.*
+import kotlinx.android.synthetic.main.item_trending.view.*
 import java.util.*
 
 class TrendingRecyclerViewAdapter(
@@ -65,9 +66,9 @@ class TrendingRecyclerViewAdapter(
         notifyDataSetChanged()
     }
 
-    override fun onCreateViewHolder(viewGroup: ViewGroup, i: Int): CardViewViewHolder {
+    override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int): CardViewViewHolder {
         val view =
-            LayoutInflater.from(context).inflate(R.layout.item_country_second, viewGroup, false)
+            LayoutInflater.from(context).inflate(R.layout.item_trending, viewGroup, false)
         return CardViewViewHolder(view)
     }
 
@@ -80,10 +81,12 @@ class TrendingRecyclerViewAdapter(
     inner class CardViewViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         fun bind(entry: CoronaEntity) {
             try {
-                itemView.tvTitle.text = entry.info.country
-                itemView.tvCases.text = entry.info.case_confirms.toString()
-                itemView.tvDeathCase.text = entry.info.case_deaths.toString()
-                itemView.tvRecoverCase.text = entry.info.case_recovered.toString()
+                itemViewType
+                itemView.timeline.initLine(itemViewType)
+//                itemView.tvTitle.text = entry.info.country
+//                itemView.tvCases.text = entry.info.case_confirms.toString()
+//                itemView.tvDeathCase.text = entry.info.case_deaths.toString()
+//                itemView.tvRecoverCase.text = entry.info.case_recovered.toString()
             } catch (e: Exception) {
 
             }
