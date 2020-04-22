@@ -2,6 +2,9 @@
 
 CoronaVirus(COVID-19) outbreak Live Map tracker 
 
+iOS Version : [**Here**] (https://github.com/Kyald1412/Covid19-iOS-App-Tracker)
+
+
 <!-- [![PlayStore][playstore-image]][playstore-url] -->
 
 
