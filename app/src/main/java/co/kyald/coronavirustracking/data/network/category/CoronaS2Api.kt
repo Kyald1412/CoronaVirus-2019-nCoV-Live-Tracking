@@ -11,7 +11,7 @@ interface CoronaS2Api {
     @GET("v2/jhucsse")
     suspend fun fetchJHUCSSE(): Response<List<S2CoronaEntity>>
 
-    @GET("countries")
+    @GET("v2/countries")
     suspend fun fetchWorlOdMeters(): Response<List<S4CoronaEntity>>
 
 }
