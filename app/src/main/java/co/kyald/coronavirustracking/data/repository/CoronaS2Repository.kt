@@ -4,6 +4,7 @@ import androidx.lifecycle.MutableLiveData
 import co.kyald.coronavirustracking.data.database.dao.jhu.S2CoronaDao
 import co.kyald.coronavirustracking.data.database.model.CoronaEntity
 import co.kyald.coronavirustracking.data.database.model.jhu.S2CoronaEntity
+import co.kyald.coronavirustracking.data.database.model.worldometers.S4CoronaEntity
 import co.kyald.coronavirustracking.data.network.category.CoronaS2Api
 import co.kyald.coronavirustracking.utils.Constants
 import co.kyald.coronavirustracking.utils.InternetChecker
@@ -20,6 +21,8 @@ class CoronaS2Repository(
 
     var coronaLiveDataS2: MutableLiveData<List<CoronaEntity>> = MutableLiveData()
 
+    var coronaCountryLiveDataS2: MutableLiveData<CoronaEntity> = MutableLiveData()
+
     var isFinished: MutableLiveData<Map<String, Boolean>> = MutableLiveData()
 
     var totalCases: MutableLiveData<Map<String, String>> = MutableLiveData()
@@ -27,6 +30,8 @@ class CoronaS2Repository(
     fun getCoronaDataS2(): List<S2CoronaEntity> = s2CoronaDao.getAllCases()
 
     suspend fun callCoronaDataS2() = coronaS2Service.fetchJHUCSSE()
+
+    private suspend fun callCoronaCountryDataS2(countryName: String) = coronaS2Service.fetchCountry(countryName = countryName)
 
     fun fetchCoronaDataS2(coroutineContext: CoroutineContext = Dispatchers.IO) {
 
@@ -50,7 +55,7 @@ class CoronaS2Repository(
                             s2CoronaDao.deleteAll()
 
                             response.body()?.let { it ->
-                                coronaLiveDataS2.postValue(coronaEntityData(it))
+                                coronaLiveDataS2.postValue(listCoronaEntityData(it))
                                 s2CoronaDao.save(it)
                             }
 
@@ -67,7 +72,7 @@ class CoronaS2Repository(
                     } else {
 
 
-                        coronaLiveDataS2.postValue(coronaEntityData(s2CoronaDao.getAllCases()))
+                        coronaLiveDataS2.postValue(listCoronaEntityData(s2CoronaDao.getAllCases()))
 
                         totalCases.postValue(
                             mapOf(
@@ -89,7 +94,7 @@ class CoronaS2Repository(
         })
     }
 
-    fun coronaEntityData(data: List<S2CoronaEntity>): List<CoronaEntity> {
+    fun listCoronaEntityData(data: List<S2CoronaEntity>): List<CoronaEntity> {
 
         val coronaEntity: MutableList<CoronaEntity> = mutableListOf()
 
@@ -155,5 +160,54 @@ class CoronaS2Repository(
 
         return coronaEntity
     }
+
+    fun coronaEntityData(it: S4CoronaEntity): CoronaEntity {
+        return  CoronaEntity(
+            data_source = Constants.DATA_SOURCE.DATA_S4.value,
+            data_source_name = "worldometers",
+            info = CoronaEntity.DataInfo(
+                country = it.country,
+                latitude = it.countryInfo.info_lat ?: 0.0,
+                longitude = it.countryInfo.info_long ?: 0.0,
+                case_actives = it.active,
+                case_confirms = it.cases,
+                case_deaths = it.deaths,
+                case_recovered = it.recovered,
+                flags = it.countryInfo.info_flag
+            )
+        )
+    }
+
+
+    fun fetchCoronaCountryDataS2(
+        coroutineContext: CoroutineContext = Dispatchers.IO,
+        countryName: String
+    ) {
+
+        InternetChecker(object : InternetChecker.Consumer {
+            override fun accept(internet: Boolean) {
+
+                CoroutineScope(coroutineContext).launch {
+
+                    if (internet) {
+
+                        val response = callCoronaCountryDataS2(countryName)
+
+                        if (response.isSuccessful) {
+                            response.body()?.let { it ->
+                                coronaCountryLiveDataS2.postValue(coronaEntityData(it))
+                            }
+                        }
+
+                    } else {
+
+//                        coronaCountryLiveDataS2.postValue(coronaEntityData(s2CoronaDao.getAllCases()))
+
+                    }
+                }
+            }
+        })
+    }
+
 }
 

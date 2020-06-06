@@ -1,38 +1,29 @@
 package co.kyald.coronavirustracking.ui.feature.mainscreen
 
-import android.animation.Animator
 import android.animation.ValueAnimator
-import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
-import android.os.PersistableBundle
-import android.text.Editable
-import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
 import android.view.animation.AccelerateDecelerateInterpolator
 import android.widget.FrameLayout
 import android.widget.LinearLayout
-import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
-import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import co.kyald.coronavirustracking.R
 import co.kyald.coronavirustracking.data.database.model.CoronaEntity
 import co.kyald.coronavirustracking.ui.adapter.CoronaRecyclerViewAdapter
 import co.kyald.coronavirustracking.ui.feature.menuscreen.MenuActivity
-import co.kyald.coronavirustracking.ui.feature.menuscreen.MenusActivity
 import co.kyald.coronavirustracking.utils.Constants
 import co.kyald.coronavirustracking.utils.Utils
 import co.kyald.coronavirustracking.utils.extensions.*
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.mapbox.mapboxsdk.Mapbox
-import com.mapbox.mapboxsdk.camera.CameraUpdateFactory
 import com.mapbox.mapboxsdk.geometry.LatLng
 import com.mapbox.mapboxsdk.maps.MapboxMap
 import com.mapbox.mapboxsdk.maps.Style
@@ -41,12 +32,8 @@ import com.mapbox.mapboxsdk.plugins.markerview.MarkerViewManager
 import com.mapbox.mapboxsdk.style.layers.TransitionOptions
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.marker_view.view.*
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
-import timber.log.Timber
 import java.util.*
 
 
@@ -168,7 +155,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         fabButton.setOnClickListener {
-            startActivityForResult(Intent(this, MenusActivity::class.java), 20)
+            startActivityForResult(Intent(this, MenuActivity::class.java), 20)
         }
 
     }

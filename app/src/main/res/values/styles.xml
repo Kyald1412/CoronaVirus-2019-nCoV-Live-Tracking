@@ -9,7 +9,7 @@
         <item name="preferenceTheme">@style/PreferenceThemeOverlay</item>
     </style>
 
-    <style name="PreferenceTheme" parent="Theme.AppCompat.Light.NoActionBar">
+    <style name="PreferenceTheme" parent="Theme.AppCompat.Light">
         <item name="toolbarStyle">@style/ToolbarStyle</item>
 <!--        <item name="actionOverflowButtonStyle">@style/ToolbarStyle.Overflow</item>-->
 <!--        <item name="drawerArrowStyle">@style/ToolbarStyle.DrawerIcon</item>-->

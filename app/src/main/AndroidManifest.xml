@@ -17,11 +17,7 @@
         android:usesCleartextTraffic="true"
         tools:ignore="GoogleAppIndexingWarning,UnusedAttribute">
         <activity
-            android:theme="@style/PreferenceTheme"
             android:name=".ui.feature.menuscreen.MenuActivity"
-            android:label="@string/title_activity_menu" />
-        <activity
-            android:name=".ui.feature.menuscreen.MenusActivity"
             android:label="@string/title_activity_menu" />
         <activity
             android:name=".ui.feature.preferencescreen.PreferenceActivity"

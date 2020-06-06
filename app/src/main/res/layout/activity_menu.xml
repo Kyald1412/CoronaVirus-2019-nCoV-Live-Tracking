@@ -1,42 +1,408 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/container"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white_night">
+    android:background="@color/colorBackground2"
+    android:orientation="vertical">
 
-    <LinearLayout
-        android:id="@+id/llTop"
-        android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:background="@drawable/rounded_corners_bl_br"
-        android:orientation="horizontal"
-        app:layout_constraintEnd_toEndOf="parent"
+    <TextView
+        android:id="@+id/tvTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:background="@drawable/ic_rectangle_br"
+        android:gravity="center"
+        android:text="@string/corona_live_tracking"
+        android:textAlignment="center"
+        android:textColor="@color/white"
+        android:textSize="12sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"></LinearLayout>
+        app:layout_constraintTop_toTopOf="parent" />
 
-    <com.google.android.material.bottomnavigation.BottomNavigationView
-        android:id="@+id/nav_view"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:background="@color/white_night"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:menu="@menu/bottom_nav_menu" />
+    <ImageView
+        android:id="@+id/imgSetting"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:padding="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_settings_white" />
 
-    <fragment
-        android:id="@+id/nav_host_fragment"
-        android:name="androidx.navigation.fragment.NavHostFragment"
+    <ScrollView
+        android:id="@+id/svContent"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:background="@color/white_night"
-        app:defaultNavHost="true"
-        app:layout_constraintBottom_toTopOf="@id/nav_view"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/llTop"
-        app:navGraph="@navigation/mobile_navigation" />
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvTitle">
 
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <ImageView
+                    android:id="@+id/imgWorld"
+                    android:layout_width="120dp"
+                    android:layout_height="120dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:srcCompat="@drawable/ic_world_financial"
+                    android:contentDescription="empty" />
+
+                <LinearLayout
+                    android:id="@+id/llTotalData"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="6dp"
+                    android:baselineAligned="false"
+                    android:orientation="horizontal"
+                    android:padding="8dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/imgWorld"
+                    app:layout_constraintTop_toBottomOf="@+id/tvTodayDate">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:ellipsize="end"
+                            android:maxLines="1"
+                            android:minLines="1"
+                            android:text="@string/infected"
+                            android:textAlignment="textStart"
+                            android:textColor="#FF9800"
+                            android:textSize="12sp"
+                            app:autoSizeMaxTextSize="20sp"
+                            app:autoSizeMinTextSize="10sp" />
+
+                        <TextView
+                            android:id="@+id/tvGlobalInfected"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:ellipsize="end"
+                            android:maxLines="1"
+                            android:minLines="1"
+                            android:text="@string/fetch"
+                            android:textAlignment="textStart"
+                            android:textColor="#FF9800"
+                            android:textSize="12sp"
+                            app:autoSizeMaxTextSize="20sp"
+                            app:autoSizeMinTextSize="10sp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:ellipsize="end"
+                            android:maxLines="1"
+                            android:minLines="1"
+                            android:text="@string/death"
+                            android:textAlignment="textStart"
+                            android:textColor="#FF0000"
+                            android:textSize="12sp"
+                            app:autoSizeMaxTextSize="20sp"
+                            app:autoSizeMinTextSize="10sp" />
+
+                        <TextView
+                            android:id="@+id/tvGlobalDeath"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:ellipsize="end"
+                            android:maxLines="1"
+                            android:minLines="1"
+                            android:text="@string/fetch"
+                            android:textAlignment="textStart"
+                            android:textColor="#FF0000"
+                            android:textSize="12sp"
+                            app:autoSizeMaxTextSize="20sp"
+                            app:autoSizeMinTextSize="10sp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:ellipsize="end"
+                            android:maxLines="1"
+                            android:minLines="1"
+                            android:text="@string/recovered"
+                            android:textAlignment="textStart"
+                            android:textColor="#20BE25"
+                            android:textSize="12sp"
+                            app:autoSizeMaxTextSize="20sp"
+                            app:autoSizeMinTextSize="10sp" />
+
+                        <TextView
+                            android:id="@+id/tvGlobalRecovered"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:ellipsize="end"
+                            android:maxLines="1"
+                            android:minLines="1"
+                            android:text="@string/fetch"
+                            android:textAlignment="textStart"
+                            android:textColor="#20BE25"
+                            android:textSize="12sp"
+                            app:autoSizeMaxTextSize="20sp"
+                            app:autoSizeMinTextSize="10sp" />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/tvTodayDate"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="12dp"
+                    android:layout_marginTop="16dp"
+                    android:text="20, September 2020"
+                    android:textAlignment="textStart"
+                    android:textColor="@color/white"
+                    android:textSize="14sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/imgWorld"
+                    app:layout_constraintTop_toTopOf="@+id/imgWorld" />
+
+                <TextView
+                    android:id="@+id/tvGlobalActive"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="16dp"
+                    android:text="Active Case: 1000000"
+                    android:textAlignment="textEnd"
+                    android:textColor="@color/white"
+                    android:textSize="12sp"
+                    android:visibility="visible"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/imgWorld"
+                    app:layout_constraintTop_toBottomOf="@+id/llTotalData" />
+
+                <TextView
+                    android:id="@+id/tvCountryHighlight"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:text="Country highlight"
+                    android:textAlignment="textStart"
+                    android:textColor="@color/white"
+                    android:textSize="12sp"
+                    app:layout_constraintTop_toBottomOf="@+id/imgWorld" />
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="24dp"
+                    android:background="@drawable/rounded_corners_all_4dp"
+                    android:padding="8dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/tvCountryHighlight">
+
+                    <TextView
+                        android:id="@+id/tvFlag"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginEnd="8dp"
+                        android:ellipsize="end"
+                        android:maxLines="1"
+                        android:minLines="1"
+                        android:text="Indonesia"
+                        android:textAlignment="textStart"
+                        android:textColor="@color/white_night"
+                        android:textSize="12sp"
+                        app:autoSizeMaxTextSize="20sp"
+                        app:autoSizeMinTextSize="10sp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@+id/imgFlag"
+                        app:layout_constraintTop_toTopOf="@+id/imgFlag" />
+
+                    <TextView
+                        android:id="@+id/tvRecovered"
+                        android:layout_width="122dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginEnd="8dp"
+                        android:ellipsize="end"
+                        android:maxLines="1"
+                        android:minLines="1"
+                        android:text="asdjkgasidgsadgasiud"
+                        android:textAlignment="textStart"
+                        android:textColor="#20BE25"
+                        android:textSize="12sp"
+                        app:autoSizeMaxTextSize="20sp"
+                        app:autoSizeMinTextSize="10sp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@+id/imgFlag"
+                        app:layout_constraintTop_toBottomOf="@+id/imgRecovered" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginEnd="8dp"
+                        android:gravity="center"
+                        android:orientation="horizontal"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/imgFlag">
+
+                        <ImageView
+                            android:id="@+id/imgActive"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            app:srcCompat="@drawable/ic_sentiment_neutral" />
+
+                        <TextView
+                            android:id="@+id/tvActive"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:ellipsize="end"
+                            android:maxLines="1"
+                            android:minLines="1"
+                            android:text="213123213213"
+                            android:textAlignment="textStart"
+                            android:textColor="@color/white_night"
+                            android:textSize="12sp"
+                            app:autoSizeMaxTextSize="20sp"
+                            app:autoSizeMinTextSize="10sp" />
+
+                        <ImageView
+                            android:id="@+id/imgInfected"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            app:srcCompat="@drawable/ic_sentiment_dissatisfied" />
+
+                        <TextView
+                            android:id="@+id/tvInfected"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:ellipsize="end"
+                            android:maxLines="1"
+                            android:minLines="1"
+                            android:text="123213123"
+                            android:textAlignment="textStart"
+                            android:textColor="#FF9800"
+                            android:textSize="12sp"
+                            app:autoSizeMaxTextSize="20sp"
+                            app:autoSizeMinTextSize="10sp" />
+
+                        <ImageView
+                            android:id="@+id/imgDeaths"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            app:srcCompat="@drawable/ic_sentiment_very_dissatisfied" />
+
+                        <TextView
+                            android:id="@+id/tvDeaths"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:ellipsize="end"
+                            android:maxLines="1"
+                            android:minLines="1"
+                            android:text="12321312"
+                            android:textAlignment="textStart"
+                            android:textColor="#FF0000"
+                            android:textSize="12sp"
+                            app:autoSizeMaxTextSize="20sp"
+                            app:autoSizeMinTextSize="10sp" />
+
+                    </LinearLayout>
+
+                    <ImageView
+                        android:id="@+id/imgRecovered"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginEnd="8dp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@+id/imgFlag"
+                        app:layout_constraintTop_toBottomOf="@+id/tvFlag"
+                        app:srcCompat="@drawable/ic_sentiment_satisfied" />
+
+                    <ImageView
+                        android:id="@+id/imgFlag"
+                        android:layout_width="90dp"
+                        android:layout_height="65dp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/tvTItle"
+                        app:srcCompat="@drawable/ic_world_financial" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:background="@drawable/rounded_corners_tl_tr_32dp"
+                android:orientation="vertical">
+
+                <com.github.mikephil.charting.charts.LineChart
+                    android:id="@+id/line_chart"
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginEnd="16dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/ll_info">
+
+                </com.github.mikephil.charting.charts.LineChart>
+
+                <com.github.mikephil.charting.charts.BarChart
+                    android:id="@+id/bar_chart"
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginEnd="16dp"
+                    android:layout_marginBottom="100dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/line_chart" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </ScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>
+
